@@ -1,6 +1,6 @@
 Autonomous attorney disclosure {
 
-*Last updated: 28 April 2021
+*Last updated: 28 April 2021*
 
 Please be advised: I am an attorney admitted to practice in the State of Maryland and the District of Columbia. Unless we have entered into a written and mutually signed engagement letter providing for legal services, I am not your attorney and do not represent you or your interests. 
 
