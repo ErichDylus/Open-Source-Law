@@ -12,6 +12,6 @@ I currently have economic interests in and contractual obligations with API3 DAO
 
 I assume no duty and provide no guarantee of keeping these disclosures up to date. 
 
-For more about autonomous lawyering, please see [the original piece by Gabriel Shapiro](https://lexnode.substack.com/p/autonomous-lawyering) and [this piece by Open, Esq.]( https://openlawesq.medium.com/autonomous-lawyering-using-openlaw-dad9c604975b). This disclosure was adapted from [this precedent](https://github.com/lex-node/lex_node_cryptoLaw_emporium/blob/main/autonomous-law-disclosure.md) 
+For more about autonomous lawyering, please see [the original piece by Gabriel Shapiro](https://lexnode.substack.com/p/autonomous-lawyering) and [this piece by Open, Esq.]( https://openlawesq.medium.com/autonomous-lawyering-using-openlaw-dad9c604975b) This disclosure was adapted from [this precedent](https://github.com/lex-node/lex_node_cryptoLaw_emporium/blob/main/autonomous-law-disclosure.md). 
 
 }
