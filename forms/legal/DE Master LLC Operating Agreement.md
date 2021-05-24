@@ -8,11 +8,17 @@ a Delaware Limited Liability Company
 THIS LIMITED LIABILITY COMPANY AGREEMENT (this "Agreement") of [______] LLC, a Delaware limited liability company (the "Company"), is effective as of [Date], by [Member], a [Member Type] (the "Member") as the initial member of the Company.
 
 RECITALS
+
 A.	The Company has been organized as a Delaware limited liability company by the filing of a certificate of formation (the "Certificate") in accordance with the Delaware Limited Liability Company Act, 6 Del. C. Section 18-101, et seq. (as amended from time to time, the "Act").
+
 B.	The Certificate includes a notice of limitation of liabilities of series limited liability company interests established herein in accordance with Section 215(b) of the Act.
+
 C.	The Company is authorized to establish, pursuant to this Agreement, one or more series with members and limited liability company interests with separate and distinct rights, powers, duties, obligations, assets, businesses and objectives from that of the Company (each a "Series").
+
 D.	Each Series formed under the Company will functionally operate as a separate limited liability company and each Series shall be governed by a separately executed limited liability company operating agreement.
+
 E.	The Company is hereby formed as the "master" limited liability company (the "Master LLC") and shall not maintain any ownership interest in any Series or assets held on behalf of any Series.
+
 F.	[Member], as the initial Member of the Master LLC, desires to enter into a written limited liability company agreement as to the affairs of the Master LLC.
 NOW, THEREFORE, in consideration of the agreements and obligations set forth herein and for other good and valuable consideration, the receipt and sufficiency of which are hereby acknowledged, Member hereby agrees as follows:
 
@@ -106,8 +112,11 @@ Each Series, its members and managers hereby agree as follows:
 •	The use of a “Series”, “Protected”, “Registered” or similar LLC is subject to various legal uncertainties regarding its validity, separateness, and use cases, including, without limitation, uncertainties relating to:
 
   o	the non-recognition of such type of legal entity and structure by other U.S. States, such as California, New York and Massachusetts;
+  
   o	the lack of established case or other legal precedent regarding Series LLCs and any liability spill-over or piercing risks between the Series and the Company;
+  
   o	the taxation of a Series LLC; and
+  
   o	the bankruptcy proceedings of a Series LLC under federal law;
   
 •	Notwithstanding anything to the contrary in the Agreement, the Member and Manager shall be entitled to dissolve the Company at any time, in the event where there is any risk or threatened risk of liability to the Company, Member or the Manager in relation to the Company’s or any Series’ affairs;
