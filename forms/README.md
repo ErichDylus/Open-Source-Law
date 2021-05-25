@@ -1,4 +1,8 @@
+Read [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/Disclosure.md) and note that all forms, templates, code or other materials provided or linked herein carry [no warranty whatsoever](https://github.com/ErichDylus/Open-Source-Law/blob/main/LICENSE) and should not be used without consulting an attorney or other applicable professional.
+
 ## Templates
+
+[Legal agreement and organizational document forms](https://github.com/ErichDylus/Open-Source-Law/tree/main/forms/legal)
 
 [Ricardian LLC Master Operating Agreement](https://github.com/lexDAO/Ricardian/blob/main/contracts/MasterOperatingAgreement.txt) - LexDAO's Ricardian master LLC operating agreement form (for use in initiating a series, especially for DAO wrappers), which can be deployed and represented on-chain by an [ERC-721 standard NFT](https://github.com/lexDAO/Ricardian/blob/main/contracts/RicardianLLC.sol)
 
