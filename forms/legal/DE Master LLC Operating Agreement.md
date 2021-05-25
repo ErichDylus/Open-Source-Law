@@ -1,4 +1,5 @@
 // form Delaware Master LLC Operating Agreement, contemplating formation of various Series LLCs thereunder. Provided without warranty of any kind and subject to the Open-Source-Law repo disclaimer
+
 // drafted in the context of a data provider creating Series LLC structures for its deployed Airnodes (and licensing rights to such Series), but broadly adaptable
 
 ### LIMITED LIABILITY COMPANY AGREEMENT OF [__________] LLC
