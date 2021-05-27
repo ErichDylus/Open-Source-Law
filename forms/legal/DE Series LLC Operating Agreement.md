@@ -12,33 +12,58 @@ This limited liability company agreement is made as of [DATE] (the "Effective Da
 
 I.	 DEFINITIONS
 Definitions. When used in this Agreement, capitalized terms have the meanings as specified below:
+
 "Act" means the Delaware Limited Liability Company Act, Section 18-101, et seq., as it may be amended and succeeded from time to time.
+
 "Affiliate" of another Person means (i) a Person directly or indirectly (through one or more intermediaries) controlling, controlled by or under common control with that other Person; (ii) a Person owning or controlling 25% or more of the outstanding voting securities or beneficial interests of that other Person; or (iii) an officer, manager, director, partner or member of that other Person. For purposes of this Agreement, "control" of a Person means the possession, directly or indirectly, of the power to direct the management and policies of that Person, whether through the ownership of voting securities, by contract or otherwise. For the avoidance of doubt, no Member will be deemed, solely by virtue of that membership, to be an Affiliate of the Company.
+
 "Agreement" means this limited liability company agreement of the Company, as amended from time to time.
+
 "Arbitration Location" means Wilmington, Delaware.
-"Capital Account" of a Member means the capital account of such Member determined in accordance with this Agreement, which may (but is not required to) include Digital Assets or national (fiat) currencies.
+
+"Capital Account" of a Member means the capital account of such Member determined in accordance with this Agreement, which may include Digital Assets or national (fiat) currencies.
+
 “Capital Contribution" of a Member means the total amount of cash and other assets contributed (or deemed contributed under the Treasury Regulations) to the Company by that Member, net of liabilities assumed or to which the assets are subject.
+
 "Code" means the Internal Revenue Code of 1986, as amended.
+
 "Consent" means the approval of a Person to do the act or thing for which the approval is solicited, or the act of granting the approval, as the context may require.
+
 "Covered Person" means the Manager, the Partnership Representative, the Liquidating Trustee, an officer of the Company, and their respective Affiliates. 
-"Digital Assets" means tokens, cryptocurrencies, blockchain-based assets, and other digital assets based on a computer-generated cryptographic protocol.
+
+"Digital Assets" means cryptographic tokens, cryptocurrencies, distributed ledger or blockchain-based assets, and other digital assets based on a computer-generated cryptographic protocol.
+
 "Disability" of an individual means the incapacity of the individual to engage in any substantial gainful activity with the Company due to a physical or mental impairment that reasonably can be expected to last for a continuous period of not less than 1 month.
+
 "Distribution" means the transfer of money or property by the Company to one or more Members with respect to their Interests, without separate consideration.
-"Effective Date" means the first date written above.
+
 "Fair Market Value" of property means the amount that would be paid for that property in cash at the closing by a hypothetical willing buyer to a hypothetical willing seller, each having knowledge of all relevant facts and neither being under a compulsion to buy or sell, as determined by the Manager in good faith.
+
 "Fiscal Year" means the Company's taxable year, which will be the taxable year ended December 31, or other taxable year as may be selected by the Manager in accordance with applicable law. 
+
 "Interest" means with respect to each Member, as of any date, the fractional ownership interest in the Company issued by the Company, which is expressed as a percentage, the numerator of which is that Member's Capital Contribution and the denominator of which is the sum of the Capital Contributions of all Members. A Member's Interest represents the totality of the Member's interests, and the right of that Member to all benefits (including, without limitation, allocations of Net Income and Net Losses and the receipt of Distributions) to which a Member may be entitled pursuant to this Agreement and under the Act, together with all obligations of that Member to comply with the terms and provisions of this Agreement and the Act.  If any provision requires the Consent of a specified percentage of Interests, that percentage will be determined by reference to the aggregate Interests of Members granting Consent on the applicable date.  
+
 "Interest Register" has the meaning specified in Article II.
+
 "Liquidating Trustee" means the Manager (or its authorized designee) or, if there is none, a Person selected by the Consent of the Members to act as a liquidating trustee of the Company.  
+
 "Manager" means the holder of the Ethereum wallet address described in the signature page, who will be a "manager" of the Company within the meaning of Section 18-101(10) of the Act.
+
 "Master LLC" means [MASTER LLC NAME] LLC, a State of Delaware limited liability company.
+
 "Member" means any Person admitted as a Member of the Company that has not ceased to be a Member pursuant to this Agreement or the Act, having the interests and rights associated with membership in a limited liability company pursuant to this Agreement.
+
 "Net Income" and "Net Loss" means, for each Fiscal Year, the taxable income and taxable loss, as the case may be, of the Company for that Fiscal Year determined in accordance with federal income tax principles, including items required to be separately stated, taking into account income that is exempt from federal income taxation, items that are neither deductible nor chargeable to a capital account and rules governing depreciation and amortization, except that in computing taxable income or taxable loss, the "tax book" value of an asset will be substituted for its adjusted tax basis if the two differ, and any gain, income, deductions or losses specially allocated under Article VI or will be excluded from the computation.  Any adjustment to the "tax" book value of an asset pursuant to the Treasury Regulations will be treated as Net Income or Net Loss from the sale of that asset. 
+
 "Partnership Representative" means the Manager or any other Person designated by the Manager for such purpose.
+
 "Person" means any individual or entity.
+
 "Registered Agent" if applicable, means [REGISTERED AGENT NAME], [REGISTERED AGENT ADDRESS].
+
 "Transfer" means, with respect to an Interest, the sale, assignment, transfer, other disposition, pledge, hypothecation or other encumbrance, whether direct or indirect, voluntary, involuntary or by operation of law, and whether or not for value, of that Interest.  Transfer includes any transfer by gift, devise, intestate succession, sale, operation of law, upon the termination of a trust, because of or in connection with any property settlement or judgment incident to a divorce, dissolution of marriage or separation, by decree of distribution or other court order or otherwise.
-"Treasury Regulations" means the regulations promulgated by the United States Treasury Department pertaining to a matter arising under the Code.
+
+"Treasury Regulations" means the regulations promulgated by the United States Treasury Department including as to all matters arising under the Code.
 
 II.	ORGANIZATIONAL MATTERS
 Name. The name of the Company is set forth on the cover page of this Agreement. The business of the Company may be conducted under that name or under any other name that the Manager may determine. The Manager will notify the Members of any change in the name of the Company.
