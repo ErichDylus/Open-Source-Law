@@ -65,7 +65,7 @@ contract stableSplitter {
       stablecoin = _stablecoin;
       erc20 = ERC20(stablecoin);
       amount = _amount * 10e18;
-      batches = _amount / 10000;
+      batches = (_amount / 10000) - 1;
       recipient = _recipient;
       remainder = (_amount % 9999) * 10e18;
       erc20.approve(sender, amount); 
