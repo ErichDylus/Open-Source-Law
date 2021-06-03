@@ -3,7 +3,7 @@
 
 pragma solidity ^0.6.0;
 
-//FOR DEMONSTRATION ONLY, not recommended to be used for any purpose and carries absolutely no warranty of any kind
+//FOR DEMONSTRATION ONLY, not recommended to be used for any purpose (especially not structuring, twitter warriors) and carries absolutely no warranty of any kind
 //@dev create an ERC20 stablecoin transfer splitter in amounts less than $10,000 
 
 interface ERC20 { //https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.0.0/contracts/token/ERC20/ERC20.sol
