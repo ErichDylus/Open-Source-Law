@@ -5,7 +5,7 @@ pragma solidity 0.7.5;
 /* IN PROCESS, INCOMPLETE
 **unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
 **@dev create a simple smart escrow contract, with an ERC20 stablecoin as payment, expiration denominated in seconds, and option for dispute resolution with LexLocker
-**intended to be deployed by buyer (as funds are placed in escrow upon deployment, and returned to deployer if expired)*/
+**intended to be deployed by buyer (as funds are to be placed in escrow contract by deployer, and returned to deployer if expired)*/
 
 interface LexLocker {
     function requestLockerResolution(address counterparty, address resolver, address token, uint256 sum, string calldata details, bool swiftResolver) external payable returns (uint256);
