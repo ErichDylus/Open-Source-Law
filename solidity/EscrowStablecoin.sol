@@ -11,9 +11,10 @@ interface LexLocker {
     function requestLockerResolution(address counterparty, address resolver, address token, uint256 sum, string calldata details, bool swiftResolver) external payable returns (uint256);
 }
 
-interface ERC20 { //https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.0.0/contracts/token/ERC20/ERC20.sol
+interface ERC20 { 
     function approve(address spender, uint256 amount) external returns (bool); 
     function balanceOf(address account) external view returns (uint256);
+    function transfer(address recipient, uint256 amount) external returns (bool);
     function transferFrom(address from, address to, uint256 value) external returns (bool);
 }
 
@@ -54,7 +55,7 @@ contract EscrowStablecoin {
     _;
   }
   
-  //creator contributes deposit and initiates escrow with description, deposit amount, seconds until expiry, and designate recipient seller
+  //creator initiates escrow with description, deposit amount, seconds until expiry, and designate recipient seller
   constructor(string memory _description, uint256 _deposit, address payable _seller, address _stablecoin, uint256 _secsUntilExpiration) payable {
       require(_seller != msg.sender, "Designate different party as seller");
       buyer = payable(address(msg.sender));
@@ -68,10 +69,11 @@ contract EscrowStablecoin {
       parties[escrowAddress] = true;
       effectiveTime = uint256(block.timestamp);
       expirationTime = effectiveTime + _secsUntilExpiration;
-      erc20.approve(seller, deposit); 
-      erc20.approve(escrowAddress, deposit);
+      approve();
       sendEscrow(description, deposit, seller);
   }
+  
+  // BUYER MUST SEPARATELY SEND DEPOSIT TO escrowAddress (TODO: test another method)
   
   //buyer may confirm seller's recipient address as extra security measure
   function designateSeller(address payable _seller) public restricted {
@@ -81,6 +83,22 @@ contract EscrowStablecoin {
       parties[_seller] = true;
       seller = _seller;
   }
+  
+  //TODO: TEST CHANGE TO INTERNAL
+  //approve deposit amount for transfers
+  function approve() public returns (bool, bool) {
+      return (erc20.approve(escrowAddress, deposit), erc20.approve(seller, deposit));
+  } 
+  
+  //return deposit to buyer
+  function returnDeposit() public returns (bool) {
+      return erc20.transfer(buyer, deposit);
+  }
+  
+  //send deposit to seller
+  function paySeller() public returns (bool) {
+      return erc20.transfer(seller, deposit);
+  } 
   
   //create new escrow contract within master structure
   function sendEscrow(string memory _description, uint256 _deposit, address payable _seller) private restricted {
@@ -143,11 +161,11 @@ contract EscrowStablecoin {
       require(sellerApproved && buyerApproved, "Parties are not ready to close.");
       if (expirationTime <= uint256(block.timestamp)) {
             isExpired = true;
-            buyer.transfer(erc20.balanceOf(escrowAddress));
+            returnDeposit();
             emit DealExpired(isExpired);
         } else {
             isClosed = true;
-            seller.transfer(erc20.balanceOf(escrowAddress));
+            paySeller();
             emit DealClosed(isClosed);
         }
         return(isClosed);
