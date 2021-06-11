@@ -1,4 +1,5 @@
 // simple agreement contemplating DAO treasury grants (by DAO legal wrapper) for independent contractor services, adaptable for individuals or entities
+// provided without warranty of any kind, do not use without consulting an attorney, all open-source-law repo disclosures apply
 
 ## Grant Agreement
 
@@ -77,13 +78,13 @@ The Parties hereto have executed this Agreement as of the Effective Date.
 
 
 
-___________________________________
+[PARTY A SIGNATURE]
 By: 
 **[Party A]
 Ethereum Address: ________________________**
 
 
 
-___________________________________
+[DAO SIGNATURE]
 By: 
 **[DAO LEGAL WRAPPER]**
