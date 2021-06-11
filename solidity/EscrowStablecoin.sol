@@ -69,8 +69,7 @@ contract EscrowStablecoin {
       parties[escrowAddress] = true;
       effectiveTime = uint256(block.timestamp);
       expirationTime = effectiveTime + _secsUntilExpiration;
-      approveParties(); 
-      sendEscrow(description, deposit, seller);
+      approveParties();
   }
   
   // BUYER MUST SEPARATELY SEND DEPOSIT TO escrowAddress after construction (TODO: test another method)
@@ -93,7 +92,7 @@ contract EscrowStablecoin {
   } 
   
   //return deposit to buyer
-  function returnDeposit() public returns (bool) {
+  function returnDeposit() public restricted returns (bool) {
       return erc20.transfer(buyer, deposit);
   }
   
@@ -123,6 +122,11 @@ contract EscrowStablecoin {
         }
         return(isExpired);
     }
+    
+  // for seller to check if deposit is in escrow
+  function checkEscrow() public restricted view returns(uint256) {
+      return erc20.balanceOf(escrowAddress);
+  }
     
   // for early termination by either buyer or seller due to claimed breach of the other party, claiming party requests LexLocker resolution
   // deposit either returned to buyer or remitted to seller as payment or liquidated damages
@@ -161,7 +165,6 @@ contract EscrowStablecoin {
   // check if both buyer and seller are ready to close and expiration has not been met; if so, close deal and pay seller
   function closeDeal() public returns(bool){
       require(sellerApproved && buyerApproved, "Parties are not ready to close.");
-      require(erc20.balanceOf(escrowAddress) >= deposit, "Deposit not in escrow.");
       if (expirationTime <= uint256(block.timestamp)) {
             isExpired = true;
             returnDeposit();
