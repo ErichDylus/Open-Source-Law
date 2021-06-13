@@ -72,11 +72,6 @@ contract EscrowStablecoin {
       approveParties();
   }
   
-  // BUYER MUST SEPARATELY SEND DEPOSIT TO escrowAddress after construction (TODO: test another method)
-  /*function depositInEscrow() public returns (bool) {
-      return erc20.transfer(escrowAddress, deposit);
-  }*/
-  
   //buyer may confirm seller's recipient address as extra security measure
   function designateSeller(address payable _seller) public restricted {
       require(_seller != seller, "Party already designated as seller");
@@ -91,6 +86,11 @@ contract EscrowStablecoin {
       return (erc20.approve(buyer, deposit), erc20.approve(escrowAddress, deposit), erc20.approve(seller, deposit));
   } 
   
+  //buyer deposits in escrowAddress
+  function sendDeposit() public restricted returns(bool) {
+      return erc20.transfer(escrowAddress, deposit);
+  }
+  
   //return deposit to buyer
   function returnDeposit() public restricted returns (bool) {
       return erc20.transfer(buyer, deposit);
@@ -102,7 +102,7 @@ contract EscrowStablecoin {
   } 
   
   //create new escrow contract within master structure
-  function sendEscrow(string memory _description, uint256 _deposit, address payable _seller) private restricted {
+  function sendNewEscrow(string memory _description, uint256 _deposit, address payable _seller) private restricted {
       InEscrow memory newRequest = InEscrow({
          description: _description,
          deposit: _deposit * 10e18,
