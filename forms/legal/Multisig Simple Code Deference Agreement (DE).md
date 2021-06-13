@@ -1,5 +1,5 @@
 // IN PROCESS AND INCOMPLETE
-// forked/adapted from [this precedent](https://github.com/lex-node/SCoDA-Simple-Code-Deference-Agreement-/edit/master/SCoDA%20v.3.md) drafted by Gabriel Shapiro (aka lex-node) including contributions by [Ross Campbell](https://about.me/r_ross_campbell) and [Matthew Cantor](https://www.fenwick.com/professionals/Pages/matthewcantor.aspx) 
+// forked/adapted from [this precedent](https://github.com/lex-node/SCoDA-Simple-Code-Deference-Agreement-/edit/master/SCoDA%20v.3.md) drafted by Gabriel Shapiro (aka lex-node) including contributions by [Ross Campbell](https://about.me/r_ross_campbell) and [Matthew Cantor](https://www.fenwick.com/professionals/Pages/matthewcantor.aspx). Update for additional multisig key holders as necessary.
 // carries the Attribution-ShareAlike 4.0 International license, as required by the aforementioned precedent and [set forth here](https://github.com/lex-node/SCoDA-Simple-Code-Deference-Agreement-/blob/master/LICENSE.md)
 // UNLESS OTHERWISE SEPARATELY UNDERTAKEN BY THE LICENSOR, TO THE EXTENT POSSIBLE, THE LICENSOR OFFERS THE LICENSED MATERIAL AS-IS AND AS-AVAILABLE, AND MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING THE LICENSED MATERIAL, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHER. THIS INCLUDES, WITHOUT LIMITATION, WARRANTIES OF TITLE, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, ABSENCE OF LATENT OR OTHER DEFECTS, ACCURACY, OR THE PRESENCE OR ABSENCE OF ERRORS, WHETHER OR NOT KNOWN OR DISCOVERABLE. WHERE DISCLAIMERS OF WARRANTIES ARE NOT ALLOWED IN FULL OR IN PART, THIS DISCLAIMER MAY NOT APPLY TO YOU.
 // TO THE EXTENT POSSIBLE, IN NO EVENT WILL THE LICENSOR BE LIABLE TO YOU ON ANY LEGAL THEORY (INCLUDING, WITHOUT LIMITATION, NEGLIGENCE) OR OTHERWISE FOR ANY DIRECT, SPECIAL, INDIRECT, INCIDENTAL, CONSEQUENTIAL, PUNITIVE, EXEMPLARY, OR OTHER LOSSES, COSTS, EXPENSES, OR DAMAGES ARISING OUT OF THIS PUBLIC LICENSE OR USE OF THE LICENSED MATERIAL, EVEN IF THE LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH LOSSES, COSTS, EXPENSES, OR DAMAGES. WHERE A LIMITATION OF LIABILITY IS NOT ALLOWED IN FULL OR IN PART, THIS LIMITATION MAY NOT APPLY TO YOU.
@@ -28,7 +28,7 @@ ___________ /*NAME*/(“***Party A***”) controls the private key uniquely asso
 
 (B) convey any of the Subject Property other than such Party’s Distributed Subject Property it being understood that for a Party to “***Convey***” any of the Subject Property means for such Party to or enter into any Contract that may obligate such Party to: (1) create, perfect or enforce any Lien on, (2) pledge, hypothecate, grant an option or derivative security with respect to or (3) convey, sell, transfer or dispose of such Subject Property or any right or interest of a Party to or in such Subject Property; or
 
-(C) cause, encourage or facilitate, a Material Adverse Exception Event.
+(C) cause, incentivize, encourage or facilitate, a Material Adverse Exception Event.
 
 (b) *Exception Handling.* Notwithstanding anything to the contrary set forth in Section 2(a), if there is a Material Adverse Exception Event, then the rules and procedures set forth in this clause "(b)" shall determine the rights and obligations of the Parties relating to the Subject Property.
 
@@ -92,13 +92,13 @@ Each Party (as the "***Representing Party***") hereby represents and warrants, t
 
 (d) “**Confirmation**” of a transaction shall be deemed to have occurred if and only if such transaction has been recorded in accordance with the Consensus Rules in a valid block whose hashed header is referenced by at least [ten] subsequent valid blocks on the Designated Blockchain. 
 
-(e) “**Consensus Attack**” means an attack that: (i) is undertaken by or on behalf of a block producer who controls, or group of cooperating block producers who collectively control, a preponderance of the means of block production on the Designated Blockchain Network; and (ii) has the actual or intended effect of: (A) reversing any transaction made to or by the Designated Smart Contract after Confirmation of such transaction, including any “double spend” attack having or intended to have such effect; or (B) preventing inclusion in blocks or Confirmation of any transaction made to or by the Designated Smart Contract, including any “censorship attack,” “transaction withholding attack” or “block withholding attack” having or intended to have such effect.  
+(e) “**Consensus Attack**” means an attack that: (i) is undertaken by or on behalf of a block producer, miner or validator who controls, or group of cooperating block producers, miners or validators who collectively control, a preponderance of the means of block production on the Designated Blockchain Network; and (ii) has the actual or intended effect of: (A) reversing any transaction made to or by the Designated Smart Contract after Confirmation of such transaction, including any “double spend” attack having or intended to have such effect; or (B) preventing inclusion in blocks or Confirmation of any transaction made to or by the Designated Smart Contract, including any “censorship attack,” “transaction withholding attack” or “block withholding attack” having or intended to have such effect.  
 
 (f) “**Consensus Rules**” means the rules for transaction validity, block validity and determination of the canonical blockchain that are embodied in the Designated Client. 
 
 (g) “**Contract**” means any: (i) written, oral, implied by course of performance or otherwise or other agreement, contract, understanding, arrangement, settlement, instrument, warranty, license, insurance policy, benefit plan or legally binding commitment or undertaking; or (ii) any representation, statement, promise, commitment, undertaking, right or obligation that may be enforceable, or become subject to an Order directing performance thereof, based on equitable principles or doctrines such as estoppel, reliance, or quasi-contract. 
 
-(h) “**Designated Blockchain**” means at any give time, the version of the digital blockchain ledger commonly known as “[Ethereum]” that at least a majority of nodes running the Designated Client recognize as canonical as of such time. For the avoidance of doubt, the “Designated Blockchain” does not refer to the digital blockchain ledger commonly known as “Ethereum Classic” or any other blockchain ledgers from which or to which the Designated Blockchain has been “forked” or “split”, or any "second layer" or "layer two" blockchain ledger of the Designated Blockchain or similar instantiation. 
+(h) “**Designated Blockchain**” means at any give time, the version of the digital blockchain ledger commonly known as “Ethereum” that at least a majority of nodes running the Designated Client recognize as canonical as of such time. For the avoidance of doubt, the “Designated Blockchain” is inclusive of any rollup, shard, or other mechanism which natively settles on the digital blockchain ledger commonly known as “Ethereum” and does not refer to the digital blockchain ledger commonly known as “Ethereum Classic” or any other blockchain ledgers from which or to which the Designated Blockchain has been “forked” or “split”, or any "sidechain", "second layer" or "layer two" blockchain ledger of the Designated Blockchain or similar instantiation. 
 
 (i) “**Designated Blockchain Network**” means the Ethereum mainnet (networkID:1, chainID:1), as recognized by the Designated Client. 
 
@@ -149,3 +149,22 @@ Each Party (as the "***Representing Party***") hereby represents and warrants, t
 (g) *Disputes; Mandatory Arbitration.* Any Legal Proceeding, Claim or other dispute or controversy arising out of or relating to this Agreement, its enforcement, or the breach thereof shall be finally resolved by binding arbitration in accordance with the Arbitration Procedures; *provided, however*, that any Party may seek injunctive relief in aid of arbitration in order to prevent irreparable harm or preserve the status quo. EACH PARTY HEREBY IRREVOCABLY WAIVES ALL RIGHT TO TRIAL BY JURY IN ANY ACTION, PROCEEDING OR COUNTERCLAIM WHETHER BASED ON CONTRACT, TORT OR OTHERWISE) ARISING OUT OF OR RELATING TO THIS AGREEMENT, THE DESIGNATED SMART CONTRACT OR THE MATTERS CONTEMPLATED HEREBY OR THE ACTIONS OF SUCH PARTIES IN THE NEGOTIATION, ADMINISTRATION, PERFORMANCE AND ENFORCEMENT HEREOF.
 
 (h) *Governing Law.* All rights and obligations hereunder will be governed by the laws of the State of Delaware, without regard to the conflicts of law provisions thereof.
+
+The Parties hereto have executed this Agreement as of the Effective Date.
+
+
+
+[PARTY A SIGNATURE]
+By: 
+**[Party A]
+Ethereum Address: ________________________**
+
+[PARTY B SIGNATURE]
+By: 
+**[Party B]
+Ethereum Address: ________________________**
+
+[PARTY C SIGNATURE]
+By: 
+**[Party C]
+Ethereum Address: ________________________**
