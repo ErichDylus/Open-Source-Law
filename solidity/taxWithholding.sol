@@ -3,7 +3,7 @@
 pragma solidity ^0.8.0;
 
 /* FOR DEMONSTRATION ONLY, not recommended to be used for any purpose and provided with no warranty whatsoever
- * Rinkeby testing
+ * IN PROCESS, Rinkeby testing
  * @dev split gross income payments into withheld tax and net income and permit payees to claim their own tax and net income amounts to chosen wallets
  * send portion to tax withholding wallet and remainder to 'checking account wallet'
  * TODO: better math
@@ -53,9 +53,10 @@ contract TaxWithholding {
         ierc20 = IERC20(tokenAddress);
         taxDiv = uint256(100/_taxRate); // imprecise math, will be updated
         grossIncome = _income * 10e18;
-        ierc20.transfer(address(this), grossIncome); // send gross income to this contract assuming 18 decimals
+        ierc20.approve(msg.sender, grossIncome);
         grossTaxes = (grossIncome/taxDiv); // aggregate tax amount
         netIncome = grossIncome - grossTaxes; // aggregate net income amount
+        ierc20.transfer(address(this), grossIncome);
         return(grossTaxes, netIncome);
     }
     
