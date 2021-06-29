@@ -4,7 +4,8 @@ pragma solidity 0.7.5;
 
 /*unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
 **@dev create a simple smart escrow contract, with ETH as payment, expiration denominated in seconds, and option for dispute resolution with LexLocker
-**intended to be deployed by buyer (as funds are placed in escrow upon deployment, and returned to deployer if expired),  
+**intended to be deployed by buyer (as funds are placed in escrow upon deployment, and returned to deployer if expired)
+**consider hardcoding reference or pointer to LexDAO resolver terms of use https://github.com/lexDAO/Arbitration/blob/master/rules/ToU.md
 **included in LexDAO's LexCorpus at: https://github.com/lexDAO/LexCorpus/blob/master/contracts/lexdao/lexlocker/extensions/EscrowETH.sol*/
 
 interface LexLocker {
@@ -22,8 +23,8 @@ contract EscrowEth {
   
   InEscrow[] public escrows;
   address escrowAddress = address(this);
-  address payable lexlocker = payable(0xD476595aa1737F5FdBfE9C8FEa17737679D9f89a); //LexLocker contract address
-  address payable lexDAO = payable(0x01B92E2C0D06325089c6Fd53C98a214f5C75B2aC); //lexDAO address, used below as resolver 
+  address payable immutable lexlocker = payable(0xD476595aa1737F5FdBfE9C8FEa17737679D9f89a); //LexLocker ETH mainnet contract address
+  address payable immutable lexDAO = payable(0x01B92E2C0D06325089c6Fd53C98a214f5C75B2aC); //lexDAO ETH mainnet address, used below as resolver 
   address payable buyer;
   address payable seller;
   uint256 deposit;
@@ -66,7 +67,7 @@ contract EscrowEth {
   function designateSeller(address payable _seller) public restricted {
       require(_seller != seller, "Party already designated as seller");
       require(_seller != buyer, "Buyer cannot also be seller");
-      require(!isExpired, "Too late to change seller");
+      require(!isExpired, "Deal expired, too late to change seller");
       parties[_seller] = true;
       seller = _seller;
   }
