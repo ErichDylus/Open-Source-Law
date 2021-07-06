@@ -1,8 +1,6 @@
-//for a potential delegate of DAO governance token voting power
+//for a potential delegate of DAO governance token voting power; includes extensive drafting, edits, and comments from [Sarah Brennan](https://github.com/SHBrennan)
 
-//includes extensive drafting, edits, and comments from [Sarah Brennan](https://github.com/SHBrennan)
-
-**Vote Delegation Disclaimer**
+**Vote Delegate Disclosure**
 
 ***Last updated: [DATE]***
 
