@@ -20,6 +20,10 @@ Read [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/D
 
 [Openlaw templates](https://lib.openlaw.io/web/default/templates) - free searchable legal form repository
 
+## Legal Resources and Research
+
+[Caselaw Access Project](https://case.law/) - published U.S. court decisions digitized from the collection of the Harvard Law School Library
+
 ## Books and articles
 
 [Open Textbooks](https://open.umn.edu/opentextbooks/subjects/law) - free textbooks on various areas of law
