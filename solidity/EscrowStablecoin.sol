@@ -2,7 +2,7 @@
 
 pragma solidity 0.7.5;
 
-/* IN PROCESS, INCOMPLETE
+/* IN PROCESS, INCOMPLETE - adapting ETHescrow for ERC20 stablecoins
 **unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
 **@dev create a simple smart escrow contract, with an ERC20 stablecoin as payment, expiration denominated in seconds, and option for dispute resolution with LexLocker
 **intended to be deployed by buyer (as funds are placed in escrow upon deployment, and returned to deployer if expired)*/
@@ -20,7 +20,7 @@ interface ERC20 {
 
 contract EscrowStablecoin {
     
-  //escrow struct to contain basic description of underlying deal, purchase price, ultimate recipient of funds
+  //escrow struct to contain basic description of underlying deal, purchase price, seller (ultimate recipient of funds)
   struct InEscrow {
       string description;
       uint256 deposit;
@@ -46,12 +46,12 @@ contract EscrowStablecoin {
   string description;
   mapping(address => bool) public parties; //map whether an address is a party to the transaction for restricted() modifier 
   
-  event DealDisputed(address indexed sender, bool isDisputed);
+  event DealDisputed(address indexed sender, bool isDisputed); //index dispute by sender, consider including token/resolver/other identifier
   event DealExpired(bool isExpired);
   event DealClosed(bool isClosed);
   
   modifier restricted() { 
-    require(parties[msg.sender], "This may only be called by a party to the deal or the escrow contract itself");
+    require(parties[msg.sender], "This may only be called by a party to the deal or the by escrow contract");
     _;
   }
   
