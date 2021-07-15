@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 // FOR DEMONSTRATION ONLY, unaudited, not recommended to be used for any purpose, carries absolutely no warranty of any kind
 // @dev ERC20 holder-gated access to an IPFS link 
+// future features could include other token standards, threshold amounts, privacy solutions, staked tokens (to permit governance staker-gated access)
 
 pragma solidity ^0.8.6;
 
@@ -13,12 +14,12 @@ contract AccessByERC20 {
     address token;
     address owner;
     string IPFSlink;
-    ERC20 public erc20; // public address of token necessary to access link
+    ERC20 public erc20; 
     mapping(address => uint256) tokenBalance;
     
     event LinkChanged();
     
-    // deployer sets token address 
+    // deployer sets token address necessary to access link
     constructor(address _token) { 
         token = _token;
         erc20 = ERC20(token);
