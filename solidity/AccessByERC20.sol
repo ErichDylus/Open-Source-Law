@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // FOR DEMONSTRATION ONLY, unaudited, not recommended to be used for any purpose, carries absolutely no warranty of any kind
 // @dev ERC20 holder-gated access to an IPFS link 
-// future features could include other token standards, threshold amounts, privacy solutions, staked tokens (to permit governance staker-gated access)
+// future features could include other token standards, threshold amounts, privacy solutions, staked tokens (to permit governance staker-gated access), accessing something other than a string (since mintgate addresses gated links)
 
 pragma solidity ^0.8.6;
 
