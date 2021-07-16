@@ -24,6 +24,8 @@ Read [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/D
 
 [Caselaw Access Project](https://case.law/) - published U.S. court decisions digitized from the collection of the Harvard Law School Library
 
+[Metacartel legal repo](https://github.com/metacartel/MCV/tree/master/Legal) - Grimoire and exhibits for the Metacartel Ventures DAO
+
 ## Books and articles
 
 [Open Textbooks](https://open.umn.edu/opentextbooks/subjects/law) - free textbooks on various areas of law
