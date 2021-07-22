@@ -1,4 +1,4 @@
-// form adapted from a [Cayman Foundation Company](https://legislation.gov.ky/cms/images/LEGISLATION/PRINCIPAL/2017/2017-0029/FoundationCompaniesAct_Act%2029%20of%202017.pdf) precedent, contemplating staked governance tokenholders as beneficiaries, director action only by DAO resolution, no members, no share capital, no dividends, no distributions other than governance tokens, qualified [code deference](https://github.com/lex-node/SCoDA-Simple-Code-Deference-Agreement-), grants to independent contractors
+// form adapted from a [Cayman Foundation Company](https://legislation.gov.ky/cms/images/LEGISLATION/PRINCIPAL/2017/2017-0029/FoundationCompaniesAct_Act%2029%20of%202017.pdf) precedent, contemplating staked governance tokenholders as beneficiaries, director action only by DAO resolution, no members, no share capital, no dividends, no distributions other than minted governance tokens, qualified [code deference](https://github.com/lex-node/SCoDA-Simple-Code-Deference-Agreement-), grants to independent contractors, all material assets in DAO treasury. Commentary provided throughout.
 
 // **Provided without warranty of any kind, do not use without consulting an attorney in the applicable jurisdiction, all open-source-law repo disclosures apply**
 
@@ -21,7 +21,11 @@ The primary purposes of this Foundation (each a “Purpose” and collectively, 
    
 In accord with the foregoing, the Foundation granting assets and/or monies and/or paying for accounts, services, programs, events, incentives, researchers, contractors and/or vendors in support of any of the above Purposes is expressly permitted as set forth herein.
 
+// for publicly viewable links to code and development process, lessen info asymmetry and barriers to entry for those that seek to contribute
+
 Section 2. The Foundation will at all times have a designated stipulated software repository consisting of the preferred or core instance of any and all software created, developed, maintained, or otherwise affected by the [NAME] decentralized autonomous organization (the “[NAME] DAO”), the Foundation, or any affiliates, subsidiaries, contractors, agents, or other related entities thereto, which initially shall consist of all repositories, files, and other materials and information located at and within [WEBSITE URL/IPFS LINK] and [SOFTWARE REPO LINK] (including all sub-domains, sub-folders, private repositories, and similar thereto, the “Stipulated Software Repository”). These designations may be changed from time to time by valid DAO Resolution (as defined in Section 5 below) to optimally further the Purposes.
+
+// no 51% attacks
 
 Section 3. The Foundation may not solely operate, solely control, have or take sole custody of any blockchain network instance, which may be evidenced by a control of a majority of such an instance’s validators, hash-power, or other consensus mechanism. For the purposes of this provision, the software development, deployment, alteration, or other interaction with a testnet or permissioned blockchain or other digital ledger network instance, governance by possessors or controllers of blockchain or other digital ledger tokens, or receipt of contributions or fees in any form as donations to the Foundation, do not constitute “control.” The Foundation may have custody or control of the Stipulated Software Repository.
 
@@ -41,17 +45,25 @@ Section 3. Grants pursuant to Article 2 Section 1 above may be in the form of an
 
 Section 4. The Foundation, by duly authorized power under the Charter or by DAO Resolution, may delegate Foundation operational decision-making for anything reasonably related to the Purposes to the [NAME] DAO, including any and all disbursement, management or other usage of the [NAME] DAO treasury or any funds which are or become within the Foundation’s possession or control, in accordance with the majority and quorum requirements of such Proposal (if applicable), the [NAME] DAO governance protocols, the Charter, and herein.
 
+// Directors are instructed to carry out all DAO Resolutions where applicable, unless prohibited/limited by law
+
 Section 5. The Foundation’s directors (the “Directors”) shall observe, implement, carry out, action, and execute any and all DAO Resolutions with best efforts and in a commercially reasonable and timely manner, subject to any applicable limitation on any Director pursuant to any fiduciary duties to the Foundation, statutory requirements of the Act, and the Charter, and where applicable and necessary for entering into agreements or arrangements on behalf of the Foundation.  
 
 **ARTICLE 3. OFFICES.**
+
+// required in many jurisdictions, usually accomplished by a corporate services company
 
 Section 1. The principal registered office of the Foundation shall be at [REGISTERED ADDRESS]. The Foundation shall have a designated registered office in accordance with law and shall maintain it continuously. The Foundation may have offices at other places within and outside the [JURISDICTION].
 
 **ARTICLE 4. MEMBERS.**
 
+// No members for a full, non-hierarchical DAO wrapper in this form. Some "instructive" DAO wrappers have the DAO as a member instructing the Foundation. 
+
 Section 1. The Foundation shall not have Members presently. The Directors may at a future time, only if expressly instructed by DAO Resolution, create one or more classes of membership. In such case, the membership classes and members individually must be created or admitted in keeping with the Purposes and the Act.
 
 **ARTICLE 5. BOARD OF DIRECTORS.**
+
+// again emphasizing the corporate powers of the Board are governed by the vote of the beneficiaries
 
 Section 1. General Powers. Subject to the limitations of the Charter and these Bylaws, all corporate powers shall be exercised by or under the authority of the Directors collectively (the “Board of Directors” or “Board”) as instructed or permitted by DAO Resolution, and the management and affairs of the Foundation and actions of the Directors pursuant thereto shall be governed by vote of the beneficiaries in accordance with the applicable thresholds, restrictions, guidelines and parameters in the code and pursuant to the governance protocols of the [NAME] DAO in all respects, subject to any applicable limitation on any Director pursuant to any fiduciary duties to the Foundation, statutory requirements of the Act, and the Charter.
 
@@ -61,6 +73,8 @@ Section 3. Annual Meetings. The Board of Directors shall [not be required to hol
 
 Section 4. Regular, Special, and Remote Meetings. Regular meetings of the Board of Directors shall be held remotely by digital medium. Special meetings of the Board of Directors may be called by DAO Resolution. Directors may participate in meetings of the Board of Directors by means of an internet or telephone conference or similar communications equipment, and participation by such means shall constitute presence in person at such a meeting.
 
+// no need for a full Board meeting where the action is publicly debated and voted by the DAO and passed as a Resolution
+
 Section 5. Action Without Meeting. Any action of the Board of Directors may be taken without a meeting if a consent in writing setting forth the action so taken is signed by at least [THRESHOLD] of the Directors and the action is pursuant to a DAO Resolution. 
 
 Section 6. Notice and Waiver. Notice of any special meeting shall be given at least three calendar days prior thereto by written notice delivered by email to each Director to the address provided in writing by each Director. Notice shall be deemed to have been delivered when sent. Any Director may waive notice of any meeting, either before, at, or after such meeting by indicating such waiver in writing. The attendance of a Director at a meeting shall constitute a waiver of notice of such meeting and a waiver of all objections to the place of such meeting or the manner in which it has been called or convened, except when a Director states at the beginning of the meeting any objection to the transaction of business because the meeting is not lawfully called or convened.
@@ -69,11 +83,15 @@ Section 7. Quorum and Voting. [THRESHOLD] of Directors in office shall constitut
 
 Section 8. Vacancies. Any vacancy occurring in the Board of Directors may be filled by DAO Resolution. A Director elected to fill a vacancy shall hold office only until the next election of Directors by the Members if there are Members. If there are no members, a Director’s appointment shall last until resignation, death, incapacitation, commission of a felony or any crime of moral turpitude (or the Foundation’s discovery of such having occurred in the past five (5) years), embezzling Foundation resources or using the Foundation for self-dealing or any illegal or conflicting purpose (including all actions taken as an ostensible or apparent representative or agent of the Foundation), entering or threatening to enter into legal conflict with the Foundation, knowing violation or disparagement of the Purposes, or unavailability lasting a period of at least sixty (60) days from the first and thirty (30) days from the last bona fide contact attempt, with at least two such contact attempts required. Any directorship to be filled by reason of an increase in the number of Directors shall be filled by DAO Resolution.
 
+// DAO can remove and replace directors
+
 Section 9. Removal. By DAO Resolution or if required by the terms of the Charter, any Director or Directors may be removed from office, with or without cause. New Directors may be elected contemporaneously by DAO Resolution for the unexpired terms of Directors removed from office. If the beneficiaries to elect persons to fill the unexpired terms of removed Directors, and if the beneficiaries did not intend to decrease the number of Directors to serve on the Board, then the vacancies unfilled shall be filled in accordance with provisions in these Bylaws for vacancies.
 
 Section 10. Presumption of Assent. A Director who is present at a meeting of the Board of Directors at which action on any corporate matter is taken shall be presumed to have assented to the action taken unless he or she votes against such action or abstains from voting because of an asserted conflict of interest.
 
 Section 11. Minutes. The Board shall keep minutes of all meetings and record them in the Foundation’s minute book or the Stipulated Software Repository if not otherwise detailed in a DAO Resolution or otherwise publicly accessible.
+
+// any movement of value from the DAO treasury must be pursuant to a DAO Resolution. Where possible, the DAO treasury should be directly interactive by DAO vote, and the Foundation should avoid having assets outside the DAO treasury to avoid complication (or modify this section)
 
 Section 12. Budget and Disbursements. The Board may budget for and otherwise pay reasonable costs, including reasonable remuneration of Directors. However, the Board shall not pay to its Directors a salary or similar compensation for service on the Board unless there are sufficient funds to do so after considering the Foundation's current and anticipated mandatory operating costs and all other duly authorized payables. All funds management and investment contracts, Director contracts, officer and employee contracts must be pursuant to a duly authorized written agreement. All disbursements from the [NAME] DAO treasury or otherwise from the [NAME] Foundation must be pursuant to a valid DAO Resolution (either directly or by delegation thereof). 
 
@@ -81,7 +99,9 @@ Section 13. Treasury Management; Investment. The Foundation, by DAO Resolution, 
 
 **ARTICLE 6. OFFICERS, EMPLOYEES AND CONTRACTORS.**
 
-Section 1. Officers. The Officers of this Foundation may include a President, Secretary, and Treasurer, each of whom shall be elected by the Board of Directors. Any two or more offices may be held by the same person. A failure to elect a President or Treasurer shall not affect the existence of the Foundation[ but there must always be a “qualified person” as defined in the Act appointed as Secretary]. 
+// can elect officers if you want (by DAO Resolution), but certainly not necessary
+
+Section 1. Officers. The Officers of this Foundation may include a President, Secretary, and Treasurer, each of whom shall be elected by the Board of Directors as instructed by DAO Resolution. Any two or more offices may be held by the same person. A failure to elect a President or Treasurer shall not affect the existence of the Foundation[ but there must always be a “qualified person” as defined in the Act appointed as Secretary]. 
 
 Section 2. Election and Term of Office. Any Officers of the Foundation may be elected by DAO Resolution. Each Officer shall hold office until his or her successor shall have been duly elected and shall have qualified, or until his or her death, or until he or she shall resign or shall have been removed in the manner hereinafter provided.
 
@@ -99,17 +119,21 @@ Section 8. Independent Contractors. Independent contractors (“Contractor(s)”
 
 **ARTICLE 7. SUB-DAOs.**
 
+// at scale, for operations efficiency and clarity it may be beneficial to create subDAOs for specific teams/missions
+
 Section 1. Creation of Sub-DAOs. The [NAME] DAO may, by DAO Resolution, designate decentralized autonomous organizations which further any Purpose and which may be wholly owned subsidiaries of [NAME] DAO and the Foundation (each, considering and including any legal entity corresponding to or governed by such decentralized autonomous organization, a “Sub-DAO”). Such Sub-DAOs shall have such functions and responsibilities and may exercise such power as can be lawfully delegated and to the extent provided in the special resolution or DAO Resolution creating such Sub-DAO.
 
 Section 2. Minutes. Each Sub-DAO shall keep regular minutes of its proceedings and its accounts and finances and report the same to the Foundation and [NAME] DAO within ten business days of written request if not already publicly accessible and reviewable.
 
 **ARTICLE 8. BOOKS, RECORDS, AND REPORTS.**
 
+// the DAO treasury address should be sufficient for financial statements provided all material value is held there - if the Foundation holds significant offchain assets this likely would need amending
+
 Section 1. Report. Any Director or designee of a Director shall, upon lawful request, provide an annual report to the Board of Directors not later than four (4) months after the close of each fiscal year of the Foundation. Such report shall include a balance sheet as of the close of the fiscal year of the Foundation and a revenue and disbursement statement for the year ending on such closing date. Absent a formal lawful request for a specific form of balance sheet or revenue and disbursement statement from the Foundation, the publicly visible blockchain address (and transactions thereto) of [NAME] DAO will serve as such a report or financial statement for the Foundation to extent permissible under the Act.
 
 Section 2. Inspection of Records. Any person who is a Director or designee thereof of the Foundation shall have the right, for any proper purpose and at any reasonable time, on written demand stating the purpose thereof, to examine and make copies from the relevant books and records of accounts, minutes, and records of the Foundation or those of the Contractors with respect to their Foundation-related work and services. For the purposes of this provision, electronic storage of records in a digital services account registered to the Foundation or in a Stipulated Software Repository but not physically located in or hosted from its registered office shall be considered to be stored or located at the registered office of the Foundation. Absent a formal lawful request for a specific form of balance sheet or revenue and disbursement statement or records from the Foundation, the Stipulated Software Repository and publicly visible blockchain address of [NAME] DAO will serve as such a report or financial statement or records for the Foundation to extent permissible under the Act.
 
-// [NAME] tokens minted and apportioned to incentivize stakers, unrelated to any incoming revenue (which in this structure, would be converted to [NAME] tokens and burned, and avoiding any dividend distribution
+// [NAME] tokens minted and apportioned to incentivize stakers, do not previously exist in the treasury and are unrelated to any incoming "revenue" (which in this structure, would be converted to [NAME] tokens and burned), and avoid any dividend distribution
 
 **ARTICLE 9. NONPROFIT OPERATION.**
 
@@ -121,9 +145,13 @@ Section 1. The fiscal year of the Foundation shall be the period selected by the
 
 **ARTICLE 11. INDEMNIFICATION.**
 
+// indemnify directors and other actors for the inherent unknowns of DAO-instructed actions
+
 Section 1. The Foundation shall indemnify all current and former Officers, Directors, founders, professional advisors and supervisors of the Foundation and their respective representatives, including as to any and all matters of the Foundation, [NAME] DAO, Proposals, DAO Resolutions, and other delegated actions to and from beneficiaries, to the full extent permitted by the laws of the [JURISDICTION] or any other applicable jurisdiction, against all actions, proceedings, costs, charges, expenses, losses, damages, or liabilities incurred or sustained, in or about the conduct of the Foundation’s or the [NAME] DAO’s business or affairs or in the execution or discharge of that person’s powers, duties, discretions or authorities. Without limitation to the preceding sentence, this indemnity shall extend to all costs, expenses, losses or liabilities incurred by such parties in defending (whether successful or otherwise) any civil, criminal, administrative, regulatory or investigative proceedings (whether threatened, pending or completed) concerning the Foundation or [NAME] DAO or any current and former Officer, Director, founder, professional advisor or supervisor of the Foundation or any of the foregoing’s affairs in any court or tribunal regardless of jurisdiction. This indemnity will not extend to any matter arising out of any such individual’s or entity’s fraudulent or dishonest conduct.
 
 **ARTICLE 12. QUALIFIED DEFERENCE.**
+
+// qualified code deference to provide a mechanism for recovery in the instance of a material adverse exception event, see [this precedent](https://github.com/lex-node/SCoDA-Simple-Code-Deference-Agreement-/blob/master/SCoDA%20v.3.md) for context
 
 Section 1. Qualified Code and Governance Deference. The Foundation shall defer all material operational and financial decision-making to [NAME] DAO and DAO Resolutions (included delegation thereunder) as set forth in these Bylaws except emergencies and crises reasonably deemed to result from unconscionable or incomplete legal contracts or operation of code, or unforeseen events (any such material adverse exception event, an “MAEE”). MAEEs may include:
 
@@ -147,6 +175,8 @@ Section 3. Response. (a) If the Foundation disputes the existence of a MAEE, the
 Section 4. Exception Handling. After depositing the funds in accordance with Section 3(b) above, the Foundation shall within 14 calendar days publish a planned response to the MAEE (an "Exception Handling Proposal") describing in reasonable detail the actions to be taken, the agreements to be entered into, and the remedies to be sought by the involved parties, and including copies of any written evidence or other material information relevant to, and material for the consideration of, the MAEE and the other matters referred to in the Exception Notice. The term "Exception Handling Addendum" refers to an addendum to these Bylaws setting forth the agreement on the existence or non-existence of a MAEE and the actions to be taken, the agreements to be entered into, and the remedies to be sought in response thereto. An Exception Handling Proposal shall become an Exception Handling Addendum once the beneficiaries have signaled approval of the Proposal, represented by at least 50% of beneficiaries from the previous [NAME] DAO treasury account/governance contract depositing an equivalent amount of [NAME] Tokens into the custodial trust or by other reasonable designation of approval signaled by at least 50% of the beneficiaries. Each Exception Handling Addendum shall automatically and without further action of the [NAME] DAO or Foundation be deemed incorporated into and to form a part of these Bylaws. Once the Foundation has executed on the Addendum and the MAEE is resolved, the Foundation shall return all funds in the custodial trust to a protocol-owned DAO account and reimburse duplicate the applicable [NAME] Tokens. If the Foundation neglects to return the funds within 30 calendar days, any beneficiary may lodge a complaint against the Foundation to the applicable judiciary authority of the [JURISDICTION]. The decision resulting from the following court proceedings shall be non-appealable, binding, and conclusive upon the Foundation and all relevant parties.
 
 **ARTICLE 13. AMENDMENTS.**
+
+// bylaws can be amended by DAO Resolution
 
 Section 1. These Bylaws may be altered, amended, or replaced and new Bylaws may be adopted by the Board of Directors pursuant to a DAO Resolution.
 
