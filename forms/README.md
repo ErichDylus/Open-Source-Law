@@ -1,12 +1,14 @@
+## Open Source Legal Agreement Forms
+
 Read [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/Disclosure.md) and note that all forms, templates, code or other materials provided or linked herein carry [no warranty whatsoever](https://github.com/ErichDylus/Open-Source-Law/blob/main/LICENSE) and should not be used without consulting an attorney or other applicable professional.
 
-## Templates
+### Templates
 
 [Legal agreement and organizational document forms](https://github.com/ErichDylus/Open-Source-Law/tree/main/forms/legal) - Including formation documents, DAO - independent contractor grant agreement, multisig code deference, etc.
 
 [Ricardian LLC Master Operating Agreement](https://github.com/lexDAO/Ricardian/blob/main/contracts/MasterOperatingAgreement.txt) - LexDAO's Ricardian master LLC operating agreement form (for use in initiating a series, especially for DAO wrappers), which can be deployed and represented on-chain by an [ERC-721 standard NFT](https://github.com/lexDAO/Ricardian/blob/main/contracts/RicardianLLC.sol)
 
-## Template libraries
+### Template libraries
 
 [LexDAO Startup Pack](https://github.com/lexDAO/LexCorpus/tree/master/contracts/startups) - collection of templates for typical startup setup and fundraising
 
@@ -20,13 +22,13 @@ Read [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/D
 
 [Openlaw templates](https://lib.openlaw.io/web/default/templates) - free searchable legal form repository
 
-## Legal Resources and Research
+### Legal Resources and Research
 
 [Caselaw Access Project](https://case.law/) - published U.S. court decisions digitized from the collection of the Harvard Law School Library
 
 [Metacartel legal repo](https://github.com/metacartel/MCV/tree/master/Legal) - Grimoire and exhibits for the Metacartel Ventures DAO
 
-## Books and articles
+### Books and articles
 
 [Open Textbooks](https://open.umn.edu/opentextbooks/subjects/law) - free textbooks on various areas of law
 
