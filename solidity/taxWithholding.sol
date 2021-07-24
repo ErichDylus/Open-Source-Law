@@ -6,7 +6,7 @@ pragma solidity ^0.8.0;
  * IN PROCESS, Rinkeby testing
  * @dev split gross income payments into withheld tax and net income and permit payees to claim their own tax and net income amounts to chosen wallets
  * send portion to tax withholding wallet and remainder to 'checking account wallet'
- * TODO: better math
+ * TODO: better math, integrate streaming protocol
  */
  
 interface IERC20 {
@@ -53,7 +53,7 @@ contract TaxWithholding {
         ierc20 = IERC20(tokenAddress);
         taxDiv = uint256(100/_taxRate); // imprecise math, will be updated
         grossIncome = _income * 10e18;
-        ierc20.approve(msg.sender, grossIncome);
+        ierc20.approve(address(this), grossIncome);
         grossTaxes = (grossIncome/taxDiv); // aggregate tax amount
         netIncome = grossIncome - grossTaxes; // aggregate net income amount
         ierc20.transfer(address(this), grossIncome);
@@ -66,11 +66,11 @@ contract TaxWithholding {
         uint256 _taxes = grossTaxes/payees;
         uint256 _afterTaxAmount = netIncome/payees;
         ierc20.transferFrom(address(this), _taxWallet, _taxes);
-		ierc20.transferFrom(address(this), _checkingWallet, _afterTaxAmount);
-		uint256 _taxBalance = ierc20.balanceOf(_taxWallet) / 10e18; 
-		uint256 _checkingBalance = ierc20.balanceOf(_checkingWallet) / 10e18;
-		payeeNumber[msg.sender] = _IDnumber;
-		//paystubNumber[_IDnumber][payeeNumber] = block.number; 
+	ierc20.transferFrom(address(this), _checkingWallet, _afterTaxAmount);
+	uint256 _taxBalance = ierc20.balanceOf(_taxWallet) / 10e18; 
+	uint256 _checkingBalance = ierc20.balanceOf(_checkingWallet) / 10e18;
+	payeeNumber[msg.sender] = _IDnumber;
+	//paystubNumber[_IDnumber][payeeNumber] = block.number; 
         return(_taxBalance, _checkingBalance);
     }
     
