@@ -8,6 +8,8 @@ Read [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/D
 
 [Ricardian LLC Master Operating Agreement](https://github.com/lexDAO/Ricardian/blob/main/contracts/MasterOperatingAgreement.txt) - LexDAO's Ricardian master LLC operating agreement form (for use in initiating a series, especially for DAO wrappers), which can be deployed and represented on-chain by an [ERC-721 standard NFT](https://github.com/lexDAO/Ricardian/blob/main/contracts/RicardianLLC.sol)
 
+[Rarible's NFT Licenses](https://github.com/rariblecom/nft-license) - by Gabriel Shapiro & Stuart Smolen
+
 ### Template libraries
 
 [LexDAO Startup Pack](https://github.com/lexDAO/LexCorpus/tree/master/contracts/startups) - collection of templates for typical startup setup and fundraising
