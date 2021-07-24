@@ -55,7 +55,7 @@ contract EscrowStablecoin {
     _;
   }
   
-  //creator initiates escrow with description, deposit amount in USD, seconds until expiry, and designate recipient seller
+  //creator initiates escrow with description, deposit amount in USD, address of stablecoin, seconds until expiry, and designate recipient seller
   constructor(string memory _description, uint256 _deposit, address payable _seller, address _stablecoin, uint256 _secsUntilExpiration) payable {
       require(_seller != msg.sender, "Designate different party as seller");
       buyer = payable(address(msg.sender));
