@@ -18,6 +18,7 @@ contract EscrowEth {
   struct InEscrow {
       string description;
       uint256 deposit;
+      address payable buyer;
       address payable seller;
   }
   
@@ -38,6 +39,7 @@ contract EscrowEth {
   string description;
   mapping(address => bool) public parties; //map whether an address is a party to the transaction for restricted() modifier 
   
+  event EscrowInPlace(address indexed buyer, uint256 deposit);
   event DealDisputed(address indexed sender, bool isDisputed);
   event DealExpired(bool isExpired);
   event DealClosed(bool isClosed);
@@ -60,7 +62,7 @@ contract EscrowEth {
       parties[escrowAddress] = true;
       effectiveTime = uint256(block.timestamp);
       expirationTime = effectiveTime + _secsUntilExpiration;
-      sendEscrow(description, deposit, seller);
+      sendEscrow(description, deposit, buyer, seller);
   }
   
   //buyer may confirm seller's recipient address as extra security measure
@@ -72,14 +74,16 @@ contract EscrowEth {
       seller = _seller;
   }
   
-  //create new escrow contract within master structure
-  function sendEscrow(string memory _description, uint256 _deposit, address payable _seller) private restricted {
+  //send escrow, create InEscrow struct and emit event showing the deposit is in place
+  function sendEscrow(string memory _description, uint256 _deposit, address payable _buyer, address payable _seller) private restricted {
       InEscrow memory newRequest = InEscrow({
          description: _description,
          deposit: _deposit,
+         buyer: _buyer,
          seller: _seller
       });
       escrows.push(newRequest);
+      emit EscrowInPlace(_buyer, _deposit);
   }
   
   //check if expired, and if so, return balance to buyer
