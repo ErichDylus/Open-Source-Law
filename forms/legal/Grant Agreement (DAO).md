@@ -1,9 +1,12 @@
 // simple agreement contemplating DAO treasury grants (by DAO legal wrapper) for independent contractor services, adaptable for individuals or entities
+
+// effective date should correspond to commencement of applicable DAO grant cycle
+
 // provided without warranty of any kind, do not use without consulting an attorney, all open-source-law repo disclosures apply
 
 ## Grant Agreement
 
-This Grant Agreement (this “Agreement”) is entered into as of [DATE] (the “Effective Date”) by and between __________________ (“Party A”) and [DAO LEGAL WRAPPER], a [ENTITY TYPE] (the “[ENTITY]”), represented and governed by the [______] Decentralized Autonomous Organization associated with address 0x_____ (“[______] DAO”) ([______] DAO and the [ENTITY], together with any and all subsidiaries and affiliates, “[DAO NAME]”) (Party A and [DAO NAME] are each a “Party” and both, the “Parties”).
+This Grant Agreement (this “Agreement”) is entered into as of [DATE] (the “Effective Date”) by and between __________________ (“Party A”) and [DAO LEGAL WRAPPER], a [ENTITY TYPE] (the “[ENTITY]”), represented and governed by the [NAME] Decentralized Autonomous Organization associated with address 0x_____ (“[NAME] DAO”) ([______] DAO and the [ENTITY], together with any and all subsidiaries and affiliates, “[DAO NAME]”) (Party A and [DAO NAME] are each a “Party” and both, the “Parties”).
 
 [DAO NAME] has deemed that Party A has the necessary qualifications, experience, and abilities to provide Services (as such term is defined in Section 1 below) to and for the benefit of [DAO NAME], and Party A has agreed to provide such Services to and for the benefit of [DAO NAME] pursuant to the terms and conditions set forth in this Agreement, with Party A to be deemed an independent contractor for [DAO NAME] (as more particularly set forth in Section 4 below, the “Relationship”). 
 
@@ -13,7 +16,7 @@ In consideration of the mutual benefits and obligations set forth in this Agreem
 
 2.	**Term**. 
 
-a.	The term of this Agreement commences on the Effective Date and remains in full force and effect (except for the terms of this Agreement which expressly survive the expiry or termination of this Agreement) until [DATE] /// [completion (as confirmed in writing by [DAO NAME]) of ____________] or until terminated pursuant to the terms of this Agreement. 
+a.	The term of this Agreement commences on the Effective Date and remains in full force and effect (except for the terms of this Agreement which expressly survive the expiry or termination of this Agreement) until [DATE] /// [milestone completion (as confirmed in writing by [DAO NAME]) of ____________] or until terminated pursuant to the terms of this Agreement. 
 
 b.	This Agreement may be terminated in writing upon [thirty (30) calendar days’] prior written notice by either Party, or by mutual written agreement of the Parties. However, notwithstanding the foregoing sentence, if Party A has been provided written notice from [DAO NAME] as to any material issue with the quality or provision of the Services which remains uncured for ten days in [DAO NAME]’s sole reasonable discretion, this Agreement may be terminated immediately by written notice from [DAO NAME]. 
 
@@ -21,7 +24,7 @@ c.	For avoidance of doubt, this Agreement may be terminated in accordance with t
 
 3.	**Compensation**. 
 
-a.	For each calendar month in the Term, [DAO NAME] or its written designee will pay Party A an equivalent amount to USD$[______] by [STABLECOIN] or other mutually agreed payment method and calculation on [the [__]th day of each applicable month] or as otherwise mutually agreed in writing. 
+a.	For each calendar month in the Term, [DAO NAME] or its written designee will pay Party A an equivalent amount to USD$[______] by [STABLECOIN] or other mutually agreed payment method and calculation within the first calendar week of each applicable month or as otherwise mutually agreed in writing. 
 
 b.	[DAO NAME] will reimburse Party A for all reasonable and necessary expenses incurred by Party A directly attributable to the Services, subject to [DAO NAME]’s express prior written approval of such expenses. 
 
