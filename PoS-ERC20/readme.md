@@ -19,3 +19,6 @@ In the case of restricting access to a protocol based on this valueless, one tim
 You are now a proof-of-stake protocol.
 
 Created by @adamscochran
+
+
+*Not legal advice. May not meet the standard of proof-of-stake in your jurisdiction.
