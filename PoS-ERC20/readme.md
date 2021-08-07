@@ -17,3 +17,5 @@ Using the `isStaked()` and `stakedAmount()` protocols can restrict access to the
 In the case of restricting access to a protocol based on this valueless, one time created, non-withdrawable token being staked, your protocol now requires proof that a user is staked in order to access the protocol.
 
 You are now a proof-of-stake protocol.
+
+Created by @adamscochran
