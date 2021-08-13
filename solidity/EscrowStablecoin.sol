@@ -12,6 +12,7 @@ interface LexLocker {
 }
 
 interface IERC20 { 
+    function allowance(address owner, address spender) external view returns (uint256);
     function approve(address spender, uint256 amount) external returns (bool); 
     function balanceOf(address account) external view returns (uint256);
     function transfer(address recipient, uint256 amount) external returns (bool);
@@ -28,7 +29,7 @@ contract EscrowStablecoin {
   }
   
   InEscrow[] public escrows;
-  address escrowAddress = address(this);
+  address escrowAddress;
   address payable lexlocker = payable(0xD476595aa1737F5FdBfE9C8FEa17737679D9f89a); //LexLocker contract address
   address payable lexDAO = payable(0x01B92E2C0D06325089c6Fd53C98a214f5C75B2aC); //lexDAO address, used below as resolver 
   address payable buyer;
@@ -46,7 +47,6 @@ contract EscrowStablecoin {
   IERC20 public ierc20;
   string description;
   mapping(address => bool) public parties; //map whether an address is a party to the transaction for restricted() modifier 
-  //mapping(address => mapping(address => InEscrow)) public balances;
   
   event DealDisputed(address indexed sender, bool isDisputed); //index dispute by sender, consider including token/resolver/other identifier
   event DealExpired(bool isExpired);
@@ -57,11 +57,13 @@ contract EscrowStablecoin {
     _;
   }
   
-  //creator initiates escrow with description, deposit amount in USD, address of stablecoin, seconds until expiry, and designate recipient seller
+  //deployer (buyer) initiates escrow with description, deposit amount in USD, address of stablecoin, seconds until expiry, and designate recipient seller
+  //deployer must separately approve this contract address for the deposit amount (keep decimals in mind)
   constructor(string memory _description, uint256 _deposit, address payable _seller, address _stablecoin, uint256 _secsUntilExpiration) payable {
       require(_seller != msg.sender, "Designate different party as seller");
       buyer = payable(address(msg.sender));
-      deposit = _deposit * 10e18;
+      deposit = _deposit;
+      escrowAddress = address(this);
       stablecoin = _stablecoin;
       ierc20 = IERC20(stablecoin);
       description = _description;
@@ -83,31 +85,38 @@ contract EscrowStablecoin {
       seller = _seller;
   }
   
-  //approve deposit amount for transfers
-  function approveParties() public restricted returns (bool, bool, bool) {
-      return (ierc20.approve(buyer, deposit), ierc20.approve(escrowAddress, deposit), ierc20.approve(seller, deposit));
+  //approve seller to withdraw deposit amount at closing and buyer in case of termination (and therefore deposit return)
+  function approveParties() public restricted returns (bool) {
+      ierc20.allowance(escrowAddress, seller);
+      ierc20.approve(seller, deposit);
+      ierc20.approve(buyer, deposit);
+      return true;
   } 
   
   //buyer deposits in escrowAddress
-  function sendDeposit() public restricted returns(bool) {
-      return ierc20.transfer(escrowAddress, deposit);
+  function sendDeposit() public restricted returns(bool, uint256) {
+      ierc20.transferFrom(buyer, escrowAddress, deposit);
+      return (true, ierc20.balanceOf(escrowAddress));
+      
   }
   
   //return deposit to buyer
-  function returnDeposit() public restricted returns (bool) {
-      return ierc20.transfer(buyer, deposit);
+  function returnDeposit() internal returns(bool, uint256) {
+      ierc20.transfer(buyer, deposit);
+      return (true, ierc20.balanceOf(escrowAddress));
   }
   
   //send deposit to seller
-  function paySeller() public restricted returns (bool) {
-      return ierc20.transfer(seller, deposit);
+  function paySeller() internal returns(bool, uint256) {
+      ierc20.transfer(seller, deposit);
+      return (true, ierc20.balanceOf(escrowAddress));
   } 
   
   //create new escrow contract within master structure
   function sendNewEscrow(string memory _description, uint256 _deposit, address payable _seller) private restricted {
       InEscrow memory newRequest = InEscrow({
          description: _description,
-         deposit: _deposit * 10e18,
+         deposit: _deposit,
          seller: _seller
       });
       escrows.push(newRequest);
@@ -137,13 +146,13 @@ contract EscrowStablecoin {
       ierc20.approve(lexlocker, deposit);
       if (msg.sender == seller) {
             LexLocker(lexlocker).requestLockerResolution(buyer, lexDAO, _token, deposit, _details, _singleArbiter);
-            ierc20.transfer(lexlocker, deposit);
+            ierc20.transferFrom(escrowAddress, lexlocker, deposit);
             isDisputed = true;
             emit DealDisputed(seller, isDisputed);
             return("Seller has initiated LexLocker dispute resolution.");
         } else if (msg.sender == buyer) {
             LexLocker(lexlocker).requestLockerResolution(seller, lexDAO, _token, deposit, _details, _singleArbiter);
-            ierc20.transfer(lexlocker, deposit);
+            ierc20.transferFrom(escrowAddress, lexlocker, deposit);
             isDisputed = true;
             emit DealDisputed(buyer, isDisputed);
             return("Buyer has initiated Lexlocker dispute resolution.");
@@ -179,65 +188,3 @@ contract EscrowStablecoin {
         return(isClosed);
   }
 }
-/*
-contract Escrow {
-  address admin;
-  uint256 public totalBalance;
-
-  struct Transaction {
-    address buyer;
-    uint256 amount;
-    bool locked;
-    bool spent;
-  }
-
-  mapping(address => mapping(address => Transaction)) public balances;
-
-  // seller accepts a trade, erc20 tokens
-  // get moved to the escrow (this contract)
-  function accept(address _tx_id, address _buyer, uint256 _amount) external returns (uint256) {
-    token.transferFrom(msg.sender, address(this), _amount);
-    totalBalance += _amount;
-    balances[msg.sender][_tx_id].amount = _amount;
-    balances[msg.sender][_tx_id].buyer = _buyer;
-    balances[msg.sender][_tx_id].locked = true;
-    balances[msg.sender][_tx_id].spent = false;
-    return token.balanceOf(msg.sender);
-  }
-
-  // retrieve current state of transaction in escrow
-  function transaction(address _seller, address _tx_id) external view returns (uint256, bool, address) {
-    return ( balances[_seller][_tx_id].amount, balances[_seller][_tx_id].locked, balances[_seller][_tx_id].buyer );
-  }
-
-  // admin unlocks tokens in escrow for a transaction
-  function release(address _tx_id, address _seller) restricted external returns(bool) {
-    balances[_seller][_tx_id].locked = false;
-    return true;
-  }
-
-  // seller is able to withdraw unlocked tokens
-  function withdraw(address _tx_id) external returns(bool) {
-    require(balances[msg.sender][_tx_id].locked == false, 'This escrow is still locked');
-    require(balances[msg.sender][_tx_id].spent == false, 'Already withdrawn');
-
-    P2PM token = P2PM(p2pmAddress);
-    token.transfer(msg.sender, balances[msg.sender][_tx_id].amount);
-
-    totalBalance -= balances[msg.sender][_tx_id].amount;
-    balances[msg.sender][_tx_id].spent = true;
-    return true;
-  }
-
-  // admin can send funds to buyer if dispute resolution is in buyer's favor
-  function resolveToBuyer(address _seller, address _tx_id) restricted external returns(bool) {
-    P2PM token = P2PM(p2pmAddress);
-    token.transfer(balances[_seller][_tx_id].buyer, balances[msg.sender][_tx_id].amount);
-
-    balances[_seller][_tx_id].spent = true;
-    totalBalance -= balances[_seller][_tx_id].amount;
-    return true;
-  }
-
-
-} */
