@@ -1,10 +1,10 @@
 ## Open Source Legal Agreement Forms
 
-Read [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/Disclosure.md) and note that all forms, templates, code or other materials provided or linked herein carry [no warranty whatsoever](https://github.com/ErichDylus/Open-Source-Law/blob/main/LICENSE) and should not be used without consulting an attorney or other applicable professional.
+Read [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/Disclosure.md) and note that all forms, templates, code or other materials provided or linked herein carry [no warranty whatsoever](https://github.com/ErichDylus/Open-Source-Law/blob/main/LICENSE) and should not be used without consulting an attorney or other applicable professional. Circumstances, facts, and jurisdictions differ, and these forms are not meant to be used in their current form without adjustment according to such facts, circumstances, and jurisdictions. PRs, issues, forks, and discussion are all welcomed. 
 
 ### Templates
 
-[Legal agreement and organizational document forms](https://github.com/ErichDylus/Open-Source-Law/tree/main/forms/legal) - Including formation documents, DAO - independent contractor grant agreement, multisig code deference, etc.
+[Legal agreement and organizational document forms](https://github.com/ErichDylus/Open-Source-Law/tree/main/forms/legal) - Including formation documents, DAO-independent contractor grant agreement, NDA, etc.
 
 [Ricardian LLC Master Operating Agreement](https://github.com/lexDAO/Ricardian/blob/main/contracts/MasterOperatingAgreement.txt) - LexDAO's Ricardian master LLC operating agreement form (for use in initiating a series, especially for DAO wrappers), which can be deployed and represented on-chain by an [ERC-721 standard NFT](https://github.com/lexDAO/Ricardian/blob/main/contracts/RicardianLLC.sol)
 
@@ -13,6 +13,8 @@ Read [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/D
 ### Template libraries
 
 [LexDAO Startup Pack](https://github.com/lexDAO/LexCorpus/tree/master/contracts/startups) - collection of templates for typical startup setup and fundraising
+
+[CommonAccord](https://github.com/commonaccord) - CommonAccord's open source effort to codify and automate legal agreements
 
 [NVCA forms](https://nvca.org/model-legal-documents/) - model documents from the National Venture Capital Association
 
