@@ -2,8 +2,7 @@
 
 pragma solidity 0.7.5;
 
-/* IN PROCESS, INCOMPLETE - adapting ETHescrow for ERC20 stablecoins
-**unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
+/*unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
 **@dev create a simple smart escrow contract, with an ERC20 stablecoin as payment, expiration denominated in seconds, and option for dispute resolution with LexLocker
 **intended to be deployed by buyer (as funds are placed in escrow upon deployment, and returned to deployer if expired)*/
 
@@ -36,9 +35,9 @@ contract EscrowStablecoin {
   address payable seller;
   address stablecoin;
   uint256 deposit;
+  uint256 deployTime;
   uint256 effectiveTime;
   uint256 expirationTime;
-  uint256 public totalBalance;
   bool sellerApproved;
   bool buyerApproved;
   bool isDisputed;
@@ -50,7 +49,7 @@ contract EscrowStablecoin {
   
   event DealDisputed(address indexed sender, bool isDisputed); //index dispute by sender, consider including token/resolver/other identifier
   event DealExpired(bool isExpired);
-  event DealClosed(bool isClosed);
+  event DealClosed(bool isClosed, uint256 effectiveTime);
   
   modifier restricted() { 
     require(parties[msg.sender], "This may only be called by a party to the deal or the by escrow contract");
@@ -58,7 +57,7 @@ contract EscrowStablecoin {
   }
   
   //deployer (buyer) initiates escrow with description, deposit amount in USD, address of stablecoin, seconds until expiry, and designate recipient seller
-  //deployer must separately approve this contract address for the deposit amount (keep decimals in mind)
+  //DEPLOYER MUST SEPARATELY APPROVE (by interacting with the ERC20 contract in question's approve()) this contract address for the deposit amount (keep decimals in mind)
   constructor(string memory _description, uint256 _deposit, address payable _seller, address _stablecoin, uint256 _secsUntilExpiration) payable {
       require(_seller != msg.sender, "Designate different party as seller");
       buyer = payable(address(msg.sender));
@@ -71,8 +70,8 @@ contract EscrowStablecoin {
       parties[msg.sender] = true;
       parties[_seller] = true;
       parties[escrowAddress] = true;
-      effectiveTime = uint256(block.timestamp);
-      expirationTime = effectiveTime + _secsUntilExpiration;
+      deployTime = uint256(block.timestamp);
+      expirationTime = deployTime + _secsUntilExpiration;
       approveParties();
   }
   
@@ -174,6 +173,7 @@ contract EscrowStablecoin {
   }
     
   // check if both buyer and seller are ready to close and expiration has not been met; if so, close deal and pay seller
+  // if properly closes, emits event with effective time of closing
   function closeDeal() public returns(bool){
       require(sellerApproved && buyerApproved, "Parties are not ready to close.");
       if (expirationTime <= uint256(block.timestamp)) {
@@ -183,7 +183,8 @@ contract EscrowStablecoin {
         } else {
             isClosed = true;
             paySeller();
-            emit DealClosed(isClosed);
+            effectiveTime = uint256(block.timestamp); // effective time of closing upon payment to seller
+            emit DealClosed(isClosed, effectiveTime);
         }
         return(isClosed);
   }
