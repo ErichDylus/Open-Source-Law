@@ -12,7 +12,8 @@ Read [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/D
 
 ### Template libraries
 
-[LexDAO Startup Pack](https://github.com/lexDAO/LexCorpus/tree/master/contracts/startups) - collection of templates for typical startup setup and fundraising
+[LexDAO Startup Pack](
+    https://github.com/lexDAO/LexCorpus/tree/master/contracts/legal/startup) - collection of templates for typical startup setup and fundraising
 
 [CommonAccord](https://github.com/commonaccord) - CommonAccord's open source effort to codify and automate legal agreements
 
