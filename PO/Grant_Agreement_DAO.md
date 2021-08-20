@@ -1,3 +1,15 @@
+CodersNote=From GitHub.com/ErichDylus/Open-Source-Law
+
+CodersNote=Parameters from original:
+
+ContractLife.Stop.AtWill.NoticePeriod.cl=thirty (30) calendar days’
+
+Comp.Monthly.Amount.$=USD$[______]
+
+Law.State.the=the State of Delaware
+
+LawyersNote="MIT Creative Commons license" seems to mix two things.
+
 // simple agreement contemplating DAO treasury grants (by DAO legal wrapper) for independent contractor services, adaptable for individuals or entities
 
 // effective date should correspond to commencement of applicable DAO grant cycle
@@ -14,11 +26,11 @@ Then.sec=In consideration of the mutual benefits and obligations set forth in th
 
 1.Ti=Services
 
-1.sec=DAO NAME] hereby engages Party A to provide [DAO NAME] or its written designee with the following services: _____________________ (including any other services reasonably related thereto and/or as mutually agreed in writing between the Parties, the “Services”). 
+1.sec=[DAO NAME] hereby engages Party A to provide [DAO NAME] or its written designee with the following services: _____________________ (including any other services reasonably related thereto and/or as mutually agreed in writing between the Parties, the “Services”). 
 
 2.Ti=Term
 
-2.1.sec=The term of this Agreement commences on the Effective Date and remains in full force and effect (except for the terms of this Agreement which expressly survive the expiry or termination of this Agreement) until {Term.End.sec} or until terminated pursuant to the terms of this Agreement. 
+2.1.sec=The term of this Agreement commences on the Effective Date and remains in full force and effect (except for the terms of this Agreement which expressly survive the expiry or termination of this Agreement) until {Term.End.sec} or until terminated pursuant to the terms of this Agreement.
 
 Term.End.=[G/Z/Alt/2]
 
@@ -30,8 +42,7 @@ Term.End.Alt1.sec=[DATE]
 
 Term.End.Alt2.sec=milestone completion (as confirmed in writing by [DAO NAME]) of ____________
 
-
-2.2.sec=This Agreement may be terminated in writing upon [thirty (30) calendar days’] prior written notice by either Party, or by mutual written agreement of the Parties. However, notwithstanding the foregoing sentence, if Party A has been provided written notice from [DAO NAME] as to any material issue with the quality or provision of the Services which remains uncured for ten days in [DAO NAME]’s sole reasonable discretion, this Agreement may be terminated immediately by written notice from [DAO NAME]. 
+2.2.sec=This Agreement may be terminated in writing upon {ContractLife.Stop.AtWill.NoticePeriod.cl} prior written notice by either Party, or by mutual written agreement of the Parties. However, notwithstanding the foregoing sentence, if Party A has been provided written notice from [DAO NAME] as to any material issue with the quality or provision of the Services which remains uncured for ten days in [DAO NAME]’s sole reasonable discretion, this Agreement may be terminated immediately by written notice from [DAO NAME].
 
 2.3.sec=For avoidance of doubt, this Agreement may be terminated in accordance with this section at any point in a calendar month or compensation cycle, and Party A’s compensation for such calendar month or compensation cycle shall be reduced or prorated accordingly to match the actual number of days providing Services for such calendar month or compensation cycle, as applicable.
 
@@ -39,7 +50,7 @@ Term.End.Alt2.sec=milestone completion (as confirmed in writing by [DAO NAME]) o
 
 3.Ti=Compensation
 
-3.1.sec=For each calendar month in the Term, [DAO NAME] or its written designee will pay Party A an equivalent amount to USD$[______] by [STABLECOIN] or other mutually agreed payment method and calculation within the first calendar week of each applicable month or as otherwise mutually agreed in writing. 
+3.1.sec=For each calendar month in the Term, [DAO NAME] or its written designee will pay Party A an equivalent amount to {Comp.Monthly.Amount.$} by [STABLECOIN] or other mutually agreed payment method and calculation within the first calendar week of each applicable month or as otherwise mutually agreed in writing.
 
 3.2.sec=[DAO NAME] will reimburse Party A for all reasonable and necessary expenses incurred by Party A directly attributable to the Services, subject to [DAO NAME]’s express prior written approval of such expenses. 
 
@@ -51,37 +62,37 @@ Term.End.Alt2.sec=milestone completion (as confirmed in writing by [DAO NAME]) o
 
 // applicable for where grantee will be privy to confidential information, such as information subject to a third party's NDA, or perhaps where a grantee wishes to preserve their own anonymity, etc.
 
-5.Ti=Confidential Information
+ConfInfo.Ti=Confidential Information
 
-5.1.sec=Each Party, their respective affiliates and their respective directors, officers, employers, employees, agents, members, or advisors (collectively, “Representatives”) may be alerted of, become privy to, or gain access to certain confidential and/or proprietary information of the other Party. A Party or its Representative disclosing its Confidential Information (as such term is defined in Section 5(b) below) to the other Party is hereafter referred to as a “Disclosing Party.” A Party or its Representative receiving the Confidential Information of the Disclosing Party is hereafter referred to as a “Receiving Party.”
+ConfInfo.1.sec=Each Party, their respective affiliates and their respective directors, officers, employers, employees, agents, members, or advisors (collectively, “Representatives”) may be alerted of, become privy to, or gain access to certain confidential and/or proprietary information of the other Party. A Party or its Representative disclosing its Confidential Information (as such term is defined in Section 5(b) below) to the other Party is hereafter referred to as a “Disclosing Party.” A Party or its Representative receiving the Confidential Information of the Disclosing Party is hereafter referred to as a “Receiving Party.”
 
-5.2.1.sec=The term “Confidential Information” as used in this Agreement shall mean any data or information that is reasonably sensitive material and not generally known to the public or any third parties, including, but not limited to, information relating to any of the following: the Relationship, product development and plans, proprietary concepts, documentation, operations, systems, computer software, source code, trade secrets, customer lists, customer relationships, negotiations, present or future business activities, design, verbal conversations or representations, writings, technical information and details which the Disclosing Party reasonably considers confidential, and anything [DAO NAME] sets forth in writing as being confidential or sensitive material.
+ConfInfo.2.1.sec=The term “Confidential Information” as used in this Agreement shall mean any data or information that is reasonably sensitive material and not generally known to the public or any third parties, including, but not limited to, information relating to any of the following: the Relationship, product development and plans, proprietary concepts, documentation, operations, systems, computer software, source code, trade secrets, customer lists, customer relationships, negotiations, present or future business activities, design, verbal conversations or representations, writings, technical information and details which the Disclosing Party reasonably considers confidential, and anything [DAO NAME] sets forth in writing as being confidential or sensitive material.
 
 CodersNote=Optional:
 
-5.2.2.sec=Unless expressly set forth in writing otherwise, any and all data, information, correspondence, materials, activities, operations, or relationships in any way related to “[______]” or any reference thereof shall be deemed included in the definition of “Confidential Information.”
+ConfInfo.2.2.sec=Unless expressly set forth in writing otherwise, any and all data, information, correspondence, materials, activities, operations, or relationships in any way related to “[______]” or any reference thereof shall be deemed included in the definition of “Confidential Information.”
 
-5.2.=[G/Z/para/s2]
+ConfInfo.2.=[G/Z/para/s2]
 
+ConfInfo.3.sec=The obligation of confidentiality with respect to Confidential Information will not apply to any information publicly known or accessible due to prior authorized or lawful disclosure, or if the information is disclosed by the Receiving Party with the Disclosing Party’s prior written consent and approval.
 
-5.3.sec=The obligation of confidentiality with respect to Confidential Information will not apply to any information publicly known or accessible due to prior authorized or lawful disclosure, or if the information is disclosed by the Receiving Party with the Disclosing Party’s prior written consent and approval.
+ConfInfo.4.0.sec=With respect to Confidential Information: 
 
-5.4.0.sec=With respect to Confidential Information: 
-
-5.4.1.sec=Receiving Party and its Representatives agree to retain the Confidential Information of the Disclosing Party in strict confidence, to protect the security, integrity and confidentiality of such information and to not permit unauthorized access to or unauthorized use, disclosure, publication or dissemination of Confidential Information except in conformity with this Agreement;
+ConfInfo.4.1.sec=Receiving Party and its Representatives agree to retain the Confidential Information of the Disclosing Party in strict confidence, to protect the security, integrity and confidentiality of such information and to not permit unauthorized access to or unauthorized use, disclosure, publication or dissemination of Confidential Information except in conformity with this Agreement;
   
-5.4.2.sec=Receiving Party and its Representatives shall adopt and/or maintain security processes and procedures to safeguard the confidentiality of all Confidential Information received by Disclosing Party using a reasonable degree of care, but not less than that degree of care used in safeguarding its own similar information or material;
+ConfInfo.4.2.sec=Receiving Party and its Representatives shall adopt and/or maintain security processes and procedures to safeguard the confidentiality of all Confidential Information received by Disclosing Party using a reasonable degree of care, but not less than that degree of care used in safeguarding its own similar information or material;
   
-5.4.3.sec=Upon termination the termination of this Agreement, Receiving Party will ensure that all documents, writings, and other electronic records that include or reflect any Confidential Information are returned to Disclosing Party or are destroyed as directed by Disclosing Party;
+ConfInfo.4.3.sec=Upon termination the termination of this Agreement, Receiving Party will ensure that all documents, writings, and other electronic records that include or reflect any Confidential Information are returned to Disclosing Party or are destroyed as directed by Disclosing Party;
   
-5.4.4.sec=If there is an unauthorized disclosure or loss of any of the Confidential Information by Receiving Party or any of its Representatives, Receiving Party will promptly, at its own expense, notify Disclosing Party in writing and take all actions as may be necessary or reasonably requested by Disclosing Party to minimize any damage to the Disclosing Party or a third party as a result of the disclosure or loss; and 
+ConfInfo.4.4.sec=If there is an unauthorized disclosure or loss of any of the Confidential Information by Receiving Party or any of its Representatives, Receiving Party will promptly, at its own expense, notify Disclosing Party in writing and take all actions as may be necessary or reasonably requested by Disclosing Party to minimize any damage to the Disclosing Party or a third party as a result of the disclosure or loss; and 
   
-5.4.5.sec=The obligation not to disclose Confidential Information shall survive the termination of this Agreement, and at no time will Receiving Party or any of its Representatives be permitted to disclose Confidential Information, except to the extent that such Confidential Information is excluded from the obligations of confidentiality under this Agreement pursuant to Section 5(c) above.
+ConfInfo.4.5.sec=The obligation not to disclose Confidential Information shall survive the termination of this Agreement, and at no time will Receiving Party or any of its Representatives be permitted to disclose Confidential Information, except to the extent that such Confidential Information is excluded from the obligations of confidentiality under this Agreement pursuant to Section 5(c) above.
 
-5.4.=[G/Z/ol-i/s5]
+ConfInfo.4.=[G/Z/ol-i/s5]
 
-5.=[G/Z/ol-a/s4]
+ConfInfo.=[G/Z/ol-a/s4]
 
+5.Sec={ConfInfo.Sec}
 
 License.OpenSource.Ti=Open Source
 
@@ -103,9 +114,9 @@ License.WorkForHire.=[G/Z/Base]
 
 7.2.sec=Each Party agrees to defend, indemnify and hold harmless the other Party against any and all liabilities, claims, suits, losses, damages and expenses, including reasonable attorney's fees, incurred by or asserted against the indemnified Party to the extent caused by the acts or omissions of the indemnifying Party in connection with the performance of Services under this Agreement. 
 
-7.3.sec=[ENTITY] hereby acknowledges and agrees that Party A has made no express warranties concerning the Services.  It is solely Entity’s responsibility to determine whether the Services will suit [DAO NAME]’s needs or goals. THE SERVICES ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND.  [ENTITY], TO THE FULLEST EXTENT PERMITTED BY LAW, HEREBY DISCLAIMS AND [ENTITY] HEREBY WAIVES ALL WARRANTIES BY PARTY A, INCLUDING, BUT NOT LIMITED TO, ALL IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND WARRANTIES OF NON-INFRINGEMENT OF THIRD PARTY RIGHTS IN CONNECTION WITH THE SERVICES. PARTY A DOES NOT WARRANT, AND [ENTITY] HEREBY WAIVES ANY WARRANTY, THAT THE SERVICES WILL YIELD ANY PARTICULAR RESULTS OR SUCCESSFUL OUTCOMES.  PARTY A DOES NOT MAKE ANY WARRANTY AND [ENTITY] HEREBY WAIVES ANY AND ALL WARRANTIES AS TO THE RESULTS OBTAINED FROM THE SERVICES.
+7.3.sec=[ENTITY] hereby acknowledges and agrees that Party A has made no express warranties concerning the Services.  It is solely Entity’s responsibility to determine whether the Services will suit [DAO NAME]’s needs or goals. <span style="text-transform: uppercase">The Services are provided "as is" without warranty of any kind.  [ENTITY], to the fullest extent permitted by law, hereby disclaims and [ENTITY] hereby waives all warranties by Party A, including, but not limited to, all implied warranties of fitness for a particular purpose, all implied warranties of merchantability and warranties of non-infringement of third party rights in connection with the Services. Party A does not warrant, and [ENTITY] hereby waives any warranty, that the Services will yield any particular results or successful outcomes.  Party A does not make any warranty and [ENTITY] hereby waives any and all warranties as to the results obtained from the Services.<span>
  
-7.4.sec=LIMITATION OF LIABILITY: PARTY A SHALL NOT BE LIABLE FOR ANY LOST PROFITS OR CONSEQUENTIAL, EXEMPLARY, INCIDENTAL OR PUNITIVE DAMAGES (INCLUDING, WITHOUT LIMITATION, IN CONNECTION WITH THE SERVICES PROVIDED HEREUNDER, REGARDLESS OF THE FORM OF ACTION, WHETHER IN CONTRACT OR IN TORT, INCLUDING NEGLIGENCE, AND REGARDLESS OF WHETHER SUCH DAMAGES ARE REASONABLY FORESEEABLE.
+7.4.sec=<span style="text-transform: uppercase">Limitation of iability: Party A shall not be liable for any lost profits or consequential, exemplary, incidental or punitive damages (including, without limitation, in connection with the Services provided hereunder, regardless of the form of action, whether in contract or in tort, including negligence, and regardless of whether such damages are reasonably foreseeable.</span>
 
 7.=[G/Z/ol-a/s4]
 
@@ -123,7 +134,7 @@ License.WorkForHire.=[G/Z/Base]
 
 11.Ti=Jurisdiction
 
-11.sec=This Agreement will be governed by and construed in accordance with the laws of [the State of Delaware], without regard to the principles of conflict of laws. 
+11.sec=This Agreement will be governed by and construed in accordance with the laws of {Law.State.the}, without regard to the principles of conflict of laws. 
 
 12.Ti=Miscellaneous
 
