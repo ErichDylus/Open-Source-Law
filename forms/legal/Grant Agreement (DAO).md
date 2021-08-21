@@ -16,7 +16,7 @@ In consideration of the mutual benefits and obligations set forth in this Agreem
 
 2.	**Term**. 
 
-a.	The term of this Agreement commences on the Effective Date and remains in full force and effect (except for the terms of this Agreement which expressly survive the expiry or termination of this Agreement) until [DATE] /// [milestone completion (as confirmed in writing by [DAO NAME]) of ____________] or until terminated pursuant to the terms of this Agreement. 
+a.	The term of this Agreement (the "Term") commences on the Effective Date and remains in full force and effect (except for the terms of this Agreement which expressly survive the expiry or termination of this Agreement) until [DATE] /// [milestone completion (as confirmed in writing by [DAO NAME]) of ____________] or until terminated pursuant to the terms of this Agreement. 
 
 b.	This Agreement may be terminated in writing upon [thirty (30) calendar days’] prior written notice by either Party, or by mutual written agreement of the Parties. However, notwithstanding the foregoing sentence, if Party A has been provided written notice from [DAO NAME] as to any material issue with the quality or provision of the Services which remains uncured for ten days in [DAO NAME]’s sole reasonable discretion, this Agreement may be terminated immediately by written notice from [DAO NAME]. 
 
@@ -70,7 +70,7 @@ d.  LIMITATION OF LIABILITY: PARTY A SHALL NOT BE LIABLE FOR ANY LOST PROFITS OR
 
 10.	**Amendment**. This Agreement may be amended or modified only by a written agreement signed by both Parties.
 
-11.	**Jurisdiction**. This Agreement will be governed by and construed in accordance with the laws of [the State of Delaware], without regard to the principles of conflict of laws. 
+11.	**Jurisdiction and Governing Law**. This Agreement will be governed by and construed in accordance with the laws of [the State of Delaware], without regard to the principles of conflict of laws. Any dispute, claim or controversy arising out of or relating to this Agreement or the breach, termination, enforcement, interpretation or validity thereof, including the determination of the scope or applicability of this Agreement to arbitrate, shall be determined by arbitration in [location] before one arbitrator. The arbitration shall be administered by JAMS pursuant to its Comprehensive Arbitration Rules and Procedures [and in accordance with the Expedited Procedures in those Rules] [or pursuant to JAMS' Streamlined Arbitration Rules and Procedures].
 
 12.	**Miscellaneous**. 
 
