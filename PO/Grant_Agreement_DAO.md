@@ -40,13 +40,18 @@ Term.End.=[G/Z/Alt/2]
 
 Term.End.SecName=Term.End
 
-Term.End.AltPrompt=Select a fixed date or a milestone.
 
-Term.End.Alt1.sec=[DATE]
+Term.End.AltPrompt=Select "FixedDate" or "Milestone".
 
-Term.End.Alt2.sec=milestone completion (as confirmed in writing by {_DAO_Party}) of {Work.Milestone.Description.cl}
+Term.End.Alt1.sec={Term.End.FixedDate.sec}
 
-Term.2.sec=This {_Agreement} may be terminated in writing upon {ContractLife.Stop.AtWill.NoticePeriod.cl} prior written notice by either {_Party}, or by mutual written agreement of the {_Parties}. However, notwithstanding the foregoing sentence, if {_Service_Provider} has been provided written notice from {_DAO_Party} as to any material issue with the quality or provision of the {_Services} which remains uncured for ten days in {_DAO_Party}’s sole reasonable discretion, this {_Agreement} may be terminated immediately by written notice from {_DAO_Party}.
+Term.End.FixedDate.sec={Term.End.FixedDate.YMD}
+
+Term.End.Alt2.sec={Term.End.Milestone.sec}
+
+Term.End.Milestone.sec=milestone completion (as confirmed in writing by {_DAO_Party}) of {Work.Milestone.Description.cl}
+
+Term.2.sec=This {_Agreement} may be terminated in writing upon {ContractLife.Stop.AtWill.NoticePeriod.cl}' prior written notice by either {_Party}, or by mutual written agreement of the {_Parties}. However, notwithstanding the foregoing sentence, if {_Service_Provider} has been provided written notice from {_DAO_Party} as to any material issue with the quality or provision of the {_Services} which remains uncured for ten days in {_DAO_Party}’s sole reasonable discretion, this {_Agreement} may be terminated immediately by written notice from {_DAO_Party}.
 
 Term.3.sec=For avoidance of doubt, this {_Agreement} may be terminated in accordance with this section at any point in a calendar month or compensation cycle, and {_Service_Provider}’s compensation for such calendar month or compensation cycle shall be reduced or prorated accordingly to match the actual number of days providing {_Services} for such calendar month or compensation cycle, as applicable.
 
@@ -76,7 +81,7 @@ ConfInfo.Def.1.sec=The term “{Def.Confidential_Information.Target}” as used 
 
 CodersNote=Optional:
 
-ConfInfo.Def.2.sec=Unless expressly set forth in writing otherwise, any and all data, information, correspondence, materials, activities, operations, or relationships in any way related to “{Conf.CoreSubject.cl}” or any reference thereof shall be deemed included in the definition of “Confidential Information.”
+ConfInfo.Def.2.sec=Unless expressly set forth in writing otherwise, any and all data, information, correspondence, materials, activities, operations, or relationships in any way related to “{Conf.CoreSubject.cl}” or any reference thereof shall be deemed included in the definition of “{_Confidential_Information}.”
 
 ConfInfo.Def.=[G/Z/para/s2]
 
@@ -112,7 +117,7 @@ License.WorkForHire.sec=All intellectual property, work product, and related mat
 
 License.WorkForHire.=[G/Z/Base]
 
-License.Sec=<span class="alt">Choose One: 6.Sec=&lbrace;License.OpenSource.Sec&rbrace; or Sec.6=&lbrace;License.WorkForHire.Sec&rbrace;<ol><li>{License.OpenSource.Sec}</li><li>{License.WorkForHire.Sec}</li></ol></span>
+License.Sec=<span class="alt">Choose One: License.Sec=&lbrace;License.OpenSource.Sec&rbrace; or Sec.6=&lbrace;License.WorkForHire.Sec&rbrace;<ol><li>{License.OpenSource.Sec}</li><li>{License.WorkForHire.Sec}</li></ol></span>
 
 Remedy.Ti=Remedies and Indemnity
 
@@ -240,3 +245,7 @@ ConfInfo.Xnum=<a href="#ConfInfo.Sec">5</a>
 ConfInfo.Except.Xnum={ConfInfo.Xnum}.<a href="#ConfInfo.Except.sec">c</a>
 
 IndependentContractor.Xnum=<a href='#IndependentContractor.Sec'>4</a>
+
+_P1={_Service_Provider}
+
+_P2={_DAO_Party}
