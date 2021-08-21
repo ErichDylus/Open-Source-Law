@@ -34,4 +34,8 @@ Conf.CoreSubject.cl=customer confidences
 
 License.Sec={License.OpenSource.Sec}
 
+Arb.Rule.Option.sec={Arb.Rule.Option.JAMS-Expedited.sec}
+
+Arbitration.Seat.Geo=Suffolk County, Massachusetts, USA
+
 Annex.Div=NO ANNEX

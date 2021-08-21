@@ -8,9 +8,6 @@ Comp.Monthly.Amount.$=USD$[______]
 
 Law.State.the=the State of Delaware
 
-LawyersNote="MIT Creative Commons license" seems to mix two things.
-
-LawyersNote="Term" is used but not defined.
 
 // simple agreement contemplating DAO treasury grants (by DAO legal wrapper) for independent contractor services, adaptable for individuals or entities
 
@@ -34,7 +31,7 @@ Service.=[G/Z/Base]
 
 Term.Ti=Term
 
-Term.1.sec=The term of this {_Agreement} commences on the Effective Date and remains in full force and effect (except for the terms of this {_Agreement} which expressly survive the expiry or termination of this {_Agreement}) until {Term.End.sec} or until terminated pursuant to the terms of this {_Agreement}.
+Term.1.sec=The term of this {_Agreement} (the "{Def.Term.Target}") commences on the Effective Date and remains in full force and effect (except for the terms of this {_Agreement} which expressly survive the expiry or termination of this {_Agreement}) until {Term.End.sec} or until terminated pursuant to the terms of this {_Agreement}.
 
 Term.End.=[G/Z/Alt/2]
 
@@ -59,7 +56,7 @@ Term.=[G/Z/ol-a/s3]
 
 Compensate.Ti=Compensation
 
-Compensate.1.sec=For each calendar month in the Term, {_DAO_Party} or its written designee will pay {_Service_Provider} an equivalent amount to {Comp.Monthly.Amount.$} by {Stablecoin.Name} or other mutually agreed payment method and calculation within the first calendar week of each applicable month or as otherwise mutually agreed in writing.
+Compensate.1.sec=For each calendar month in the {_Term}, {_DAO_Party} or its written designee will pay {_Service_Provider} an equivalent amount to {Comp.Monthly.Amount.$} by {Stablecoin.Name} or other mutually agreed payment method and calculation within the first calendar week of each applicable month or as otherwise mutually agreed in writing.
 
 Compensate.2.sec={_DAO_Party} will reimburse {_Service_Provider} for all reasonable and necessary expenses incurred by {_Service_Provider} directly attributable to the {_Services}, subject to {_DAO_Party}’s express prior written approval of such expenses. 
 
@@ -67,7 +64,7 @@ Compensate.=[G/Z/ol-a/s2]
 
 IndependentContractor.Ti=Independent Contractor Relationship
 
-IndependentContractor.sec=In providing the {_Services} under this {_Agreement}, the {_Parties} expressly agree that {_Service_Provider} is acting as an independent contractor and not as an employee or agent of {_DAO_Legal_Entity}, {_DAO_Party} or any other related entity. {_Service_Provider} and {_DAO_Party} acknowledge and agree that this {_Agreement} does not create a partnership of any kind, nor any joint venture or similar relationship, and is exclusively a contract for service. {_Service_Provider} is not required to pay or make any contributions of any monetary value towards any governmental entity for tax purposes, unemployment compensation, worker’s compensation, insurance premium, pension or any other employee benefit with respect to {_DAO_Party} during the Term. {_Service_Provider} acknowledges and agrees that {_Service_Provider} is solely responsible for complying with all laws, regulations, and other governmental requirements applicable to {_Service_Provider} including but not limited to paying all taxes, expenses, and other amounts due from {_Service_Provider} of any kind related to this {_Agreement}.
+IndependentContractor.sec=In providing the {_Services} under this {_Agreement}, the {_Parties} expressly agree that {_Service_Provider} is acting as an independent contractor and not as an employee or agent of {_DAO_Legal_Entity}, {_DAO_Party} or any other related entity. {_Service_Provider} and {_DAO_Party} acknowledge and agree that this {_Agreement} does not create a partnership of any kind, nor any joint venture or similar relationship, and is exclusively a contract for service. {_Service_Provider} is not required to pay or make any contributions of any monetary value towards any governmental entity for tax purposes, unemployment compensation, worker’s compensation, insurance premium, pension or any other employee benefit with respect to {_DAO_Party} during the {_Term}. {_Service_Provider} acknowledges and agrees that {_Service_Provider} is solely responsible for complying with all laws, regulations, and other governmental requirements applicable to {_Service_Provider} including but not limited to paying all taxes, expenses, and other amounts due from {_Service_Provider} of any kind related to this {_Agreement}.
 
 IndependentContractor.=[G/Z/Base]
 
@@ -107,7 +104,7 @@ ConfInfo.=[G/Z/Base]
 
 License.OpenSource.Ti=Open Source
 
-License.OpenSource.sec=The {_Parties} acknowledge and agree that all work product and materials from the {_Services}, unless expressly agreed in writing to the contrary, are and will be made and distributed under the MIT Creative Commons license.
+License.OpenSource.sec=The {_Parties} acknowledge and agree that all work product and materials from the {_Services}, unless expressly agreed in writing to the contrary, are and will be made and distributed under the MIT license.
 
 License.OpenSource.=[G/Z/Base]
 
@@ -149,11 +146,28 @@ Amend.sec=This {_Agreement} may be amended or modified only by a written agreeme
 
 Amend.=[G/Z/Base]
 
-Law.Ti=Jurisdiction
+Law.Ti=Jurisdiction and Governing Law
 
-Law.sec=This {_Agreement} will be governed by and construed in accordance with the laws of {Law.State.the}, without regard to the principles of conflict of laws. 
+Law.1.sec=This {_Agreement} will be governed by and construed in accordance with the laws of {Law.State.the}, without regard to the principles of conflict of laws.
 
-Law.=[G/Z/Base]
+Law.2.sec=Any dispute, claim or controversy arising out of or relating to this {_Agreement} or the breach, termination, enforcement, interpretation or validity thereof, including the determination of the scope or applicability of this {_Agreement} to arbitrate, shall be determined by arbitration in {Arbitration.Seat.Geo} before one arbitrator. The arbitration shall be administered by JAMS pursuant to its Comprehensive Arbitration Rules and Procedures {Arb.Rule.Option.sec}.
+
+
+Arb.Rule.Option.Alt1.sec={Arb.Rule.Option.JAMS-Expedited.sec}
+
+Arb.Rule.Option.JAMS-Expedited.sec=and in accordance with the Expedited Procedures in those Rules
+
+Arb.Rule.Option.Alt2.sec={Arb.Rule.Option.JAMS-Streamlined.sec}
+
+Arb.Rule.Option.JAMS-Streamlined.sec=or pursuant to JAMS' Streamlined Arbitration Rules and Procedures
+
+Arb.Rule.Option.SecName=Arb.Rule.Option
+
+Arb.Rule.Option.AltPrompt=Arbitration Options
+
+Arb.Rule.Option.=[G/Z/Alt/2]
+
+Law.=[G/Z/para/s2]
 
 Misc.Ti=Miscellaneous
 
@@ -208,6 +222,8 @@ _Relationship=<a href='#Def.Relationship.Target' class='definedterm'>Relationshi
 
 _Representatives=<a href='#Def.Representatives.Target' class='definedterm'>Representatives</a>
 
+_Term=<a href='#Def.Term.Target' class='definedterm'>Term</a>
+
 _Intellectual_Property=<a href='#Def.Intellectual_Property.Target' class='definedterm'>Intellectual Property</a>
 
 Def.Agreement.Target={_Agreement}
@@ -225,6 +241,8 @@ Def.Party.Target={_Party}
 Def.Relationship.Target={_Relationship}
 
 Def.Services.Target={_Services}
+
+Def.Term.Target={_Term}
 
 Def.Representatives.Target={_Representatives}
 
