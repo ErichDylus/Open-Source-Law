@@ -22,7 +22,7 @@ Doc.Ti=Grant Agreement
 
 This.sec=This Grant Agreement (this “{Def.Agreement.Target}”) is entered into as of {EffectiveDate.YMD} (the “Effective Date”) by and between {P1.US.N,E,A} (“{Def.Service_Provider.Target}”) and {P2.US.N,E,A} (the “{Def.DAO_Legal_Entity.Target}”), represented and governed by the {DAO.Name.Full} Decentralized Autonomous Organization associated with address {DAO.BlockchainAddress} (“{Def.DAO.Target}”) ({_DAO} and the {_DAO_Legal_Entity}, together with any and all subsidiaries and affiliates, “{Def.DAO_Party.Target}”) ({_Service_Provider} and {_DAO_Party} are each a “{Def.Party.Target}” and both, the “{_Parties}”).
 
-Why.sec={_DAO_Party} has deemed that {_Service_Provider} has the necessary qualifications, experience, and abilities to provide {_Services} (as such term is defined in Section 1 below) to and for the benefit of {_DAO_Party}, and {_Service_Provider} has agreed to provide such {_Services} to and for the benefit of {_DAO_Party} pursuant to the terms and conditions set forth in this {_Agreement}, with {_Service_Provider} to be deemed an independent contractor for {_DAO_Party} (as more particularly set forth in Section 4 below, the “{Def.Relationship.Target}”). 
+Why.sec={_DAO_Party} has deemed that {_Service_Provider} has the necessary qualifications, experience, and abilities to provide {_Services} (as such term is defined in Section {Service.Xnum} below) to and for the benefit of {_DAO_Party}, and {_Service_Provider} has agreed to provide such {_Services} to and for the benefit of {_DAO_Party} pursuant to the terms and conditions set forth in this {_Agreement}, with {_Service_Provider} to be deemed an independent contractor for {_DAO_Party} (as more particularly set forth in Section {IndependentContractor.Xnum} below, the “{Def.Relationship.Target}”). 
 
 Then.sec=In consideration of the mutual benefits and obligations set forth in this {_Agreement}, the receipt and sufficiency of which is hereby acknowledged, {_Service_Provider} and {_DAO_Party} agree as follows:
 
@@ -44,7 +44,7 @@ Term.End.AltPrompt=Select a fixed date or a milestone.
 
 Term.End.Alt1.sec=[DATE]
 
-Term.End.Alt2.sec=milestone completion (as confirmed in writing by {_DAO_Party}) of ____________
+Term.End.Alt2.sec=milestone completion (as confirmed in writing by {_DAO_Party}) of {Work.Milestone.Description.cl}
 
 Term.2.sec=This {_Agreement} may be terminated in writing upon {ContractLife.Stop.AtWill.NoticePeriod.cl} prior written notice by either {_Party}, or by mutual written agreement of the {_Parties}. However, notwithstanding the foregoing sentence, if {_Service_Provider} has been provided written notice from {_DAO_Party} as to any material issue with the quality or provision of the {_Services} which remains uncured for ten days in {_DAO_Party}’s sole reasonable discretion, this {_Agreement} may be terminated immediately by written notice from {_DAO_Party}.
 
@@ -70,33 +70,35 @@ IndependentContractor.=[G/Z/Base]
 
 ConfInfo.Ti=Confidential Information
 
-ConfInfo.1.sec=Each {_Party}, their respective affiliates and their respective directors, officers, employers, employees, agents, members, or advisors (collectively, “{Def.Representatives.Target}”) may be alerted of, become privy to, or gain access to certain confidential and/or proprietary information of the other {_Party}. A {_Party} or its {_Representative} disclosing its {_Confidential_Information} (as such term is defined in Section 5(b) below) to the other {_Party} is hereafter referred to as a “{Def.Disclosing_Party.Target}.” A {_Party} or its {_Representative} receiving the {_Confidential_Information} of the {_Disclosing_Party} is hereafter referred to as a “{Def.Receiving_Party.Target}.”
+ConfInfo.General.sec=Each {_Party}, their respective affiliates and their respective directors, officers, employers, employees, agents, members, or advisors (collectively, “{Def.Representatives.Target}”) may be alerted of, become privy to, or gain access to certain confidential and/or proprietary information of the other {_Party}. A {_Party} or its {_Representative} disclosing its {_Confidential_Information} (as such term is defined in Section {ConfInfo.Except.Xnum} below) to the other {_Party} is hereafter referred to as a “{Def.Disclosing_Party.Target}.” A {_Party} or its {_Representative} receiving the {_Confidential_Information} of the {_Disclosing_Party} is hereafter referred to as a “{Def.Receiving_Party.Target}.”
 
-ConfInfo.2.1.sec=The term “{Def.Confidential_Information.Target}” as used in this {_Agreement} shall mean any data or information that is reasonably sensitive material and not generally known to the public or any third parties, including, but not limited to, information relating to any of the following: the {_Relationship}, product development and plans, proprietary concepts, documentation, operations, systems, computer software, source code, trade secrets, customer lists, customer relationships, negotiations, present or future business activities, design, verbal conversations or representations, writings, technical information and details which the {_Disclosing_Party} reasonably considers confidential, and anything {_DAO_Party} sets forth in writing as being confidential or sensitive material.
+ConfInfo.Def.1.sec=The term “{Def.Confidential_Information.Target}” as used in this {_Agreement} shall mean any data or information that is reasonably sensitive material and not generally known to the public or any third parties, including, but not limited to, information relating to any of the following: the {_Relationship}, product development and plans, proprietary concepts, documentation, operations, systems, computer software, source code, trade secrets, customer lists, customer relationships, negotiations, present or future business activities, design, verbal conversations or representations, writings, technical information and details which the {_Disclosing_Party} reasonably considers confidential, and anything {_DAO_Party} sets forth in writing as being confidential or sensitive material.
 
 CodersNote=Optional:
 
-ConfInfo.2.2.sec=Unless expressly set forth in writing otherwise, any and all data, information, correspondence, materials, activities, operations, or relationships in any way related to “{Conf.CoreSubject.cl}” or any reference thereof shall be deemed included in the definition of “Confidential Information.”
+ConfInfo.Def.2.sec=Unless expressly set forth in writing otherwise, any and all data, information, correspondence, materials, activities, operations, or relationships in any way related to “{Conf.CoreSubject.cl}” or any reference thereof shall be deemed included in the definition of “Confidential Information.”
 
-ConfInfo.2.=[G/Z/para/s2]
+ConfInfo.Def.=[G/Z/para/s2]
 
-ConfInfo.3.sec=The obligation of confidentiality with respect to {_Confidential_Information} will not apply to any information publicly known or accessible due to prior authorized or lawful disclosure, or if the information is disclosed by the {_Receiving_Party} with the {_Disclosing_Party}’s prior written consent and approval.
+ConfInfo.Except.sec=The obligation of confidentiality with respect to {_Confidential_Information} will not apply to any information publicly known or accessible due to prior authorized or lawful disclosure, or if the information is disclosed by the {_Receiving_Party} with the {_Disclosing_Party}’s prior written consent and approval.
 
-ConfInfo.4.0.sec=With respect to {_Confidential_Information}: 
+ConfInfo.Engage.0.sec=With respect to {_Confidential_Information}: 
 
-ConfInfo.4.1.sec={_Receiving_Party} and its {_Representatives} agree to retain the {_Confidential_Information} of the {_Disclosing_Party} in strict confidence, to protect the security, integrity and confidentiality of such information and to not permit unauthorized access to or unauthorized use, disclosure, publication or dissemination of {_Confidential_Information} except in conformity with this {_Agreement};
+ConfInfo.Engage.1.sec={_Receiving_Party} and its {_Representatives} agree to retain the {_Confidential_Information} of the {_Disclosing_Party} in strict confidence, to protect the security, integrity and confidentiality of such information and to not permit unauthorized access to or unauthorized use, disclosure, publication or dissemination of {_Confidential_Information} except in conformity with this {_Agreement};
   
-ConfInfo.4.2.sec={_Receiving_Party} and its {_Representatives} shall adopt and/or maintain security processes and procedures to safeguard the confidentiality of all {_Confidential_Information} received by {_Disclosing_Party} using a reasonable degree of care, but not less than that degree of care used in safeguarding its own similar information or material;
+ConfInfo.Engage.2.sec={_Receiving_Party} and its {_Representatives} shall adopt and/or maintain security processes and procedures to safeguard the confidentiality of all {_Confidential_Information} received by {_Disclosing_Party} using a reasonable degree of care, but not less than that degree of care used in safeguarding its own similar information or material;
   
-ConfInfo.4.3.sec=Upon termination the termination of this {_Agreement}, {_Receiving_Party} will ensure that all documents, writings, and other electronic records that include or reflect any {_Confidential_Information} are returned to {_Disclosing_Party} or are destroyed as directed by {_Disclosing_Party};
+ConfInfo.Engage.3.sec=Upon termination the termination of this {_Agreement}, {_Receiving_Party} will ensure that all documents, writings, and other electronic records that include or reflect any {_Confidential_Information} are returned to {_Disclosing_Party} or are destroyed as directed by {_Disclosing_Party};
   
-ConfInfo.4.4.sec=If there is an unauthorized disclosure or loss of any of the {_Confidential_Information} by {_Receiving_Party} or any of its {_Representatives}, {_Receiving_Party} will promptly, at its own expense, notify {_Disclosing_Party} in writing and take all actions as may be necessary or reasonably requested by {_Disclosing_Party} to minimize any damage to the {_Disclosing_Party} or a third party as a result of the disclosure or loss; and 
+ConfInfo.Engage.4.sec=If there is an unauthorized disclosure or loss of any of the {_Confidential_Information} by {_Receiving_Party} or any of its {_Representatives}, {_Receiving_Party} will promptly, at its own expense, notify {_Disclosing_Party} in writing and take all actions as may be necessary or reasonably requested by {_Disclosing_Party} to minimize any damage to the {_Disclosing_Party} or a third party as a result of the disclosure or loss; and 
   
-ConfInfo.4.5.sec=The obligation not to disclose {_Confidential_Information} shall survive the termination of this {_Agreement}, and at no time will {_Receiving_Party} or any of its {_Representatives} be permitted to disclose {_Confidential_Information}, except to the extent that such {_Confidential_Information} is excluded from the obligations of confidentiality under this {_Agreement} pursuant to Section 5(c) above.
+ConfInfo.Engage.5.sec=The obligation not to disclose {_Confidential_Information} shall survive the termination of this {_Agreement}, and at no time will {_Receiving_Party} or any of its {_Representatives} be permitted to disclose {_Confidential_Information}, except to the extent that such {_Confidential_Information} is excluded from the obligations of confidentiality under this {_Agreement} pursuant to Section {ConfInfo.Except.Xnum} above.
 
-ConfInfo.4.=[G/Z/ol-i/s5]
+ConfInfo.Engage.=[G/Z/ol-i/s5]
 
-ConfInfo.=[G/Z/ol-a/s4]
+ConfInfo.sec=<ol type="a"><li>{ConfInfo.General.sec}</li><li>{ConfInfo.Def.sec}</li><li>{ConfInfo.Except.sec}</li><li>{ConfInfo.Engage.sec}</li></ol>
+
+ConfInfo.=[G/Z/Base]
 
 License.OpenSource.Ti=Open Source
 
@@ -229,4 +231,12 @@ Def.Confidential_Information.Target={_Confidential_Information}
 
 Def.Intellectual_Property.Target={_Intellectual_Property}
 
+CodersNote=Parameterized Section Cross-references.
 
+Service.Xnum=<a href="#Service.Sec">1</a>
+
+ConfInfo.Xnum=<a href="#ConfInfo.Sec">5</a>
+
+ConfInfo.Except.Xnum={ConfInfo.Xnum}.<a href="#ConfInfo.Except.sec">c</a>
+
+IndependentContractor.Xnum=<a href='#IndependentContractor.Sec'>4</a>
