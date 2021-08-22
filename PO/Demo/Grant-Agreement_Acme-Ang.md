@@ -6,6 +6,12 @@ P2.=[G/U/Who/acme_incorporated.md]
 
 =[G/Open-Source-Law/PO/Grant_Agreement_DAO.md]
 
+Law.Dispute.sec=<span class="warning">{ICC.ARB.1.sec}</span>
+
+ICC.=[G/ICCWBO-Arbitration-CmA/Sec/EN/0.md]
+
+ICC.ARB.#=a single arbitrator
+
 CodersNote=Then some parameters and choices.
 
 Doc.GUID=SomeKindOfHash-xrw64kKen823xoxoxo

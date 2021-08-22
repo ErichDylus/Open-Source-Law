@@ -148,9 +148,9 @@ Amend.=[G/Z/Base]
 
 Law.Ti=Jurisdiction and Governing Law
 
-Law.1.sec=This {_Agreement} will be governed by and construed in accordance with the laws of {Law.State.the}, without regard to the principles of conflict of laws.
+Law.Applicable.sec=This {_Agreement} will be governed by and construed in accordance with the laws of {Law.State.the}, without regard to the principles of conflict of laws.
 
-Law.2.sec=Any dispute, claim or controversy arising out of or relating to this {_Agreement} or the breach, termination, enforcement, interpretation or validity thereof, including the determination of the scope or applicability of this {_Agreement} to arbitrate, shall be determined by arbitration in {Arbitration.Seat.Geo} before one arbitrator. The arbitration shall be administered by JAMS pursuant to its Comprehensive Arbitration Rules and Procedures {Arb.Rule.Option.sec}.
+Law.Dispute.sec=Any dispute, claim or controversy arising out of or relating to this {_Agreement} or the breach, termination, enforcement, interpretation or validity thereof, including the determination of the scope or applicability of this {_Agreement} to arbitrate, shall be determined by arbitration in {Arbitration.Seat.Geo} before one arbitrator. The arbitration shall be administered by JAMS pursuant to its Comprehensive Arbitration Rules and Procedures {Arb.Rule.Option.sec}.
 
 
 Arb.Rule.Option.Alt1.sec={Arb.Rule.Option.JAMS-Expedited.sec}
@@ -167,7 +167,9 @@ Arb.Rule.Option.AltPrompt=Arbitration Options
 
 Arb.Rule.Option.=[G/Z/Alt/2]
 
-Law.=[G/Z/para/s2]
+Law.sec={Law.Applicable.sec} {Law.Dispute.sec}
+
+Law.=[G/Z/Base]
 
 Misc.Ti=Miscellaneous
 
