@@ -41,6 +41,11 @@ contract EscrowStablecoin {
   
   //deployer (buyer) initiates escrow with description, deposit amount in USD, address of stablecoin, seconds until expiry, and designate recipient seller
   //DEPLOYER MUST SEPARATELY APPROVE (by interacting with the ERC20 contract in question's approve()) this contract address for the deposit amount (keep decimals in mind)
+  // @param: _description should be a brief identifier of the deal in question - perhaps as to parties/underlying asset/documentation reference/hash 
+  // @param: _deposit is the purchase price which will be deposited in the smart escrow contract
+  // @param: _seller is the seller's address, who will receive the purchase price if the deal closes
+  // @param: _stablecoin is the token contract address for the stablecoin to be sent as deposit
+  // @param: _secsUntilExpiration is the number of seconds until the deal expires, which can be converted to days for front end input or the code can be adapted accordingly
   constructor(string memory _description, uint256 _deposit, address payable _seller, address _stablecoin, uint256 _secsUntilExpiration) payable {
       require(_seller != msg.sender, "Designate different party as seller");
       buyer = payable(address(msg.sender));
@@ -54,10 +59,10 @@ contract EscrowStablecoin {
       parties[_seller] = true;
       parties[escrowAddress] = true;
       expirationTime = block.timestamp + _secsUntilExpiration;
-      approveParties();
+      approveParties(); // this might not be necessary as there is no transferFrom initiated by seller in current code, and buyer separately approves contract
   }
   
-  //buyer may confirm seller's recipient address as extra security measure
+  // buyer may confirm seller's recipient address as extra security measure or change seller address
   function designateSeller(address payable _seller) public restricted {
       require(_seller != seller, "Party already designated as seller");
       require(_seller != buyer, "Buyer cannot also be seller");
