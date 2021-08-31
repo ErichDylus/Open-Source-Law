@@ -7,7 +7,6 @@ pragma solidity 0.7.5;
 **intended to be deployed by buyer (as funds are placed in escrow upon deployment, and returned to deployer if expired)*/
 
 interface IERC20 { 
-    function allowance(address owner, address spender) external view returns (uint256);
     function approve(address spender, uint256 amount) external returns (bool); 
     function balanceOf(address account) external view returns (uint256);
     function transfer(address recipient, uint256 amount) external returns (bool);
@@ -32,7 +31,7 @@ contract EscrowStablecoin {
   mapping(address => bool) public parties; //map whether an address is a party to the transaction for restricted() modifier 
   
   event DealExpired(bool isExpired);
-  event DealClosed(bool isClosed, uint256 effectiveTime);
+  event DealClosed(bool isClosed, uint256 effectiveTime); //event provides exact blockstamp time of closing 
   
   modifier restricted() { 
     require(parties[msg.sender], "This may only be called by a party to the deal or the by escrow contract");
@@ -59,7 +58,6 @@ contract EscrowStablecoin {
       parties[_seller] = true;
       parties[escrowAddress] = true;
       expirationTime = block.timestamp + _secsUntilExpiration;
-      approveParties(); // this might not be necessary as there is no transferFrom initiated by seller in current code, and buyer separately approves contract
   }
   
   // buyer may confirm seller's recipient address as extra security measure or change seller address
@@ -70,14 +68,6 @@ contract EscrowStablecoin {
       parties[_seller] = true;
       seller = _seller;
   }
-  
-  //approve seller to withdraw deposit amount at closing and buyer in case of termination (and therefore deposit return)
-  function approveParties() public restricted returns (bool) {
-      ierc20.allowance(escrowAddress, seller);
-      ierc20.approve(seller, deposit);
-      ierc20.approve(buyer, deposit);
-      return true;
-  } 
   
   //buyer deposits in escrowAddress
   function sendDeposit() public restricted returns(bool, uint256) {
