@@ -2,8 +2,7 @@
 
 pragma solidity 0.7.5;
 
-/* IN PROCESS, INCOMPLETE
-**unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
+/*unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
 **@dev create a simple smart escrow contract, with an ERC20 stablecoin as payment, expiration denominated in seconds, and option for dispute resolution with LexLocker
 **intended to be deployed by buyer (as funds are placed in escrow upon deployment, and returned to deployer if expired)*/
 
@@ -11,7 +10,8 @@ interface LexLocker {
     function requestLockerResolution(address counterparty, address resolver, address token, uint256 sum, string calldata details, bool swiftResolver) external payable returns (uint256);
 }
 
-interface ERC20 { 
+interface IERC20 { 
+    function allowance(address owner, address spender) external view returns (uint256);
     function approve(address spender, uint256 amount) external returns (bool); 
     function balanceOf(address account) external view returns (uint256);
     function transfer(address recipient, uint256 amount) external returns (bool);
@@ -20,7 +20,7 @@ interface ERC20 {
 
 contract EscrowStablecoin {
     
-  //escrow struct to contain basic description of underlying deal, purchase price, ultimate recipient of funds
+  //escrow struct to contain basic description of underlying deal, purchase price, seller (ultimate recipient of funds)
   struct InEscrow {
       string description;
       uint256 deposit;
@@ -28,13 +28,14 @@ contract EscrowStablecoin {
   }
   
   InEscrow[] public escrows;
-  address escrowAddress = address(this);
+  address escrowAddress;
   address payable lexlocker = payable(0xD476595aa1737F5FdBfE9C8FEa17737679D9f89a); //LexLocker contract address
   address payable lexDAO = payable(0x01B92E2C0D06325089c6Fd53C98a214f5C75B2aC); //lexDAO address, used below as resolver 
   address payable buyer;
   address payable seller;
   address stablecoin;
   uint256 deposit;
+  uint256 deployTime;
   uint256 effectiveTime;
   uint256 expirationTime;
   bool sellerApproved;
@@ -42,33 +43,35 @@ contract EscrowStablecoin {
   bool isDisputed;
   bool isExpired;
   bool isClosed;
-  ERC20 public erc20;
+  IERC20 public ierc20;
   string description;
   mapping(address => bool) public parties; //map whether an address is a party to the transaction for restricted() modifier 
   
-  event DealDisputed(address indexed sender, bool isDisputed);
+  event DealDisputed(address indexed sender, bool isDisputed); //index dispute by sender, consider including token/resolver/other identifier
   event DealExpired(bool isExpired);
-  event DealClosed(bool isClosed);
+  event DealClosed(bool isClosed, uint256 effectiveTime);
   
   modifier restricted() { 
-    require(parties[msg.sender], "This may only be called by a party to the deal or the escrow contract itself");
+    require(parties[msg.sender], "This may only be called by a party to the deal or the by escrow contract");
     _;
   }
   
-  //creator initiates escrow with description, deposit amount in USD, seconds until expiry, and designate recipient seller
+  //deployer (buyer) initiates escrow with description, deposit amount in USD, address of stablecoin, seconds until expiry, and designate recipient seller
+  //DEPLOYER MUST SEPARATELY APPROVE (by interacting with the ERC20 contract in question's approve()) this contract address for the deposit amount (keep decimals in mind)
   constructor(string memory _description, uint256 _deposit, address payable _seller, address _stablecoin, uint256 _secsUntilExpiration) payable {
       require(_seller != msg.sender, "Designate different party as seller");
       buyer = payable(address(msg.sender));
-      deposit = _deposit * 10e18;
+      deposit = _deposit;
+      escrowAddress = address(this);
       stablecoin = _stablecoin;
-      erc20 = ERC20(stablecoin);
+      ierc20 = IERC20(stablecoin);
       description = _description;
       seller = _seller;
       parties[msg.sender] = true;
       parties[_seller] = true;
       parties[escrowAddress] = true;
-      effectiveTime = uint256(block.timestamp);
-      expirationTime = effectiveTime + _secsUntilExpiration;
+      deployTime = uint256(block.timestamp);
+      expirationTime = deployTime + _secsUntilExpiration;
       approveParties();
   }
   
@@ -81,31 +84,38 @@ contract EscrowStablecoin {
       seller = _seller;
   }
   
-  //approve deposit amount for transfers
-  function approveParties() public restricted returns (bool, bool, bool) {
-      return (erc20.approve(buyer, deposit), erc20.approve(escrowAddress, deposit), erc20.approve(seller, deposit));
+  //approve seller to withdraw deposit amount at closing and buyer in case of termination (and therefore deposit return)
+  function approveParties() public restricted returns (bool) {
+      ierc20.allowance(escrowAddress, seller);
+      ierc20.approve(seller, deposit);
+      ierc20.approve(buyer, deposit);
+      return true;
   } 
   
   //buyer deposits in escrowAddress
-  function sendDeposit() public restricted returns(bool) {
-      return erc20.transfer(escrowAddress, deposit);
+  function sendDeposit() public restricted returns(bool, uint256) {
+      ierc20.transferFrom(buyer, escrowAddress, deposit);
+      return (true, ierc20.balanceOf(escrowAddress));
+      
   }
   
   //return deposit to buyer
-  function returnDeposit() public restricted returns (bool) {
-      return erc20.transfer(buyer, deposit);
+  function returnDeposit() internal returns(bool, uint256) {
+      ierc20.transfer(buyer, deposit);
+      return (true, ierc20.balanceOf(escrowAddress));
   }
   
   //send deposit to seller
-  function paySeller() public restricted returns (bool) {
-      return erc20.transfer(seller, deposit);
+  function paySeller() internal returns(bool, uint256) {
+      ierc20.transfer(seller, deposit);
+      return (true, ierc20.balanceOf(escrowAddress));
   } 
   
-  //create new escrow contract within master structure
+  //create new escrow contract within master structure, escrow contract to be adapted to use this in future
   function sendNewEscrow(string memory _description, uint256 _deposit, address payable _seller) private restricted {
       InEscrow memory newRequest = InEscrow({
          description: _description,
-         deposit: _deposit * 10e18,
+         deposit: _deposit,
          seller: _seller
       });
       escrows.push(newRequest);
@@ -125,23 +135,23 @@ contract EscrowStablecoin {
     
   // for seller to check if deposit is in escrow
   function checkEscrow() public restricted view returns(uint256) {
-      return erc20.balanceOf(escrowAddress);
+      return ierc20.balanceOf(escrowAddress);
   }
     
   // for early termination by either buyer or seller due to claimed breach of the other party, claiming party requests LexLocker resolution
   // deposit either returned to buyer or remitted to seller as payment or liquidated damages
   function disputeDeal(address _token, string calldata _details, bool _singleArbiter) public restricted returns(string memory){
       require(!isClosed && !isExpired, "Too late for early termination");
-      erc20.approve(lexlocker, deposit);
+      ierc20.approve(lexlocker, deposit);
       if (msg.sender == seller) {
             LexLocker(lexlocker).requestLockerResolution(buyer, lexDAO, _token, deposit, _details, _singleArbiter);
-            erc20.transfer(lexlocker, deposit);
+            ierc20.transferFrom(escrowAddress, lexlocker, deposit);
             isDisputed = true;
             emit DealDisputed(seller, isDisputed);
             return("Seller has initiated LexLocker dispute resolution.");
         } else if (msg.sender == buyer) {
             LexLocker(lexlocker).requestLockerResolution(seller, lexDAO, _token, deposit, _details, _singleArbiter);
-            erc20.transfer(lexlocker, deposit);
+            ierc20.transferFrom(escrowAddress, lexlocker, deposit);
             isDisputed = true;
             emit DealDisputed(buyer, isDisputed);
             return("Buyer has initiated Lexlocker dispute resolution.");
@@ -163,6 +173,7 @@ contract EscrowStablecoin {
   }
     
   // check if both buyer and seller are ready to close and expiration has not been met; if so, close deal and pay seller
+  // if properly closes, emits event with effective time of closing
   function closeDeal() public returns(bool){
       require(sellerApproved && buyerApproved, "Parties are not ready to close.");
       if (expirationTime <= uint256(block.timestamp)) {
@@ -172,7 +183,8 @@ contract EscrowStablecoin {
         } else {
             isClosed = true;
             paySeller();
-            emit DealClosed(isClosed);
+            effectiveTime = uint256(block.timestamp); // effective time of closing upon payment to seller
+            emit DealClosed(isClosed, effectiveTime);
         }
         return(isClosed);
   }
