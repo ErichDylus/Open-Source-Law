@@ -4,7 +4,8 @@ pragma solidity 0.7.5;
 
 /*unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
 **@dev create a simple smart escrow contract, with an ERC20 stablecoin as payment, expiration denominated in seconds, NON-REFUNDED DEPOSIT except if both parties are ready to close but contract expires before closeDeal() called
-**intended to be deployed by buyer (as funds are placed in escrow upon deployment, and returned to deployer if expired)*/
+**intended to be deployed by buyer (as funds are placed in escrow upon deployment, and returned to deployer if expired but mutually ready to close)
+** may be forked/altered for separation of deposit from purchase price, deposit refundability, etc. */
 
 interface IERC20 { 
     function approve(address spender, uint256 amount) external returns (bool); 
@@ -130,7 +131,7 @@ contract EscrowStablecoin {
       require(sellerApproved && buyerApproved, "Parties are not ready to close.");
       if (expirationTime <= uint256(block.timestamp)) {
             isExpired = true;
-            returnDeposit(); 
+            returnDeposit(); // see comment above as to deposit refund for accidental expiration, optional/subject to negotiation of parties
             emit DealExpired(isExpired);
         } else {
             isClosed = true;
