@@ -27,6 +27,8 @@ Definitions. When used in this Agreement, capitalized terms have the meanings as
 
 "Code" means the Internal Revenue Code of 1986, as amended.
 
+"Company Blockchain Address" means that certain public key address 0x_________ on the public mainnet digital blockchain ledger commonly known as “Ethereum” (for avoidance of doubt, inclusive of any rollup, shard, layer two, or other mechanism which natively settles on Ethereum).
+
 "Consent" means the approval of a Person to do the act or thing for which the approval is solicited, or the act of granting the approval, as the context may require.
 
 "Covered Person" means the Manager, the Partnership Representative, the Liquidating Trustee, an officer of the Company, and their respective Affiliates. 
@@ -47,7 +49,7 @@ Definitions. When used in this Agreement, capitalized terms have the meanings as
 
 "Liquidating Trustee" means the Manager (or its authorized designee) or, if there is none, a Person selected by the Consent of the Members to act as a liquidating trustee of the Company.  
 
-"Manager" means the holder of the Ethereum wallet address described in the signature page, who will be a "manager" of the Company within the meaning of Section 18-101(10) of the Act.
+"Manager" means the controller of the private key uniquely associated with the Company Blockchain Address, who will be a "manager" of the Company within the meaning of Section 18-101(10) of the Act.
 
 "Master LLC" means [MASTER LLC NAME] LLC, a State of Delaware limited liability company.
 
@@ -78,7 +80,7 @@ Intent. It is the intent of the Members that the Company will be treated as a "p
 Qualification. The Manager shall cause the Company to qualify to do business in each jurisdiction where qualification is required. The Manager has the power and authority to execute, file and publish all certificates, notices, statements or other instruments necessary to permit the Company to conduct business as a limited liability company in all jurisdictions where the Company elects to do business.
 Interest Register. The Manager shall enter the name and contact information concerning each Member on the register of Members and interest ownership ("Interest Register") maintained by the Company. Each Member shall promptly provide the Manager with the information required to be set forth for that Member on the Interest Register and shall promptly notify the Manager of any change to that information. The Manager, or a designee of the Manager, shall update the Interest Register from time to time as necessary, but no update will constitute an amendment for purposes of Article XII. Any reference in this Agreement to the Interest Register will be deemed to be a reference to the Interest Register as amended and in effect from time to time.
 Maintenance of Separate Existence. The Company will do all things necessary to maintain its limited liability company existence separate and apart from the existence of each Member, any Affiliate of a Member and any Affiliate of the Company, including maintaining the Company's books and records on a current basis separate from that of any Affiliate of the Company or any other Person. In furtherance of the foregoing, the Company must account for and manage all of its liabilities separately from those of any other Person, and identify separately all its assets from those of any other Person. 
-Title to Company Assets. All assets of the Company will be deemed to be owned by the Company as an entity, and no Member, individually, will have any direct ownership interest in those assets. Each Member, to the extent permitted by applicable law, hereby waives its rights to a partition of the assets and, to that end, agrees that it will not seek or be entitled to a partition of any assets, whether by way of physical partition, judicial sale or otherwise, except as otherwise expressly provided in Article X. 
+Title to Company Assets. All assets of the Company, including but not limited to all Digital Assets and proceeds received by or controlled by the Company Blockchain Address, will be deemed to be owned by the Company as an entity, and no Member, individually, will have any direct ownership interest in those assets. Each Member, to the extent permitted by applicable law, hereby waives its rights to a partition of the assets and, to that end, agrees that it will not seek or be entitled to a partition of any assets, whether by way of physical partition, judicial sale or otherwise, except as otherwise expressly provided in Article X. 
 Events Affecting a Member. The death, bankruptcy, withdrawal, insanity, incompetency, temporary or permanent incapacity, liquidation, dissolution, reorganization, merger, sale of all or substantially all the stock or assets of, or other change in the ownership or nature of a Member will not dissolve the Company. 
 Events Affecting the Manager. The withdrawal, bankruptcy, or dissolution of the Manager, nor the liquidation, reorganization, merger, sale of all or substantially all the stock or assets of, or other change in the ownership or nature of the Manager, will not dissolve the Company, and upon the happening of any that event, the affairs of the Company will be continued without dissolution by the Manager or any successor entity.
 
@@ -126,7 +128,7 @@ Enforcement. The restrictions on Transfer contained in this Agreement are an ess
 
 IX.	RECORDS, REPORTS AND TAXES 
 Books and Records. The Manager will maintain all of the information required to be maintained by the Act at the Company's principal office, with copies available upon reasonable notice by any Member or its authorized representatives for any purpose reasonably related to that Member's status as a member, including as applicable:  
-a.	true and full information regarding the status of the business and financial condition of the Company; 
+a.	true and full information regarding the status of the business and financial condition of the Company (which may be evidenced in whole or in part, as applicable, by publicly verifiable information as to the Company Blockchain Address); 
 b.	promptly after becoming available, a copy of the Company's federal, state and local income tax returns, if any, for each Fiscal Year;
 c.	a current list of the full name and last known business, residence, mailing or blockchain wallet address of that Member and each Manager;
 d.	a copy of this Agreement and all amendments, together with executed copies of (i) any powers of attorney and (ii) any other document pursuant to which this Agreement or any amendments have been executed or have been deemed to be executed; and
