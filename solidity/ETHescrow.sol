@@ -29,7 +29,6 @@ contract EscrowEth {
   address payable buyer;
   address payable seller;
   uint256 deposit;
-  uint256 effectiveTime;
   uint256 expirationTime;
   bool sellerApproved;
   bool buyerApproved;
@@ -50,6 +49,10 @@ contract EscrowEth {
   }
   
   //creator contributes deposit and initiates escrow with description, deposit amount, seconds until expiry, and designate recipient seller
+  // @param _description: string to identify deal, or IPFS hash of documentation, etc.
+  // @param _deposit: deposit amount in wei
+  // @param _seller: payment address of recipient seller
+  // @param _secsUntilExpiration: seconds until expiry of escrow, for simplicity in calculation of Unix time w/ block.timestamp
   constructor(string memory _description, uint256 _deposit, address payable _seller, uint256 _secsUntilExpiration) payable {
       require(msg.value >= deposit, "Submit deposit amount");
       require(_seller != msg.sender, "Designate different party as seller");
@@ -60,12 +63,12 @@ contract EscrowEth {
       parties[msg.sender] = true;
       parties[_seller] = true;
       parties[escrowAddress] = true;
-      effectiveTime = uint256(block.timestamp);
-      expirationTime = effectiveTime + _secsUntilExpiration;
+      expirationTime = block.timestamp + _secsUntilExpiration;
       sendEscrow(description, deposit, buyer, seller);
   }
   
   //buyer may confirm seller's recipient address as extra security measure
+  // @param _seller: new seller's public key address
   function designateSeller(address payable _seller) public restricted {
       require(_seller != seller, "Party already designated as seller");
       require(_seller != buyer, "Buyer cannot also be seller");
@@ -88,7 +91,7 @@ contract EscrowEth {
   
   //check if expired, and if so, return balance to buyer
   function checkIfExpired() public returns(bool){
-        if (expirationTime <= uint256(block.timestamp)) {
+        if (expirationTime <= block.timestamp) {
             isExpired = true;
             buyer.transfer(escrowAddress.balance);
             emit DealExpired(isExpired);
@@ -134,7 +137,7 @@ contract EscrowEth {
   // check if both buyer and seller are ready to close and expiration has not been met; if so, close deal and pay seller
   function closeDeal() public returns(bool){
       require(sellerApproved && buyerApproved, "Parties are not ready to close.");
-      if (expirationTime <= uint256(block.timestamp)) {
+      if (expirationTime <= block.timestamp) {
             isExpired = true;
             buyer.transfer(escrowAddress.balance);
             emit DealExpired(isExpired);
