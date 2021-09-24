@@ -29,7 +29,7 @@ contract AccessByERC20 {
     
     // owner sets IPFS hash (and is able to update/change it)
     // @param _IPFShash: IPFS hash of information to be revealed only to ERC20 holder
-    function setIPFShash(string memory _IPFShash) external {
+    function setIPFShash(string calldata _IPFShash) external {
         require(msg.sender == owner, "Not authorized to change IPFS hash.");
         IPFShash = _IPFShash;
         emit HashChanged();
