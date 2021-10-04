@@ -3,9 +3,9 @@
 pragma solidity 0.8.6;
 
 /* unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
-** @dev create a simple smart escrow contract, with an ERC20 stablecoin as payment, expiration denominated in seconds, NON-REFUNDED DEPOSIT except if both parties are ready to close but contract expires before closeDeal() called
-** intended to be deployed by buyer (as they will separately approve() the contract address for the deposited funds, and deposit is returned to deployer if expired but mutually ready to close)
-** may be forked/altered for separation of deposit from purchase price, deposit refundability, different token standard, etc. */
+** @dev create a simple smart escrow contract, with an ERC20 stablecoin as payment, expiration denominated in seconds, deposit refunded if contract expires before closeDeal() called
+** intended to be deployed by buyer (as they will separately approve() the contract address for the deposited funds, and deposit is returned to deployer if expired)
+** may be forked/altered for separation of deposit from purchase price, deposit non-refundability, different token standard, etc. */
 
 interface IERC20 { 
     function approve(address spender, uint256 amount) external returns (bool); 
@@ -61,6 +61,7 @@ contract EscrowStablecoin {
   }
   
   // buyer may confirm seller's recipient address as extra security measure or change seller address
+  // @param: _seller is the new recipient address of seller
   function designateSeller(address payable _seller) external restricted {
       require(_seller != seller, "Party already designated as seller");
       require(_seller != buyer, "Buyer cannot also be seller");
@@ -73,7 +74,6 @@ contract EscrowStablecoin {
   // buyer deposits in escrowAddress
   function depositInEscrow() public restricted returns(bool, uint256) {
       require(msg.sender == buyer, "Only buyer may deposit in escrow");
-      require(buyerApproved, "Buyer should call readyToClose() before sending funds"); // safety mechanism to prevent instance where seller (but not buyer) is ready to close and funds are in escrow, which would send funds to seller upon expiry if isExpired == true
       ierc20.transferFrom(buyer, escrowAddress, deposit);
       return (true, ierc20.balanceOf(escrowAddress));
       
@@ -91,16 +91,11 @@ contract EscrowStablecoin {
       return (true, ierc20.balanceOf(escrowAddress));
   } 
   
-  // check if expired, and if so, return balance to buyer only if seller is not ready to close, otherwise non-refundable to buyer if buyer fails to approve closing after sending funds
-  // but, see sendDeposit()'s require statement safety mechanism requiring buyer to approve closing before sending funds via this contract)
+  // check if expired, and if so, return balance to buyer 
   function checkIfExpired() external returns(bool){
-        if (expirationTime <= uint256(block.timestamp) && !sellerApproved) {
+        if (expirationTime <= uint256(block.timestamp)) {
             isExpired = true;
             returnDeposit(); 
-            emit DealExpired(isExpired);
-        } else if (expirationTime <= uint256(block.timestamp) && sellerApproved == true) {
-            ierc20.transfer(seller, deposit);
-            isExpired = true;
             emit DealExpired(isExpired);
         } else {
             isExpired = false;
@@ -126,13 +121,13 @@ contract EscrowStablecoin {
         }
   }
     
-  // checks if both buyer and seller are ready to close and expiration has not been met; if so, escrowAddress closes deal and pays seller
+  // checks if both buyer and seller are ready to close and expiration has not been met; if so, escrowAddress closes deal and pays seller; if not, deposit returned to buyer
   // if properly closes, emits event with effective time of closing
   function closeDeal() public returns(bool){
       require(sellerApproved && buyerApproved, "Parties are not ready to close.");
       if (expirationTime <= uint256(block.timestamp)) {
             isExpired = true;
-            returnDeposit(); // see comment above as to deposit refund for accidental expiration, optional/subject to negotiation of parties
+            returnDeposit();
             emit DealExpired(isExpired);
         } else {
             isClosed = true;
