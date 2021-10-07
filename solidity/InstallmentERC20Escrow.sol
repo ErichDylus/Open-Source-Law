@@ -4,7 +4,7 @@ pragma solidity 0.8.6;
 
 /*unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
 **@dev create a simple smart escrow contract for retainer/escrowed service work or client representation, with an ERC20 stablecoin as payment, expiration denominated in seconds
-**NON-REFUNDED DEPOSIT except if both parties are ready to disburse installment but contract expires before closeRepresentation() called
+**reminder of retainer amount is refunded to client if milestone(s) not accomplished by expiry
 **intended to be deployed by client (as funds are placed in escrow upon deployment, and returned to deployer if expired but mutually ready to close). Three equal installment amounts.
 **may be forked/altered for number of installments and breakdown of each amount, retainer refundability, etc. */
 
@@ -57,7 +57,7 @@ contract InstallmentEscrow {
   constructor(string memory _description, uint256 _retainer, address payable _servicer, address _stablecoin, uint256 _secsUntilExpiration) payable {
       require(_servicer != msg.sender, "Designate different party as servicer/service provider");
       client = payable(address(msg.sender));
-      retainer = _retainer;
+      retainer = _retainer * 10e18; // assuming 18 decimals for _stablecoin
       escrowAddress = address(this);
       stablecoin = _stablecoin;
       ierc20 = IERC20(stablecoin);
@@ -72,7 +72,7 @@ contract InstallmentEscrow {
   // ********** DEPLOYER MUST SEPARATELY APPROVE (by interacting with the ERC20 contract in question's approve()) this contract address for the retainer amount (keep decimals in mind) ************
   
   // client may confirm recipient address as extra security measure or change address
-  function designateAttorney(address payable _servicer) public restricted {
+  function designateServicer(address payable _servicer) public restricted {
       require(_servicer != servicer, "Address already designated as servicer");
       require(_servicer != client, "Client cannot also be servicer");
       require(!isExpired, "Too late to change servicer");
@@ -88,22 +88,18 @@ contract InstallmentEscrow {
       
   }
   
-  //escrowAddress returns retainer to client
-  function returnRetainer() internal returns(bool, uint256) {
-      ierc20.transfer(client, retainer);
+  //escrowAddress returns remainder of retainer to client
+  function returnToClient() internal returns(bool, uint256) {
+      ierc20.transfer(client, ierc20.balanceOf(escrowAddress));
       return (true, ierc20.balanceOf(escrowAddress));
   }
   
   //check if expired, and if so, return balance to client only if servicer is not ready to close, otherwise non-refundable if client fails to approve closing after sending funds
   //but, see sendDeposit()'s require statement safety mechanism requiring client to approve closing before sending funds via this contract)
-  function checkIfExpired() public returns(bool){
-        if (expirationTime <= uint256(block.timestamp) && !servicerApproved) {
+  function checkIfExpired() external returns(bool){
+        if (expirationTime <= uint256(block.timestamp)) {
             isExpired = true;
-            returnRetainer(); 
-            emit Expired(isExpired);
-        } else if (expirationTime <= uint256(block.timestamp) && servicerApproved == true) {
-            ierc20.transfer(servicer, retainer);
-            isExpired = true;
+            returnToClient(); 
             emit Expired(isExpired);
         } else {
             isExpired = false;
@@ -182,7 +178,7 @@ contract InstallmentEscrow {
       require(servicerApproved3 && clientApproved3, "Third Milestone is not complete.");
       if (expirationTime <= uint256(block.timestamp)) {
             isExpired = true;
-            returnRetainer(); // see comment above as to deposit refund for accidental expiration, optional/subject to negotiation of parties
+            returnToClient(); // see comment above as to deposit refund for accidental expiration, optional/subject to negotiation of parties
             emit Expired(isExpired);
         } else {
             ierc20.transfer(servicer, ierc20.balanceOf(escrowAddress));
