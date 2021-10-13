@@ -2,11 +2,12 @@
 //INCOMPLETE
 pragma solidity 0.8.6;
 
-/*unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
-**@dev create a simple smart escrow contract for retainer/escrowed service work or client representation, with an ERC20 stablecoin as payment, expiration denominated in seconds
-**reminder of retainer amount is refunded to client if milestone(s) not accomplished by expiry
-**intended to be deployed by client (as funds are placed in escrow upon deployment, and returned to deployer if expired but mutually ready to close). Three equal installment amounts.
-**may be forked/altered for number of installments and breakdown of each amount, retainer refundability, etc. */
+/* unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
+** @dev create a simple smart escrow contract for retainer/escrowed service work or client representation, with an ERC20 stablecoin as payment, expiration denominated in seconds
+** @notice: three milestones, with equal installment payments per milestone
+** reminder of retainer amount is refunded to client if milestone(s) not accomplished by expiry
+** intended to be deployed by client (as funds are placed in escrow upon deployment, and returned to deployer if expired but mutually ready to close). Three equal installment amounts.
+** may be forked/altered for number of installments and breakdown of each amount, retainer refundability, etc. */
 
 interface IERC20 { 
     function approve(address spender, uint256 amount) external returns (bool); 
@@ -57,7 +58,7 @@ contract InstallmentEscrow {
   constructor(string memory _description, uint256 _retainer, address payable _servicer, address _stablecoin, uint256 _secsUntilExpiration) payable {
       require(_servicer != msg.sender, "Designate different party as servicer/service provider");
       client = payable(address(msg.sender));
-      retainer = _retainer * 10e18; // assuming 18 decimals for _stablecoin
+      retainer = _retainer * 10e18; // @notice: 18 decimals for _stablecoin. Adjust as necessary or move decimal calculation to front end
       escrowAddress = address(this);
       stablecoin = _stablecoin;
       ierc20 = IERC20(stablecoin);
@@ -69,10 +70,8 @@ contract InstallmentEscrow {
       expirationTime = block.timestamp + _secsUntilExpiration;
   }
   
-  // ********** DEPLOYER MUST SEPARATELY APPROVE (by interacting with the ERC20 contract in question's approve()) this contract address for the retainer amount (keep decimals in mind) ************
-  
   // client may confirm recipient address as extra security measure or change address
-  function designateServicer(address payable _servicer) public restricted {
+  function designateServiceProvider(address payable _servicer) public restricted {
       require(_servicer != servicer, "Address already designated as servicer");
       require(_servicer != client, "Client cannot also be servicer");
       require(!isExpired, "Too late to change servicer");
@@ -80,9 +79,10 @@ contract InstallmentEscrow {
       servicer = _servicer;
   }
   
+  // ********** DEPLOYER MUST SEPARATELY APPROVE (by interacting with the ERC20 contract in question's approve()) this contract address for the retainer amount (keep decimals in mind) ************
   // client deposits in escrowAddress
-  function sendRetainer() public restricted returns(bool, uint256) {
-      require(clientApproved, "Client should call the applicable installmentComplete() before sending funds"); // safety mechanism to prevent instance where servicer (but not client) is ready to close and funds are in escrow, which would send funds to servicer upon expiry if isExpired == true
+  function sendRetainer() external returns(bool, uint256) {
+      require(msg.sender == client, "Only client may deposit retainer."); 
       ierc20.transferFrom(client, escrowAddress, retainer);
       return (true, ierc20.balanceOf(escrowAddress));
       
