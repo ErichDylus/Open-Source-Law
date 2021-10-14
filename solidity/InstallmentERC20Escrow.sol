@@ -23,7 +23,6 @@ contract InstallmentEscrow {
   address payable servicer;
   address stablecoin;
   uint256 retainer;
-  uint256 effectiveTime;
   uint256 expirationTime;
   bool servicerApproved;
   bool clientApproved;
@@ -183,8 +182,7 @@ contract InstallmentEscrow {
         } else {
             ierc20.transfer(servicer, ierc20.balanceOf(escrowAddress));
             isClosed = true;
-            effectiveTime = uint256(block.timestamp); // effective time of closing upon payment to servicer
-            emit Closed(isClosed, effectiveTime);
+            emit Closed(isClosed, block.timestamp); // effective time of closing upon payment to servicer
         }
         return(isClosed);
   }
