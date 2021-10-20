@@ -20,7 +20,7 @@ contract DealStamp {
       address party2;
   }
   
-  event DealAdded(uint256 dealNumber, uint256 effectiveTime, string documentsLocation, address party1, address party2);  
+  event DealStamped(uint256 dealNumber, uint256 effectiveTime, string documentsLocation, address party1, address party2);  
   
   constructor() {
       dealNumber = 0;
@@ -31,11 +31,11 @@ contract DealStamp {
   // @param _effectiveTime: unix time of closing, such as the block.timestamp of a stablecoin transfer or smart escrow contract closing
   // @param _party1: address of a party to the deal
   // @param _party2: address of a party to the deal
-  function newDealStamp(string calldata _documentsLocationHash, uint256 _effectiveTime, address _party1, address _party2) external returns (uint256){
+  function newDealStamp(string calldata _documentsLocationHash, uint256 _effectiveTime, address _party1, address _party2) external returns (uint256) {
       dealNumber++;
       documentsLocation[dealNumber] = _documentsLocationHash;
       deals.push(DealInformation(dealNumber, _effectiveTime, documentsLocation[dealNumber], _party1, _party2));
-      emit DealAdded(dealNumber, _effectiveTime, documentsLocation[dealNumber], _party1, _party2);
+      emit DealStamped(dealNumber, _effectiveTime, documentsLocation[dealNumber], _party1, _party2);
       return(dealNumber);
   }
   
