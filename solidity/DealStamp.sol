@@ -10,7 +10,6 @@ contract DealStamp {
     
   uint256 dealNumber; // ID number for stamped deals
   DealInformation[] deals; // array of deal info structs
-  mapping(address => uint256 /*dealNumber*/) dealParty; // map whether an address is a party to the enumerated deal
   mapping(uint256 /*dealNumber*/ => string) documentsLocation; // deal doc storage location - may be encrypted on the client side and decrypted after retrieval, or otherwise protected
  
   struct DealInformation {
@@ -21,10 +20,9 @@ contract DealStamp {
       address party2;
   }
   
-  event DealStamped(uint256 dealNumber, uint256 effectiveTime, string documentsLocation, address party1, address party2);  
+  event DealStamped(uint256 indexed dealNumber, uint256 effectiveTime, string documentsLocation, address party1, address party2);  
   
   constructor() {
-      dealNumber = 0;
       deals.push(DealInformation(dealNumber,0,"constructor",address(this),address(this)));
   }
   
