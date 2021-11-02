@@ -48,11 +48,11 @@ contract TaxWithholding {
         ierc20 = IERC20(_tokenAddress);
         uint256 _taxes = (_income*taxRate)/10e18;
         ierc20.transferFrom(msg.sender, IRS, _taxes);
-		taxpayers.push(msg.sender);
-		taxPaid[msg.sender] = true;
-		taxPaymentNumber[msg.sender]++;
-		taxPaymentNumberAmount[_taxes][msg.sender] = taxPaymentNumber[msg.sender];
-		emit TaxWithheld(msg.sender, taxPaymentNumber[msg.sender], block.timestamp, _taxes);
+	taxpayers.push(msg.sender);
+	taxPaid[msg.sender] = true;
+	taxPaymentNumber[msg.sender]++;
+	taxPaymentNumberAmount[_taxes][msg.sender] = taxPaymentNumber[msg.sender];
+	emit TaxWithheld(msg.sender, taxPaymentNumber[msg.sender], block.timestamp, _taxes);
         return(_taxes, taxPaid[msg.sender], taxPaymentNumber[msg.sender]);
     }
 }
