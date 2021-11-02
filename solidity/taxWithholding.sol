@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.0;
 
-/** INCOMPLETE, FOR DEMONSTRATION ONLY, not recommended to be used for any purpose and provided with no warranty whatsoever
+/** FOR DEMONSTRATION ONLY, not recommended to be used for any purpose and provided with no warranty whatsoever
  *  @dev simple tax withholding contract to give IRS its pound of DeFi flesh
- *  provides rough estimate, division intricacies in process **/
+ *  sends whole-uint tax rate to immutable IRS wallet address **/
  
 interface IERC20 {
 
@@ -18,17 +18,18 @@ interface IERC20 {
 }
 
 // contingent on numerous external factors such as jurisdiction and status of each msg.sender, but initially created as a flat rate federal tax demonstration
-// meant to be an abstract add-on to another contract which results in income taxable event when a user makes a transaction 
+// meant to be an abstract add-on to another contract which results in income taxable event when a dApp makes a transaction 
 contract TaxWithholding {
   
-    address payable immutable IRS;
+    address payable public immutable IRS;
     address tokenAddress;
     address[] taxpayers;
     uint256 immutable taxRate;
-    IERC20 public ierc20;
-    mapping(address => bool) paid;
+    mapping(address => bool) taxPaid;
+    mapping(address => uint256) taxPaymentNumber;
+    mapping(uint256 => mapping(address => uint256)) taxPaymentNumberAmount;
     
-    event TaxWithheld(address indexed taxpayer, uint256 indexed time, uint256 taxes);
+    event TaxWithheld(address indexed taxpayer, uint256 indexed taxPaymentNumber, uint256 indexed time, uint256 taxes);
     
     // @param _IRSaddress: IRS's designated address to receive taxes
     // @param _taxRate: flat percentage tax rate expressed as a whole number
@@ -36,19 +37,22 @@ contract TaxWithholding {
         require(_IRSaddress != address(0), "Submit valid IRS wallet address");
         require(_taxRate > 0 && _taxRate < 100, "Submit tax rate percentage as whole number, for example 5 for 5%");
         IRS = payable(_IRSaddress); 
-        taxRate = _taxRate;
+        taxRate = _taxRate*10e16;
     }
     
     // ******** msg.sender must separately approve address(this) for tokenAddress ********, will need easier implementation
-    // @param _income: received income amount by msg.sender in the applicable token corresponding to _tokenAddress 
+    // @param _income: received income amount by msg.sender in the applicable token corresponding to _tokenAddress, assuming 18 decimals 
     // @param _tokenAddress: contract address of ERC20 token received (if applicable/if not simple ETH payment)
-    function withholdTax(uint256 _income, address _tokenAddress) public returns(uint256, bool) {
+    function withholdTax(uint256 _income, address _tokenAddress) public returns(uint256, bool, uint256) {
+        IERC20 ierc20;
         ierc20 = IERC20(_tokenAddress);
-        uint256 _taxes = (uint256(_income/taxRate));
-		ierc20.transferFrom(msg.sender, IRS, _taxes);
+        uint256 _taxes = (_income*taxRate)/10e18;
+        ierc20.transferFrom(msg.sender, IRS, _taxes);
 		taxpayers.push(msg.sender);
-		paid[msg.sender] = true;
-		emit TaxWithheld(msg.sender, block.timestamp, _taxes);
-        return(_taxes, paid[msg.sender]);
+		taxPaid[msg.sender] = true;
+		taxPaymentNumber[msg.sender]++;
+		taxPaymentNumberAmount[_taxes][msg.sender] = taxPaymentNumber[msg.sender];
+		emit TaxWithheld(msg.sender, taxPaymentNumber[msg.sender], block.timestamp, _taxes);
+        return(_taxes, taxPaid[msg.sender], taxPaymentNumber[msg.sender]);
     }
 }
