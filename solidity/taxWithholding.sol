@@ -24,7 +24,7 @@ contract TaxWithholding {
     address payable public immutable IRS;
     address tokenAddress;
     address[] taxpayers;
-    uint256 immutable taxRate;
+    uint256 public immutable taxRate;
     mapping(address => bool) taxPaid;
     mapping(address => uint256) taxPaymentNumber;
     mapping(uint256 => mapping(address => uint256)) taxPaymentNumberAmount;
