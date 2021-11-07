@@ -2,10 +2,12 @@
 
 pragma solidity 0.8.6;
 
-/* unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
-** @dev create a simple smart escrow contract, with an ERC20 stablecoin as payment, expiration denominated in seconds, deposit refunded if contract expires before closeDeal() called
-** intended to be deployed by buyer (as they will separately approve() the contract address for the deposited funds, and deposit is returned to deployer if expired)
-** may be forked/altered for separation of deposit from purchase price, deposit non-refundability, different token standard, etc. */
+/// unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
+/// @author Erich Dylus
+/// @title Stablecoin Escrow
+/// @notice create a simple smart escrow contract, with an ERC20 stablecoin as payment, expiration denominated in seconds, deposit refunded if contract expires before closeDeal() called
+/// @notice intended to be deployed by buyer (as they will separately approve() the contract address for the deposited funds, and deposit is returned to deployer if expired)
+/// @dev may be forked/altered for separation of deposit from purchase price, deposit non-refundability, different token standard, etc. */
 
 interface IERC20 { 
     function approve(address spender, uint256 amount) external returns (bool); 
@@ -39,12 +41,12 @@ contract EscrowStablecoin {
     _;
   }
   
-  // deployer (buyer) initiates escrow with description, deposit amount in USD, address of stablecoin, seconds until expiry, and designate recipient seller
-  // @param: _description should be a brief identifier of the deal in question - perhaps as to parties/underlying asset/documentation reference/hash 
-  // @param: _deposit is the purchase price which will be deposited in the smart escrow contract
-  // @param: _seller is the seller's address, who will receive the purchase price if the deal closes
-  // @param: _stablecoin is the token contract address for the stablecoin to be sent as deposit
-  // @param: _secsUntilExpiration is the number of seconds until the deal expires, which can be converted to days for front end input or the code can be adapted accordingly
+  /// @notice deployer (buyer) initiates escrow with description, deposit amount in USD, address of stablecoin, seconds until expiry, and designate recipient seller
+  /// @param _description should be a brief identifier of the deal in question - perhaps as to parties/underlying asset/documentation reference/hash 
+  /// @param _deposit is the purchase price which will be deposited in the smart escrow contract
+  /// @param _seller is the seller's address, who will receive the purchase price if the deal closes
+  /// @param _stablecoin is the token contract address for the stablecoin to be sent as deposit
+  /// @param _secsUntilExpiration is the number of seconds until the deal expires, which can be converted to days for front end input or the code can be adapted accordingly
   constructor(string memory _description, uint256 _deposit, address payable _seller, address _stablecoin, uint256 _secsUntilExpiration) payable {
       require(_seller != msg.sender, "Designate different party as seller");
       buyer = payable(address(msg.sender));
@@ -60,8 +62,8 @@ contract EscrowStablecoin {
       expirationTime = block.timestamp + _secsUntilExpiration;
   }
   
-  // buyer may confirm seller's recipient address as extra security measure or change seller address
-  // @param: _seller is the new recipient address of seller
+  /// @notice buyer may confirm seller's recipient address as extra security measure or change seller address
+  /// @param _seller is the new recipient address of seller
   function designateSeller(address payable _seller) external restricted {
       require(_seller != seller, "Party already designated as seller");
       require(_seller != buyer, "Buyer cannot also be seller");
@@ -70,8 +72,8 @@ contract EscrowStablecoin {
       seller = _seller;
   }
   
-  // ********* DEPLOYER MUST SEPARATELY APPROVE (by interacting with the ERC20 contract in question's approve()) this contract address for the deposit amount (keep decimals in mind) ********
-  // buyer deposits in escrowAddress
+  /// ********* DEPLOYER MUST SEPARATELY APPROVE (by interacting with the ERC20 contract in question's approve()) this contract address for the deposit amount (keep decimals in mind) ********
+  /// @notice buyer deposits in escrowAddress after separately ERC20-approving escrowAddress
   function depositInEscrow() public restricted returns(bool, uint256) {
       require(msg.sender == buyer, "Only buyer may deposit in escrow");
       ierc20.transferFrom(buyer, escrowAddress, deposit);
@@ -79,19 +81,19 @@ contract EscrowStablecoin {
       
   }
   
-  // escrowAddress returns deposit to buyer
+  /// @notice escrowAddress returns deposit to buyer
   function returnDeposit() internal returns(bool, uint256) {
       ierc20.transfer(buyer, deposit);
       return (true, ierc20.balanceOf(escrowAddress));
   }
   
-  // escrowAddress sends deposit to seller
+  /// @notice escrowAddress sends deposit to seller
   function paySeller() internal returns(bool, uint256) {
       ierc20.transfer(seller, deposit);
       return (true, ierc20.balanceOf(escrowAddress));
   } 
   
-  // check if expired, and if so, return balance to buyer 
+  /// @notice check if expired, and if so, return balance to buyer 
   function checkIfExpired() external returns(bool){
         if (expirationTime <= uint256(block.timestamp)) {
             isExpired = true;
@@ -103,12 +105,12 @@ contract EscrowStablecoin {
         return(isExpired);
     }
     
-  // for seller to check if deposit is in escrowAddress
+  /// @notice for seller to check if deposit is in escrowAddress
   function checkEscrow() external restricted view returns(uint256) {
       return ierc20.balanceOf(escrowAddress);
   }
 
-  // if buyer wishes to initiate dispute over seller breach of off chain agreement or repudiate, simply may wait for expiration without sending deposit nor calling this function
+  /// if buyer wishes to initiate dispute over seller breach of off chain agreement or repudiate, simply may wait for expiration without sending deposit nor calling this function
   function readyToClose() external restricted returns(string memory){
          if (msg.sender == seller) {
             sellerApproved = true;
@@ -121,8 +123,8 @@ contract EscrowStablecoin {
         }
   }
     
-  // checks if both buyer and seller are ready to close and expiration has not been met; if so, escrowAddress closes deal and pays seller; if not, deposit returned to buyer
-  // if properly closes, emits event with effective time of closing
+  /// @notice checks if both buyer and seller are ready to close and expiration has not been met; if so, escrowAddress closes deal and pays seller; if not, deposit returned to buyer
+  /// @dev if properly closes, emits event with effective time of closing
   function closeDeal() public returns(bool){
       require(sellerApproved && buyerApproved, "Parties are not ready to close.");
       if (expirationTime <= uint256(block.timestamp)) {
