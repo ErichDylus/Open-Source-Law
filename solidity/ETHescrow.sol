@@ -2,11 +2,13 @@
 
 pragma solidity 0.7.5;
 
-/*unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
-**@dev create a simple smart escrow contract, with ETH as payment, expiration denominated in seconds, and option for dispute resolution with LexLocker
-**intended to be deployed by buyer (as funds are placed in escrow upon deployment, and returned to deployer if expired)
-**consider hardcoding reference or pointer to LexDAO resolver terms of use https://github.com/lexDAO/Arbitration/blob/master/rules/ToU.md
-**included in LexDAO's LexCorpus at: https://github.com/lexDAO/LexCorpus/blob/master/contracts/lexdao/lexlocker/extensions/EscrowETH.sol*/
+/// unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
+/// @author Erich Dylus
+/// @title Escrow ETH
+/// @notice a simple smart escrow contract, with ETH as payment, expiration denominated in seconds, and option for dispute resolution with LexLocker
+/// @dev intended to be deployed by buyer (as funds are placed in escrow upon deployment, and returned to deployer if expired)
+/// consider hardcoding reference or pointer to LexDAO resolver terms of use https://github.com/lexDAO/Arbitration/blob/master/rules/ToU.md
+/// included in LexDAO's LexCorpus at: https://github.com/lexDAO/LexCorpus/blob/master/contracts/lexdao/lexlocker/extensions/EscrowETH.sol*/
 
 interface LexLocker {
     function requestLockerResolution(address counterparty, address resolver, address token, uint256 sum, string calldata details, bool swiftResolver) external payable returns (uint256);
@@ -48,11 +50,11 @@ contract EscrowEth {
     _;
   }
   
-  //creator contributes deposit and initiates escrow with description, deposit amount, seconds until expiry, and designate recipient seller
-  // @param _description: string to identify deal, or IPFS hash of documentation, etc.
-  // @param _deposit: deposit amount in wei
-  // @param _seller: payment address of recipient seller
-  // @param _secsUntilExpiration: seconds until expiry of escrow, for simplicity in calculation of Unix time w/ block.timestamp
+  /// @notice creator contributes deposit and initiates escrow with description, deposit amount, seconds until expiry, and designate recipient seller
+  /// @param _description string to identify deal, or IPFS hash of documentation, etc.
+  /// @param _deposit deposit amount in wei
+  /// @param _seller payment address of recipient seller
+  /// @param _secsUntilExpiration seconds until expiry of escrow, for simplicity in calculation of Unix time w/ block.timestamp
   constructor(string memory _description, uint256 _deposit, address payable _seller, uint256 _secsUntilExpiration) payable {
       require(msg.value >= deposit, "Submit deposit amount");
       require(_seller != msg.sender, "Designate different party as seller");
@@ -67,9 +69,9 @@ contract EscrowEth {
       sendEscrow(description, deposit, buyer, seller);
   }
   
-  //buyer may confirm seller's recipient address as extra security measure
-  // @param _seller: new seller's public key address
-  function designateSeller(address payable _seller) public restricted {
+  /// @notice buyer may confirm seller's recipient address as extra security measure
+  /// @param _seller new seller's public key address
+  function designateSeller(address payable _seller) external restricted {
       require(_seller != seller, "Party already designated as seller");
       require(_seller != buyer, "Buyer cannot also be seller");
       require(!isExpired, "Deal expired, too late to change seller");
@@ -77,7 +79,7 @@ contract EscrowEth {
       seller = _seller;
   }
   
-  //send escrow, create InEscrow struct and emit event showing the deposit is in place
+  /// @notice send escrow, create InEscrow struct and emit event showing the deposit is in place
   function sendEscrow(string memory _description, uint256 _deposit, address payable _buyer, address payable _seller) private restricted {
       InEscrow memory newRequest = InEscrow({
          description: _description,
@@ -89,8 +91,8 @@ contract EscrowEth {
       emit EscrowInPlace(_buyer, _deposit);
   }
   
-  //check if expired, and if so, return balance to buyer
-  function checkIfExpired() public returns(bool){
+  /// @notice check if expired, and if so, return balance to buyer
+  function checkIfExpired() external returns(bool){
         if (expirationTime <= block.timestamp) {
             isExpired = true;
             buyer.transfer(escrowAddress.balance);
@@ -101,9 +103,8 @@ contract EscrowEth {
         return(isExpired);
     }
     
-  // for early termination by either buyer or seller due to claimed breach of the other party, claiming party requests LexLocker resolution
-  // deposit either returned to buyer or remitted to seller as liquidated damages
-  function disputeDeal(address _token, string calldata _details, bool _singleArbiter) public restricted returns(string memory){
+  /// @notice for early termination by either buyer or seller due to claimed breach of the other party, claiming party requests LexLocker resolution. deposit either returned to buyer or remitted to seller as liquidated damages
+  function disputeDeal(address _token, string calldata _details, bool _singleArbiter) external restricted returns(string memory){
       require(!isClosed && !isExpired, "Too late for early termination");
       if (msg.sender == seller) {
             LexLocker(lexlocker).requestLockerResolution(buyer, lexDAO, _token, deposit, _details, _singleArbiter);
@@ -122,7 +123,8 @@ contract EscrowEth {
         }
   }
 
-  function readyToClose() public restricted returns(string memory){
+  /// @notice seller and buyer each call when ready to close
+  function readyToClose() external restricted returns(string memory){
          if (msg.sender == seller) {
             sellerApproved = true;
             return("Seller is ready to close.");
@@ -134,7 +136,7 @@ contract EscrowEth {
         }
   }
     
-  // check if both buyer and seller are ready to close and expiration has not been met; if so, close deal and pay seller
+  /// @notice checks if both buyer and seller are ready to close and expiration has not been met; if so, closes deal and pay seller
   function closeDeal() public returns(bool){
       require(sellerApproved && buyerApproved, "Parties are not ready to close.");
       if (expirationTime <= block.timestamp) {
