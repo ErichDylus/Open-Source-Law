@@ -10,6 +10,8 @@ Read [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/D
 
 [Rarible's NFT Licenses](https://github.com/rariblecom/nft-license) - by Gabriel Shapiro & Stuart Smolen
 
+[One-Page SAFT](https://github.com/BranDAOn/OP-SAFT) - one page simple agreement for future tokens which sets out the consideration amount and token allotment, the token delivery triggers, and the lock-up, by [BranDAOn](https://github.com/BranDAOn)
+
 ### Template libraries
 
 [LexDAO Startup Pack](
