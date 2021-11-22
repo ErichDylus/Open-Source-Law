@@ -73,7 +73,7 @@ Section 3. Annual Meetings. The Board of Directors shall [not be required to hol
 
 Section 4. Regular, Special, and Remote Meetings. Regular meetings of the Board of Directors shall be held remotely by digital medium. Special meetings of the Board of Directors may be called by DAO Resolution. Directors may participate in meetings of the Board of Directors by means of an internet or telephone conference or similar communications equipment, and participation by such means shall constitute presence in person at such a meeting.
 
-// no need for a full Board meeting where the action is publicly debated and voted by the DAO and passed as a Resolution
+// no need for a full Board meeting where the action is publicly debated and voted by the DAO and passed as a Resolution (so, ideally the vast majority of such actions)
 
 Section 5. Action Without Meeting. Any action of the Board of Directors may be taken without a meeting if a consent in writing setting forth the action so taken is signed by at least [THRESHOLD] of the Directors and the action is pursuant to a DAO Resolution. 
 
@@ -127,7 +127,7 @@ Section 2. Minutes. Each Sub-DAO shall keep regular minutes of its proceedings a
 
 **ARTICLE 8. BOOKS, RECORDS, AND REPORTS.**
 
-// the DAO treasury address should be sufficient for financial statements provided all material value is held there - if the Foundation holds significant offchain assets this likely would need amending
+// DAO treasury address and governance history should be sufficient for financial statement-equivalent disclosure provided all material value is held there, though a more decipherable form might be advantageous as well - if the Foundation holds significant offchain assets this would need amending
 
 Section 1. Report. Any Director or designee of a Director shall, upon lawful request, provide an annual report to the Board of Directors not later than four (4) months after the close of each fiscal year of the Foundation. Such report shall include a balance sheet as of the close of the fiscal year of the Foundation and a revenue and disbursement statement for the year ending on such closing date. Absent a formal lawful request for a specific form of balance sheet or revenue and disbursement statement from the Foundation, the publicly visible blockchain address (and transactions thereto) of [NAME] DAO will serve as such a report or financial statement for the Foundation to extent permissible under the Act.
 
