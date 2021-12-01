@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.6;
+pragma solidity 0.8.10;
 
 // unaudited and subject to all disclosures, licenses, and caveats of the open-source-law repo
 // interface to DealStamp.sol, to create an on-chain record of a deal's parties, decentralized doc storage ref (which would presumably carry an additional hash layer/other security mechanism for access), and time of closing
