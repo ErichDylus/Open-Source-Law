@@ -26,12 +26,7 @@ contract DealStamp {
   event DealStamped(uint256 indexed dealNumber, uint256 effectiveTime, string documentsLocation, address[] parties);  
   event PartyAdded(uint256 indexed dealNumber, address newParty);
   
-  constructor() {
-      address[] memory constructorAddr = new address[](1);
-      constructorAddr[0] = address(this);
-      deals.push(DealInformation(dealNumber,0,"constructor", constructorAddr));
-      isPartyToDeal[dealNumber][address(this)] = true;
-  }
+  constructor() {}
   
   /// @param _documentsLocationHash IPFS or other decentralized storage location hash of deal documents
   /// @param _effectiveTime unix time of closing, such as the block.timestamp of a stablecoin transfer or smart escrow contract closing
