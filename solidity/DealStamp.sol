@@ -12,36 +12,36 @@ contract DealStamp {
     
   uint256 dealNumber; // ID number for stamped deals
   DealInformation[] deals; // array of deal info structs
-  mapping(uint256 /*dealNumber*/ => string) documentsLocation; // deal doc storage location - may be encrypted on the client side and decrypted after retrieval, or otherwise protected
+  mapping(uint256 /*dealNumber*/ => string) docsLocation; // deal doc storage location - may be encrypted on the client side and decrypted after retrieval, or otherwise protected
   mapping(address => bool) isParty;
   mapping(uint256 => mapping(address => bool)) isPartyToDeal;
  
   struct DealInformation {
       uint256 dealNumber;
       uint256 effectiveTime;
-      string documentsLocation; 
+      string docsLocation; 
       address[] parties;
   }
   
-  event DealStamped(uint256 indexed dealNumber, uint256 effectiveTime, string documentsLocation, address[] parties);  
+  event DealStamped(uint256 indexed dealNumber, uint256 effectiveTime, string docsLocation, address[] parties);  
   event PartyAdded(uint256 indexed dealNumber, address newParty);
   
   constructor() {}
   
-  /// @param _documentsLocationHash IPFS or other decentralized storage location hash of deal documents
+  /// @param _docsLocationHash IPFS or other decentralized storage location hash of deal documents
   /// @param _effectiveTime unix time of closing, such as the block.timestamp of a stablecoin transfer or smart escrow contract closing
   /// @param _party1 address of first party to the deal
   /// @param _party2 address of second party to the deal
   /// @return the dealNumber of the newly stamped deal
-  /// intended to be called by escrow or other closing smart contracts, by interface or arbitrary call. Additional parties may be added by _party1 or _party2 via addPartyToDeal()
-  function newDealStamp(string calldata _documentsLocationHash, uint256 _effectiveTime, address _party1, address _party2) external returns (uint256) {
+  /// @notice intended to be called by authorized party, escrow or other closing smart contracts, by interface or arbitrary call. Additional parties may be added by _party1 or _party2 via addPartyToDeal()
+  function newDealStamp(string calldata _docsLocationHash, uint256 _effectiveTime, address _party1, address _party2) external returns (uint256) {
       dealNumber++;
-      documentsLocation[dealNumber] = _documentsLocationHash;
+      docsLocation[dealNumber] = _docsLocationHash;
       address[] memory parties = new address[](2);
       parties[0] = _party1;
       parties[1] = _party2;
-      deals.push(DealInformation(dealNumber, _effectiveTime, documentsLocation[dealNumber], parties));
-      emit DealStamped(dealNumber, _effectiveTime, documentsLocation[dealNumber], parties);
+      deals.push(DealInformation(dealNumber, _effectiveTime, docsLocation[dealNumber], parties));
+      emit DealStamped(dealNumber, _effectiveTime, docsLocation[dealNumber], parties);
       isPartyToDeal[dealNumber][_party1] = true;
       isPartyToDeal[dealNumber][_party2] = true;
       return(dealNumber); // DealStamper should keep a record of the dealNumber and provide to relevant parties; also emitted in the DealStamped event 
@@ -50,7 +50,7 @@ contract DealStamp {
   /// @param _dealNumber enter dealNumber to view corresponding stamped deal information
   /// @return the struct information for the inputted dealNumber
   function viewDeal(uint256 _dealNumber) external view returns (uint256, uint256, string memory, address[] memory) {
-      return (deals[_dealNumber].dealNumber, deals[_dealNumber].effectiveTime, deals[_dealNumber].documentsLocation, deals[_dealNumber].parties);
+      return (deals[_dealNumber].dealNumber, deals[_dealNumber].effectiveTime, deals[_dealNumber].docsLocation, deals[_dealNumber].parties);
   }
   
   /// @param _dealNumber deal number of deal for which the new party will be added
