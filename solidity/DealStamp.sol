@@ -11,12 +11,12 @@ pragma solidity 0.8.10;
 contract DealStamp {
     
   uint256 dealNumber; // ID number for stamped deals
-  DealInformation[] deals; // array of deal info structs
+  DealInfo[] deals; // array of deal info structs
   mapping(uint256 /*dealNumber*/ => string) docsLocation; // deal doc storage location - may be encrypted on the client side and decrypted after retrieval, or otherwise protected
   mapping(address => bool) isParty;
   mapping(uint256 => mapping(address => bool)) isPartyToDeal;
  
-  struct DealInformation {
+  struct DealInfo {
       uint256 dealNumber;
       uint256 effectiveTime;
       string docsLocation; 
@@ -40,7 +40,7 @@ contract DealStamp {
       address[] memory parties = new address[](2);
       parties[0] = _party1;
       parties[1] = _party2;
-      deals.push(DealInformation(dealNumber, _effectiveTime, docsLocation[dealNumber], parties));
+      deals.push(DealInfo(dealNumber, _effectiveTime, docsLocation[dealNumber], parties));
       emit DealStamped(dealNumber, _effectiveTime, docsLocation[dealNumber], parties);
       isPartyToDeal[dealNumber][_party1] = true;
       isPartyToDeal[dealNumber][_party2] = true;
@@ -56,7 +56,7 @@ contract DealStamp {
   /// @param _dealNumber deal number of deal for which the new party will be added
   /// @param _newParty address of the new party to be added to the deal corresponding to _dealNumber
   function addPartyToDeal(uint256 _dealNumber, address _newParty) external returns (bool success) {
-      require(isPartyToDeal[_dealNumber][msg.sender] == true, "Must be a party to this deal in order to add a party");
+      require(isPartyToDeal[_dealNumber][msg.sender] == true, "Must be a party to add a new party");
       isPartyToDeal[_dealNumber][_newParty] = true;
       deals[_dealNumber].parties.push(_newParty);
       emit PartyAdded(_dealNumber, _newParty);
