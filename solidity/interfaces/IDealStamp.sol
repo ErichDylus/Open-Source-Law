@@ -7,7 +7,7 @@ pragma solidity 0.8.10;
 
 interface IDealStamp {
 
-  function newDealStamp(string calldata documentsLocationHash, uint256 effectiveTime, address party1, address party2) external returns (uint256);
+  function newDealStamp(string calldata docsLocationHash, uint256 effectiveTime, address party1, address party2) external returns (uint256);
   function addPartyToDeal(uint256 dealNumber, address newParty) external returns (bool);
   function viewDeal(uint256 dealNumber) external view returns (uint256, uint256, string memory, address[] memory);
   
