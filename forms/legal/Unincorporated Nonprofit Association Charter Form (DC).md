@@ -1,6 +1,8 @@
-// In process
+// in process and incomplete
 
 // provided without warranty or guarantees of any kind, [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/Disclosure.md) applies
+
+// contemplates all governance processes through the Designated Smart Contract, no pro-rata distributions to DAO Members (per DC UUNAA law), tokenized membership
 
 // adapted for DC law in part from the [LexDAO Constitution](https://github.com/lexDAO/LexDAO-Constitution), provided under the [CCA Share Alike 4.0 License](https://github.com/lexDAO/LexDAO-Constitution/blob/master/LICENSE.md)
 
@@ -18,10 +20,10 @@
 
 (c) The primary purposes of the DAO are to facilitate, support, promote, operate, represent and advance [DAO PURPOSES] (the “**Purposes**”).
  
- ###  III. DAO Membership
+###  III. DAO Membership
 (a) A person, represented by the public key of their applicable externally owned account, shall be deemed to be a “DAO Member” if and only if: [DAO MEMBERSHIP REQUIREMENTS].   
 
-(b) Membership rights in the DAO shall be represented by [Tokens (the "**DAO Membership Tokens**") minted and issued through the Designated Smart Contract]. The ability to become a Member, as defined in §29–1102 of the DC UUNAA, shall be voluntary and application open to any individual of at least 18 years of age whose purpose or presumed intent is commensurate with the Purposes and is willing to accept the responsibilities and terms of membership including the terms of this Charter, and follow the applicable membership processes.
+(b) Membership rights in the DAO shall be represented by [an externally owned account address’s control of Tokens with contract address [TOKEN ADDRESS] and bearing symbol “[SYMBOL]” (the "**DAO Membership Tokens**")]. The ability to become a Member, as defined in §29–1102 of the DC UUNAA, shall be voluntary and application open to any individual of at least 18 years of age whose purpose or presumed intent is commensurate with the Purposes and is willing to accept the responsibilities and terms of membership including the terms of this Charter, and follow the applicable membership processes.
 
 (c) DAO Members shall have the rights, powers and privileges that are possible to be taken or exercised by DAO Members through the Designated Smart Contract as further set forth in Section IV which are in accordance with this Charter. The rights, powers and privileges of DAO Members are referred to herein as the "**DAO Membership Rights**".
 
