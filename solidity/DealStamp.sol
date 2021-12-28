@@ -13,8 +13,7 @@ contract DealStamp {
   uint256 dealNumber; // ID number for stamped deals
   DealInfo[] deals; // array of deal info structs
   mapping(uint256 /*dealNumber*/ => string) docsLocation; // deal doc storage location - may be encrypted on the client side and decrypted after retrieval, or otherwise protected
-  mapping(address => bool) isParty;
-  mapping(uint256 => mapping(address => bool)) isPartyToDeal;
+  mapping(uint256 /*dealNumber*/ => mapping(address => bool) /*whether address is a party*/) isPartyToDeal;
  
   struct DealInfo {
       uint256 dealNumber;
@@ -32,8 +31,8 @@ contract DealStamp {
   /// @param _effectiveTime unix time of closing, such as the block.timestamp of a stablecoin transfer or smart escrow contract closing
   /// @param _party1 address of first party to the deal
   /// @param _party2 address of second party to the deal
-  /// @return the dealNumber of the newly stamped deal
-  /// @notice intended to be called by authorized party, escrow or other closing smart contracts, by interface or arbitrary call. Additional parties may be added by _party1 or _party2 via addPartyToDeal()
+  /// @return the dealNumber of the newly stamped deal - make sure to keep record of this identifier.
+  /// @notice intended to be called by authorized party, escrow or other closing smart contracts, by interface or arbitrary call. Record the dealNumber. Additional parties may be added by _party1 or _party2 via addPartyToDeal().
   function newDealStamp(string calldata _docsLocationHash, uint256 _effectiveTime, address _party1, address _party2) external returns (uint256) {
       dealNumber++;
       docsLocation[dealNumber] = _docsLocationHash;
@@ -44,7 +43,7 @@ contract DealStamp {
       emit DealStamped(dealNumber, _effectiveTime, docsLocation[dealNumber], parties);
       isPartyToDeal[dealNumber][_party1] = true;
       isPartyToDeal[dealNumber][_party2] = true;
-      return(dealNumber); // DealStamper should keep a record of the dealNumber and provide to relevant parties; also emitted in the DealStamped event 
+      return(dealNumber); // DealStamper should record the dealNumber for relevant parties; also emitted in the DealStamped event 
   }
   
   /// @param _dealNumber enter dealNumber to view corresponding stamped deal information
@@ -55,8 +54,8 @@ contract DealStamp {
   
   /// @param _dealNumber deal number of deal for which the new party will be added
   /// @param _newParty address of the new party to be added to the deal corresponding to _dealNumber
-  function addPartyToDeal(uint256 _dealNumber, address _newParty) external returns (bool success) {
-      require(isPartyToDeal[_dealNumber][msg.sender] == true, "Must be a party to add a new party");
+  function addPartyToDeal(uint256 _dealNumber, address _newParty) external returns (bool) {
+      require(isPartyToDeal[_dealNumber][msg.sender] == true, "msg.sender_not_party");
       isPartyToDeal[_dealNumber][_newParty] = true;
       deals[_dealNumber].parties.push(_newParty);
       emit PartyAdded(_dealNumber, _newParty);
