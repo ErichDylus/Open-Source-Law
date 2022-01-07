@@ -1,11 +1,12 @@
 //SPDX-License-Identifier: MIT
-//INCOMPLETE
-pragma solidity 0.8.6;
+//********* INCOMPLETE AND IN PROCESS *****************
 
-/* unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
-** @dev create a simple smart escrow contract for retainer/escrowed service work or client representation, with an ERC20 stablecoin as payment, expiration denominated in seconds
-** @notice: three milestones, with equal installment payments per milestone
-** reminder of retainer amount is refunded to client if milestone(s) not accomplished by expiry
+pragma solidity ^0.8.6;
+
+// unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
+/// @dev smart escrow contract for retainer/escrowed service work or client representation, with an ERC20 stablecoin as payment, expiration denominated in seconds
+/* three milestones, with equal installment payments per milestone
+** remainder of retainer amount is refunded to client if milestone(s) not accomplished by expiry
 ** intended to be deployed by client (as funds are placed in escrow upon deployment, and returned to deployer if expired but mutually ready to close). Three equal installment amounts.
 ** may be forked/altered for number of installments and breakdown of each amount, retainer refundability, etc. */
 
@@ -44,20 +45,20 @@ contract InstallmentEscrow {
   event Closed(bool isClosed, uint256 effectiveTime); //event provides exact blockstamp time of payment 
   
   modifier restricted() { 
-    require(parties[msg.sender], "This may only be called by a party or the by escrow contract");
+    require(parties[msg.sender], "NOT_PARTY");
     _;
   }
   
-  //deployer (client) initiates escrow with description, retainer amount in USD, address of stablecoin, seconds until expiry, and designate recipient servicer
-  // @param: _description should be a brief identifier - perhaps as to parties/underlying asset/documentation reference/hash 
-  // @param: _retainer is the total retainer amount which will be deposited in the smart escrow contract
-  // @param: _servicer is the servicer's address, who will receive the retainer in installments; in practice this could be a consultant or attorney
-  // @param: _stablecoin is the token contract address for the stablecoin to be sent as retainer
-  // @param: _secsUntilExpiration is the number of seconds until expiry, which can be converted to days for front end input or the code can be adapted accordingly
+  /// @dev deployer (client) initiates escrow with description, retainer amount in USD, address of stablecoin, seconds until expiry, and designate recipient servicer
+  /// @param _description should be a brief identifier - perhaps as to parties/underlying asset/documentation reference/hash 
+  /// @param _retainer the total retainer amount which will be deposited in the smart escrow contract assuming 18 decimals
+  /// @param _servicer the servicer's address, who will receive the retainer in installments; in practice this could be a consultant or attorney
+  /// @param _stablecoin the token contract address for the stablecoin to be sent as retainer
+  /// @param _secsUntilExpiration the number of seconds until expiry, which can be converted to days for front end input or the code can be adapted accordingly
   constructor(string memory _description, uint256 _retainer, address payable _servicer, address _stablecoin, uint256 _secsUntilExpiration) payable {
-      require(_servicer != msg.sender, "Designate different party as servicer/service provider");
+      require(_servicer != msg.sender, "CLIENT_SHOULD_DEPLOY");
       client = payable(address(msg.sender));
-      retainer = _retainer * 10e18; // @notice: 18 decimals for _stablecoin. Adjust as necessary or move decimal calculation to front end
+      retainer = _retainer;
       escrowAddress = address(this);
       stablecoin = _stablecoin;
       ierc20 = IERC20(stablecoin);
@@ -69,11 +70,9 @@ contract InstallmentEscrow {
       expirationTime = block.timestamp + _secsUntilExpiration;
   }
   
-  // client may confirm recipient address as extra security measure or change address
   function designateServiceProvider(address payable _servicer) public restricted {
-      require(_servicer != servicer, "Address already designated as servicer");
       require(_servicer != client, "Client cannot also be servicer");
-      require(!isExpired, "Too late to change servicer");
+      require(!isExpired, "EXPIRED");
       parties[_servicer] = true;
       servicer = _servicer;
   }
@@ -81,7 +80,7 @@ contract InstallmentEscrow {
   // ********** DEPLOYER MUST SEPARATELY APPROVE (by interacting with the ERC20 contract in question's approve()) this contract address for the retainer amount (keep decimals in mind) ************
   // client deposits in escrowAddress
   function sendRetainer() external returns(bool, uint256) {
-      require(msg.sender == client, "Only client may deposit retainer."); 
+      require(msg.sender == client, "ONLY_CLIENT"); 
       ierc20.transferFrom(client, escrowAddress, retainer);
       return (true, ierc20.balanceOf(escrowAddress));
       
@@ -127,8 +126,8 @@ contract InstallmentEscrow {
   
   //escrowAddress sends first installment to servicer
   function payFirstInstallment() external restricted returns(bool, uint256) {
-      require(!firstInstallmentPaid, "Already paid first installment.");
-      require (servicerApproved && clientApproved, "Servicer and client must call FirstMilestoneComplete().");
+      require(!firstInstallmentPaid, "Already paid");
+      require (servicerApproved && clientApproved, "NOT_APPROVED");
       ierc20.transfer(servicer, retainer/3);
       firstInstallmentPaid = true;
       emit firstMilestoneCompleted(block.timestamp);
@@ -136,7 +135,7 @@ contract InstallmentEscrow {
   } 
   
   function secondMilestoneComplete() external restricted returns(string memory){
-        require(servicerApproved && clientApproved, "First Milestone is not complete.");
+        require(servicerApproved && clientApproved, "First Milestone incomplete.");
         if (msg.sender == servicer) {
             servicerApproved2 = true;
             return("Servicer confirms second milestone is complete.");
@@ -150,8 +149,8 @@ contract InstallmentEscrow {
   
   //escrowAddress sends second installment to servicer
   function paySecondInstallment() external restricted returns(bool, uint256) {
-      require(!secondInstallmentPaid, "Already paid second installment.");
-      require (servicerApproved2 && clientApproved2, "Servicer and client must call SecondMilestoneComplete().");
+      require(!secondInstallmentPaid, "ALREADY_PAID");
+      require (servicerApproved2 && clientApproved2, "NOT_APPROVED");
       ierc20.transfer(servicer, retainer/3);
       secondInstallmentPaid = true;
       emit secondMilestoneCompleted(block.timestamp);
@@ -159,7 +158,7 @@ contract InstallmentEscrow {
   } 
   
   function thirdMilestoneComplete() external restricted returns(string memory){
-        require(servicerApproved2 && clientApproved2, "Second Milestone is not complete.");
+        require(servicerApproved2 && clientApproved2, "NOT_APPROVED");
         if (msg.sender == servicer) {
             servicerApproved3 = true;
             return("Servicer confirms third milestone is complete.");
@@ -174,7 +173,7 @@ contract InstallmentEscrow {
   // checks if both client and servicer are ready to close representation and expiration has not been met; if so, escrowAddress pays out remainder of retainer to servicer
   // if properly closes, emits event with effective time of closing
   function closeRepresentation() public returns(bool){
-      require(servicerApproved3 && clientApproved3, "Third Milestone is not complete.");
+      require(servicerApproved3 && clientApproved3, "NOT_APPROVED");
       if (expirationTime <= uint256(block.timestamp)) {
             isExpired = true;
             returnToClient(); // see comment above as to deposit refund for accidental expiration, optional/subject to negotiation of parties
