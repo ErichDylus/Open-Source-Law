@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.6;
+pragma solidity ^0.8.6;
 
 /// unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
 /// @author Erich Dylus
@@ -35,9 +35,13 @@ contract EscrowStablecoin {
   
   event DealExpired(bool isExpired);
   event DealClosed(bool isClosed, uint256 effectiveTime); //event provides exact blockstamp Unix ime of closing 
+
+  error Expired();
+  error NotBuyer();
+  error NotReadyToClose();
   
   modifier restricted() { 
-    require(parties[msg.sender], "This may only be called by a party to the deal or the by escrow contract");
+    require(parties[msg.sender], "Not a Party");
     _;
   }
   
@@ -48,7 +52,7 @@ contract EscrowStablecoin {
   /// @param _stablecoin is the token contract address for the stablecoin to be sent as deposit
   /// @param _secsUntilExpiration is the number of seconds until the deal expires, which can be converted to days for front end input or the code can be adapted accordingly
   constructor(string memory _description, uint256 _deposit, address payable _seller, address _stablecoin, uint256 _secsUntilExpiration) payable {
-      require(_seller != msg.sender, "Designate different party as seller");
+      require(_seller != msg.sender, "Seller != Buyer");
       buyer = payable(address(msg.sender));
       deposit = _deposit;
       escrowAddress = address(this);
@@ -65,9 +69,8 @@ contract EscrowStablecoin {
   /// @notice buyer may confirm seller's recipient address as extra security measure or change seller address
   /// @param _seller is the new recipient address of seller
   function designateSeller(address payable _seller) external restricted {
-      require(_seller != seller, "Party already designated as seller");
-      require(_seller != buyer, "Buyer cannot also be seller");
-      require(!isExpired, "Too late to change seller");
+      require(_seller != buyer, "Buyer address");
+      if (isExpired) revert Expired();
       parties[_seller] = true;
       seller = _seller;
   }
@@ -75,7 +78,7 @@ contract EscrowStablecoin {
   /// ********* DEPLOYER MUST SEPARATELY APPROVE (by interacting with the ERC20 contract in question's approve()) this contract address for the deposit amount (keep decimals in mind) ********
   /// @notice buyer deposits in escrowAddress after separately ERC20-approving escrowAddress
   function depositInEscrow() public restricted returns(bool, uint256) {
-      require(msg.sender == buyer, "Only buyer may deposit in escrow");
+      if (msg.sender == buyer) revert NotBuyer();
       ierc20.transferFrom(buyer, escrowAddress, deposit);
       return (true, ierc20.balanceOf(escrowAddress));
       
@@ -126,7 +129,7 @@ contract EscrowStablecoin {
   /// @notice checks if both buyer and seller are ready to close and expiration has not been met; if so, escrowAddress closes deal and pays seller; if not, deposit returned to buyer
   /// @dev if properly closes, emits event with effective time of closing
   function closeDeal() public returns(bool){
-      require(sellerApproved && buyerApproved, "Parties are not ready to close.");
+      if (!sellerApproved || !buyerApproved) revert NotReadyToClose();
       if (expirationTime <= uint256(block.timestamp)) {
             isExpired = true;
             returnDeposit();
