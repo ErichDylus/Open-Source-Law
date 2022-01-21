@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.10;
+pragma solidity ^0.8.10;
 
 /// unaudited and subject to all disclosures, licenses, and caveats of the open-source-law repo
 /// @title DealStamp
@@ -24,6 +24,8 @@ contract DealStamp {
   
   event DealStamped(uint256 indexed dealNumber, uint256 effectiveTime, string docsLocation, address[] parties);  
   event PartyAdded(uint256 indexed dealNumber, address newParty);
+
+  error NotPartyToDeal();
   
   constructor() {}
   
@@ -54,8 +56,8 @@ contract DealStamp {
   
   /// @param _dealNumber deal number of deal for which the new party will be added
   /// @param _newParty address of the new party to be added to the deal corresponding to _dealNumber
-  function addPartyToDeal(uint256 _dealNumber, address _newParty) external returns (bool) {
-      require(isPartyToDeal[_dealNumber][msg.sender], "msg.sender_not_party");
+  function addPartyToDeal(uint256 _dealNumber, address _newParty) external returns (bool success) {
+      if (!isPartyToDeal[_dealNumber][msg.sender]) revert NotPartyToDeal();
       isPartyToDeal[_dealNumber][_newParty] = true;
       deals[_dealNumber].parties.push(_newParty);
       emit PartyAdded(_dealNumber, _newParty);
