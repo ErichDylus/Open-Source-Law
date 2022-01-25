@@ -5,12 +5,11 @@ pragma solidity ^0.8.6;
 /// unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
 /// @author Erich Dylus
 /// @title Stablecoin Escrow
-/// @notice create a simple smart escrow contract, with an ERC20 stablecoin as payment, expiration denominated in seconds, deposit refunded if contract expires before closeDeal() called
-/// @notice intended to be deployed by buyer (as they will separately approve() the contract address for the deposited funds, and deposit is returned to deployer if expired)
-/// @dev may be forked/altered for separation of deposit from purchase price, deposit non-refundability, different token standard, etc. */
+/// @notice bilateral smart escrow contract, with an ERC20 stablecoin as payment, expiration denominated in seconds, deposit refunded if contract expires before closeDeal() called
+/// @notice intended to be deployed by buyer (who must separately approve() the contract address for the deposited funds, and deposit is returned to deployer if expired)
+/// @dev may be altered for separation of deposit from purchase price, deposit non-refundability, different token standard, etc.
 
 interface IERC20 { 
-    function approve(address spender, uint256 amount) external returns (bool); 
     function balanceOf(address account) external view returns (uint256);
     function transfer(address recipient, uint256 amount) external returns (bool);
     function transferFrom(address from, address to, uint256 value) external returns (bool);
@@ -23,12 +22,10 @@ contract EscrowStablecoin {
   address payable seller;
   address stablecoin;
   uint256 deposit;
-  uint256 effectiveTime;
   uint256 expirationTime;
   bool sellerApproved;
   bool buyerApproved;
   bool isExpired;
-  bool isClosed;
   IERC20 public ierc20;
   string description;
   mapping(address => bool) public parties; //map whether an address is a party to the transaction for restricted() modifier 
@@ -98,10 +95,10 @@ contract EscrowStablecoin {
   
   /// @notice check if expired, and if so, return balance to buyer 
   function checkIfExpired() external returns(bool){
-        if (expirationTime <= uint256(block.timestamp)) {
+        if (expirationTime <= block.timestamp) {
             isExpired = true;
             returnDeposit(); 
-            emit DealExpired(isExpired);
+            emit DealExpired(true);
         } else {
             isExpired = false;
         }
@@ -128,18 +125,16 @@ contract EscrowStablecoin {
     
   /// @notice checks if both buyer and seller are ready to close and expiration has not been met; if so, escrowAddress closes deal and pays seller; if not, deposit returned to buyer
   /// @dev if properly closes, emits event with effective time of closing
-  function closeDeal() public returns(bool){
+  function closeDeal() public returns(bool isClosed){
       if (!sellerApproved || !buyerApproved) revert NotReadyToClose();
-      if (expirationTime <= uint256(block.timestamp)) {
+      if (expirationTime <= block.timestamp) {
             isExpired = true;
             returnDeposit();
-            emit DealExpired(isExpired);
+            emit DealExpired(true);
         } else {
-            isClosed = true;
             paySeller();
-            effectiveTime = uint256(block.timestamp); // effective time of closing upon payment to seller
-            emit DealClosed(isClosed, effectiveTime);
+            emit DealClosed(true, block.timestamp); // effective time of closing is block.timestamp upon payment to seller
         }
-        return(isClosed);
+        return(true);
   }
 }
