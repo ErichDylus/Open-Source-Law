@@ -34,7 +34,12 @@ contract TaxPayment {
     /// @return taxes paid, tax payment number for this msg.sender
     // TODO: add ETH functionality
     function payTax(uint256 _income, address _tokenAddress) public returns(uint256, uint256) {
-        uint256 _taxes = (_income*taxRate)/1e18;
+        uint256 _taxes;
+        uint256 _rate = taxRate;
+        uint256 _denom = 1e18;
+        assembly {
+            _taxes := div(mul(_income, _rate), _denom)
+        }
         IERC20(_tokenAddress).transferFrom(msg.sender, IRS, _taxes);
 	taxPaymentNumber[msg.sender]++;
 	taxPaymentNumberAmount[_taxes][msg.sender] = taxPaymentNumber[msg.sender];
