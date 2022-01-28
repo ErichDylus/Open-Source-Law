@@ -44,7 +44,7 @@ contract DealStamp {
       emit DealStamped(dealNumber, _effectiveTime, docsLocation[dealNumber], parties);
       isPartyToDeal[dealNumber][_party1] = true;
       isPartyToDeal[dealNumber][_party2] = true;
-      dealNumber++; // increment for next newDealStamp
+      unchecked{dealNumber++;} // increment for next newDealStamp, unlikely to overflow
       return(dealNumber - 1); // DealStamper should record the dealNumber for this function call for relevant parties; also emitted in the DealStamped event 
   }
   
