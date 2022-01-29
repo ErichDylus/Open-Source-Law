@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // FOR DEMONSTRATION ONLY, unaudited, not recommended to be used for any purpose, carries absolutely no warranty of any kind
-/// @dev ERC20 holder-gated access to an IPFS link 
-// future features could include other token standards, threshold amounts, privacy solutions, staked tokens (to permit governance staker-gated access), accessing something other than a string (since mintgate addresses gated links)
+/// @dev ERC20 holder-gated access to hashed information
+// future features could include other token standards such as NFTs, threshold amounts, privacy solutions, staked tokens (to permit governance staker-gated access), accessing something other than a string (since mintgate addresses gated links)
 
 pragma solidity ^0.8.6;
 
@@ -12,34 +12,34 @@ interface IERC20 {
 contract AccessByERC20 {
 
     address owner;
-    string private IPFShash;
+    string private infoHash; // this is not concealed, just unable to be changed by inheriting contracts
     IERC20 public ierc20; 
-    mapping(address => uint256) tokenBalance;
     
+    error NotOwner();
+    error NotTokenHolder();
+
     event HashChanged();
     
-    /// @notice deployer sets token address necessary to access IPFS info
-    /// @param _token: token address for ERC20 used to gate access
-    constructor(address _token) { 
+    /// @notice deployer sets token address necessary to access hash, and initial hash info
+    /// @param _token token address for ERC20 used to gate access
+    /// @param _infoHash hash of information to be revealed only to applicable token holder
+    constructor(address _token, string memory _infoHash) { 
         ierc20 = IERC20(_token);
+        infoHash = _infoHash;
         owner = msg.sender;
     }
     
-    // owner sets IPFS hash (and is able to update/change it)
-    // @param _IPFShash: IPFS hash of information to be revealed only to ERC20 holder
-    function setIPFShash(string calldata _IPFShash) external {
-        require(msg.sender == owner, "Only_Owner");
-        IPFShash = _IPFShash;
+    /// @notice owner can update hash info
+    /// @param _infoHash hash of information to be revealed only to applicable token holder
+    function setHash(string calldata _infoHash) external {
+        if (msg.sender != owner) revert NotOwner();
+        infoHash = _infoHash;
         emit HashChanged();
     }
-    
-    //check msg.sender's token balance and assign mapping in order to accessLink()
-    function setBalance() external {
-        tokenBalance[msg.sender] = ierc20.balanceOf(msg.sender);
-    }
-    
-    function accessLink() external view returns(string memory) {
-        require(tokenBalance[msg.sender] > 0, "Only_Tokenholders. Call setBalance() first.");
-        return(IPFShash);
+
+    /// @notice check msg.sender's token balance and return hash if > 0 
+    function accessHash() external view returns(string memory) {
+        if (ierc20.balanceOf(msg.sender) <= 0) revert NotTokenHolder();
+        return(infoHash);
     } 
 }
