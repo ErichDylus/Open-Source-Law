@@ -22,7 +22,6 @@ contract InstallmentEscrow {
   address escrowAddress;
   address payable client;
   address payable servicer;
-  address stablecoin;
   uint256 retainer;
   uint256 expirationTime;
   bool servicerApproved;
@@ -39,9 +38,15 @@ contract InstallmentEscrow {
   string description;
   mapping(address => bool) public parties; //map whether an address is a party for restricted() modifier 
   
+  error AlreadyPaid();
+  error Expired();
+  error NotApproved();
+  error PriorMilestoneIncomplete();
+  error ImproperServicer();
+
   event firstMilestoneCompleted(uint256 firstMilestoneTime);
   event secondMilestoneCompleted(uint256 secondMilestoneTime);
-  event Expired(bool isExpired);
+  event hasExpired(bool isExpired);
   event Closed(bool isClosed, uint256 effectiveTime); //event provides exact blockstamp time of payment 
   
   modifier restricted() { 
@@ -56,12 +61,11 @@ contract InstallmentEscrow {
   /// @param _stablecoin the token contract address for the stablecoin to be sent as retainer
   /// @param _secsUntilExpiration the number of seconds until expiry, which can be converted to days for front end input or the code can be adapted accordingly
   constructor(string memory _description, uint256 _retainer, address payable _servicer, address _stablecoin, uint256 _secsUntilExpiration) payable {
-      require(_servicer != msg.sender, "CLIENT_SHOULD_DEPLOY");
+      if (_servicer == msg.sender) revert ImproperServicer();
       client = payable(address(msg.sender));
       retainer = _retainer;
       escrowAddress = address(this);
-      stablecoin = _stablecoin;
-      ierc20 = IERC20(stablecoin);
+      ierc20 = IERC20(_stablecoin);
       description = _description;
       servicer = _servicer;
       parties[msg.sender] = true;
@@ -70,9 +74,10 @@ contract InstallmentEscrow {
       expirationTime = block.timestamp + _secsUntilExpiration;
   }
   
+  /// @param _servicer address of new servicer
   function designateServiceProvider(address payable _servicer) public restricted {
-      require(_servicer != client, "Client cannot also be servicer");
-      require(!isExpired, "EXPIRED");
+      if (_servicer == client) revert ImproperServicer();
+      if (isExpired) revert Expired();
       parties[_servicer] = true;
       servicer = _servicer;
   }
@@ -98,7 +103,7 @@ contract InstallmentEscrow {
         if (expirationTime <= uint256(block.timestamp)) {
             isExpired = true;
             returnToClient(); 
-            emit Expired(isExpired);
+            emit hasExpired(isExpired);
         } else {
             isExpired = false;
         }
@@ -126,8 +131,8 @@ contract InstallmentEscrow {
   
   //escrowAddress sends first installment to servicer
   function payFirstInstallment() external restricted returns(bool, uint256) {
-      require(!firstInstallmentPaid, "Already paid");
-      require (servicerApproved && clientApproved, "NOT_APPROVED");
+      if (firstInstallmentPaid) revert AlreadyPaid();
+      if (!servicerApproved || !clientApproved) revert NotApproved();
       ierc20.transfer(servicer, retainer/3);
       firstInstallmentPaid = true;
       emit firstMilestoneCompleted(block.timestamp);
@@ -135,7 +140,7 @@ contract InstallmentEscrow {
   } 
   
   function secondMilestoneComplete() external restricted returns(string memory){
-        require(servicerApproved && clientApproved, "First Milestone incomplete.");
+        if (!servicerApproved || !clientApproved) revert PriorMilestoneIncomplete();
         if (msg.sender == servicer) {
             servicerApproved2 = true;
             return("Servicer confirms second milestone is complete.");
@@ -149,8 +154,8 @@ contract InstallmentEscrow {
   
   //escrowAddress sends second installment to servicer
   function paySecondInstallment() external restricted returns(bool, uint256) {
-      require(!secondInstallmentPaid, "ALREADY_PAID");
-      require (servicerApproved2 && clientApproved2, "NOT_APPROVED");
+      if (secondInstallmentPaid) revert AlreadyPaid();
+      if (!servicerApproved2 || !clientApproved2) revert NotApproved();
       ierc20.transfer(servicer, retainer/3);
       secondInstallmentPaid = true;
       emit secondMilestoneCompleted(block.timestamp);
@@ -158,7 +163,7 @@ contract InstallmentEscrow {
   } 
   
   function thirdMilestoneComplete() external restricted returns(string memory){
-        require(servicerApproved2 && clientApproved2, "NOT_APPROVED");
+        if (!servicerApproved2 || !clientApproved2) revert PriorMilestoneIncomplete();
         if (msg.sender == servicer) {
             servicerApproved3 = true;
             return("Servicer confirms third milestone is complete.");
@@ -173,11 +178,11 @@ contract InstallmentEscrow {
   // checks if both client and servicer are ready to close representation and expiration has not been met; if so, escrowAddress pays out remainder of retainer to servicer
   // if properly closes, emits event with effective time of closing
   function closeRepresentation() public returns(bool){
-      require(servicerApproved3 && clientApproved3, "NOT_APPROVED");
+      if (!servicerApproved3 || !clientApproved3) revert NotApproved();
       if (expirationTime <= uint256(block.timestamp)) {
             isExpired = true;
             returnToClient(); // see comment above as to deposit refund for accidental expiration, optional/subject to negotiation of parties
-            emit Expired(isExpired);
+            emit hasExpired(isExpired);
         } else {
             ierc20.transfer(servicer, ierc20.balanceOf(escrowAddress));
             isClosed = true;
