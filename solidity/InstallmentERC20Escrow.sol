@@ -11,7 +11,6 @@ pragma solidity ^0.8.6;
 ** may be forked/altered for number of installments and breakdown of each amount, retainer refundability, etc. */
 
 interface IERC20 { 
-    function approve(address spender, uint256 amount) external returns (bool); 
     function balanceOf(address account) external view returns (uint256);
     function transfer(address recipient, uint256 amount) external returns (bool);
     function transferFrom(address from, address to, uint256 value) external returns (bool);
@@ -26,10 +25,8 @@ contract InstallmentEscrow {
   uint256 expirationTime;
   bool servicerApproved;
   bool clientApproved;
-  bool firstInstallmentPaid;
   bool servicerApproved2;
   bool clientApproved2;
-  bool secondInstallmentPaid;
   bool servicerApproved3;
   bool clientApproved3;
   bool isExpired;
@@ -38,9 +35,18 @@ contract InstallmentEscrow {
   string description;
   mapping(address => bool) public parties; //map whether an address is a party for restricted() modifier 
   
+  enum Installment {
+        Unpaid,
+        FirstPaid,
+        SecondPaid,
+        ThirdPaid
+    }
+  Installment public installment;
+
   error AlreadyPaid();
   error Expired();
   error NotApproved();
+  error NotClient();
   error PriorMilestoneIncomplete();
   error ImproperServicer();
 
@@ -85,7 +91,7 @@ contract InstallmentEscrow {
   // ********** DEPLOYER MUST SEPARATELY APPROVE (by interacting with the ERC20 contract in question's approve()) this contract address for the retainer amount (keep decimals in mind) ************
   // client deposits in escrowAddress
   function sendRetainer() external returns(bool, uint256) {
-      require(msg.sender == client, "ONLY_CLIENT"); 
+      if (msg.sender != client) revert NotClient(); 
       ierc20.transferFrom(client, escrowAddress, retainer);
       return (true, ierc20.balanceOf(escrowAddress));
       
@@ -131,10 +137,10 @@ contract InstallmentEscrow {
   
   //escrowAddress sends first installment to servicer
   function payFirstInstallment() external restricted returns(bool, uint256) {
-      if (firstInstallmentPaid) revert AlreadyPaid();
+      if (installment == Installment.Unpaid) revert AlreadyPaid();
       if (!servicerApproved || !clientApproved) revert NotApproved();
       ierc20.transfer(servicer, retainer/3);
-      firstInstallmentPaid = true;
+      installment = Installment.FirstPaid;
       emit firstMilestoneCompleted(block.timestamp);
       return (true, ierc20.balanceOf(escrowAddress));
   } 
@@ -154,10 +160,10 @@ contract InstallmentEscrow {
   
   //escrowAddress sends second installment to servicer
   function paySecondInstallment() external restricted returns(bool, uint256) {
-      if (secondInstallmentPaid) revert AlreadyPaid();
+      if (installment == Installment.SecondPaid) revert AlreadyPaid();
       if (!servicerApproved2 || !clientApproved2) revert NotApproved();
       ierc20.transfer(servicer, retainer/3);
-      secondInstallmentPaid = true;
+      installment = Installment.SecondPaid;
       emit secondMilestoneCompleted(block.timestamp);
       return (true, ierc20.balanceOf(escrowAddress));
   } 
@@ -185,6 +191,7 @@ contract InstallmentEscrow {
             emit hasExpired(isExpired);
         } else {
             ierc20.transfer(servicer, ierc20.balanceOf(escrowAddress));
+            installment = Installment.ThirdPaid;
             isClosed = true;
             emit Closed(isClosed, block.timestamp); // effective time of closing upon payment to servicer
         }
