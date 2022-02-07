@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-//********* INCOMPLETE AND IN PROCESS *****************
+//********* IN PROCESS *****************
 
 pragma solidity ^0.8.6;
 
@@ -137,7 +137,7 @@ contract InstallmentEscrow {
   
   //escrowAddress sends first installment to servicer
   function payFirstInstallment() external restricted returns(bool, uint256) {
-      if (installment == Installment.Unpaid) revert AlreadyPaid();
+      if (installment != Installment.Unpaid) revert AlreadyPaid();
       if (!servicerApproved || !clientApproved) revert NotApproved();
       ierc20.transfer(servicer, retainer/3);
       installment = Installment.FirstPaid;
@@ -184,6 +184,7 @@ contract InstallmentEscrow {
   // checks if both client and servicer are ready to close representation and expiration has not been met; if so, escrowAddress pays out remainder of retainer to servicer
   // if properly closes, emits event with effective time of closing
   function closeRepresentation() public returns(bool){
+      if (installment == Installment.ThirdPaid) revert AlreadyPaid();
       if (!servicerApproved3 || !clientApproved3) revert NotApproved();
       if (expirationTime <= uint256(block.timestamp)) {
             isExpired = true;
