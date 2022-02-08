@@ -19,8 +19,8 @@ interface IERC20 {
 contract InstallmentEscrow {
     
   address escrowAddress;
-  address payable client;
-  address payable servicer;
+  address client;
+  address servicer;
   uint256 retainer;
   uint256 expirationTime;
   bool servicerApproved;
@@ -68,7 +68,7 @@ contract InstallmentEscrow {
   /// @param _secsUntilExpiration the number of seconds until expiry, which can be converted to days for front end input or the code can be adapted accordingly
   constructor(string memory _description, uint256 _retainer, address payable _servicer, address _stablecoin, uint256 _secsUntilExpiration) payable {
       if (_servicer == msg.sender) revert ImproperServicer();
-      client = payable(address(msg.sender));
+      client = msg.sender;
       retainer = _retainer;
       escrowAddress = address(this);
       ierc20 = IERC20(_stablecoin);
