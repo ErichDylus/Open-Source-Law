@@ -28,25 +28,26 @@ contract PayInETH {
 
     address constant USDC_TOKEN_ADDR = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48; // USDC mainnet token contract address, change this for desired token to be received
     address constant SUSHI_ROUTER_ADDR = 0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F; // Sushiswap router contract address
+    address immutable deployer;
     address receiver; 
 
     IUniswapV2Router02 public sushiRouter;
     IUSDC public iUSDCToken;
 
-    error NoETHSent();
     error NoUSDC();
-    error NotCurrentReceiver();
+    error ZeroMsgValue();
 
     constructor() payable {
         sushiRouter = IUniswapV2Router02(SUSHI_ROUTER_ADDR);
         iUSDCToken = IUSDC(USDC_TOKEN_ADDR);
         receiver = msg.sender;
+        deployer = msg.sender;
     }
 
     /// @notice receives ETH payment and swaps to USDC via Sushiswap router, which is then sent to receiver.
     /// @dev here, minimum amount set as 0 and deadline set to 100 seconds after call as initial options to avoid failure, but can be altered
     function payInETH() public payable {
-        if (msg.value == 0) revert NoETHSent();
+        if (msg.value == 0) revert ZeroMsgValue();
         sushiRouter.swapExactETHForTokens{ value: msg.value }(0, _getPathForETHtoUSDC(), address(this), block.timestamp+100);
         _sendUSDC();
     }
@@ -55,7 +56,8 @@ contract PayInETH {
     /// @param _newReceiver new address to receive ultimate stablecoin payment
     /// @return the receiver address
     function changeReceiver(address _newReceiver) external returns (address) {
-        if (msg.sender != receiver) revert NotCurrentReceiver();
+        // necessary in case receiver is ever changed to a contract address. require() used instead of custom error because of two address possibilities
+        require (msg.sender == receiver || msg.sender == deployer, "ONLY_DEPLOYER_OR_CURRENT_RECEIVER");
         receiver = _newReceiver;
         return (receiver);
     }
