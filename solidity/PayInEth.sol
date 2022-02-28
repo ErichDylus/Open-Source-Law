@@ -34,9 +34,6 @@ contract PayInETH {
     IUniswapV2Router02 public sushiRouter;
     IUSDC public iUSDCToken;
 
-    error NoUSDC();
-    error ZeroMsgValue();
-
     constructor() payable {
         sushiRouter = IUniswapV2Router02(SUSHI_ROUTER_ADDR);
         iUSDCToken = IUSDC(USDC_TOKEN_ADDR);
@@ -45,11 +42,9 @@ contract PayInETH {
     }
 
     /// @notice receives ETH payment and swaps to USDC via Sushiswap router, which is then sent to receiver.
-    /// @dev here, minimum amount set as 0 and deadline set to 100 seconds after call as initial options to avoid failure, but can be altered
-    function payInETH() public payable {
-        if (msg.value == 0) revert ZeroMsgValue();
-        sushiRouter.swapExactETHForTokens{ value: msg.value }(0, _getPathForETHtoUSDC(), address(this), block.timestamp+100);
-        _sendUSDC();
+    /// @dev minimum amount set as 0 and deadline set to 100 seconds after call as initial options to avoid failure, but can be altered
+    receive() external payable {
+        sushiRouter.swapExactETHForTokens{ value: msg.value }(0, _getPathForETHtoUSDC(), receiver, block.timestamp+100);
     }
 
     /// @notice allows current receiver address to change the receiver address for payments
@@ -61,11 +56,6 @@ contract PayInETH {
         receiver = _newReceiver;
         return (receiver);
     }
-
-    function _sendUSDC() internal {
-        if (iUSDCToken.balanceOf(address(this)) == 0) revert NoUSDC();
-        iUSDCToken.transfer(receiver, iUSDCToken.balanceOf(address(this)));
-    }
     
     /// @return the router path for ETH/USDC swap for the payInETH() function
     function _getPathForETHtoUSDC() internal view returns (address[] memory) {
@@ -74,6 +64,4 @@ contract PayInETH {
         path[1] = USDC_TOKEN_ADDR;
         return path;
     }
-
-    receive() payable external {}
 }
