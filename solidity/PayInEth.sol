@@ -20,6 +20,7 @@ interface IUniswapV2Router02 {
 contract PayInETH {
 
     address constant USDC_TOKEN_ADDR = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48; // USDC mainnet token contract address, change this for desired token to be received
+    address constant WETH_ADDR = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2; // WETH mainnet token address, alteratively could call sushiRouter.WETH() for the path
     address constant SUSHI_ROUTER_ADDR = 0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F; // Sushiswap router contract address
     address receiver; 
 
@@ -33,15 +34,15 @@ contract PayInETH {
     }
 
     /// @notice receives ETH payment and swaps to USDC via Sushiswap router, which is then sent to receiver.
-    /// @dev here, minimum amount set as 0 and deadline set to 100 seconds after call as initial options to avoid failure, but can be altered
+    /// @dev here, minimum amount set as 0 and deadline set to block.timestamp as initial options to avoid failure, but can be altered
     receive() external payable {
-        sushiRouter.swapExactETHForTokens{ value: msg.value }(0, _getPathForETHtoUSDC(), receiver, block.timestamp+100);
+        sushiRouter.swapExactETHForTokens{ value: msg.value }(0, _getPathForETHtoUSDC(), receiver, block.timestamp);
     }
 
     /// @return the router path for ETH/USDC swap
-    function _getPathForETHtoUSDC() internal view returns (address[] memory) {
+    function _getPathForETHtoUSDC() internal pure returns (address[] memory) {
         address[] memory path = new address[](2);
-        path[0] = sushiRouter.WETH(); //0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
+        path[0] = WETH_ADDR;
         path[1] = USDC_TOKEN_ADDR;
         return path;
     }
