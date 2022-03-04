@@ -11,6 +11,7 @@ pragma solidity ^0.8.0;
 /// @dev uses Sushiswap router to swap incoming ETH for USDC tokens, then sends to receiver address (initially, the deployer)
 /// @notice permits payment for services denominated in ETH but receiving stablecoins without undertaking the swap themselves, avoiding additional unnecessary de minimus taxable events in some jurisdictions.
 /// may be easily forked to instead accept DAI, RAI, or any other token with a swap pair - USDC merely used as an example
+/// also forkable for other chains, for example Polygon/MATIC: https://gist.github.com/ErichDylus/476fb5d51683059f150f152149cc4c15
 
 interface IUniswapV2Router02 {
     function swapExactETHForTokens(uint256 amountOutMin, address[] calldata path, address to, uint256 deadline) external payable returns (uint256[] memory amounts);
