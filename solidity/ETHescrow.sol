@@ -111,13 +111,15 @@ contract EscrowEth {
       require(!isClosed && !isExpired, "Too late for early termination");
       if (msg.sender == seller) {
             LexLocker(lexlocker).requestLockerResolution(buyer, lexDAO, _token, deposit, _details, _singleArbiter);
-            lexlocker.transfer(escrowAddress.balance);
+            (bool _sent, bytes memory _data) = lexlocker.call{value: escrowAddress.balance}("");
+            require(_sent, "Failed");
             isDisputed = true;
             emit DealDisputed(seller, isDisputed);
             return("Seller has initiated LexLocker dispute resolution.");
         } else if (msg.sender == buyer) {
             LexLocker(lexlocker).requestLockerResolution(seller, lexDAO, _token, deposit, _details, _singleArbiter);
-            lexlocker.transfer(escrowAddress.balance); //  presumably balance only holds the deposit amount if buyer is initiating dispute
+            (bool _sent, bytes memory _data) = lexlocker.call{value: escrowAddress.balance}("");
+            require(_sent, "Failed");
             isDisputed = true;
             emit DealDisputed(buyer, isDisputed);
             return("Buyer has initiated Lexlocker dispute resolution.");
@@ -127,7 +129,7 @@ contract EscrowEth {
   }
 
   /// @notice seller and buyer each call when ready to close
-  function readyToClose() external restricted returns(string memory) {
+  function readyToClose() external returns(string memory) {
          if (msg.sender == seller) {
             sellerApproved = true;
             return("Seller is ready to close.");
@@ -144,11 +146,13 @@ contract EscrowEth {
       if (!sellerApproved || !buyerApproved) revert NotApproved();
       if (expirationTime <= block.timestamp) {
             isExpired = true;
-            buyer.transfer(escrowAddress.balance);
+            (bool _sent, bytes memory _data) = buyer.call{value: escrowAddress.balance}("");
+            require(_sent, "Failed");
             emit DealExpired(true);
         } else {
             isClosed = true;
-            seller.transfer(escrowAddress.balance);
+            (bool _sent, bytes memory _data) = seller.call{value: escrowAddress.balance}("");
+            require(_sent, "Failed");
             emit DealClosed(true);
         }
         return(isClosed);
