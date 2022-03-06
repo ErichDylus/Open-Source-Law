@@ -1,9 +1,6 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
-
-/// @dev return the bytes4 function sig of an inputted method call
-/// for assembly example: https://medium.com/@blockchain101/calling-the-function-of-another-contract-in-solidity-f9edfa921f4cw
+pragma solidity >=0.8.0;
 
 contract FunctionSig {
     constructor() {}
