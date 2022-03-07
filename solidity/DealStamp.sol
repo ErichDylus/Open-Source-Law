@@ -1,10 +1,9 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.10;
+pragma solidity >=0.8.10;
 
-/// unaudited and subject to all disclosures, licenses, and caveats of the open-source-law repo
+/// unaudited and subject to all disclosures, licenses, and caveats set forth at https://github.com/ErichDylus/Open-Source-Law/blob/main/solidity/README.md
 /// @title DealStamp
-/// @author Erich Dylus
 /// @notice An on-chain record of a deal's parties, decentralized doc room storage ref (presumably carrying an additional hash layer/other security mechanism for access), and time of closing
 /// adaptations/forks might include a record of oracle information used in an on-chain closing, gasless sig verification, removal of parties from array, dispute resolution details, etc.
 
@@ -44,7 +43,7 @@ contract DealStamp {
       emit DealStamped(dealNumber, _effectiveTime, docsLocation[dealNumber], parties);
       isPartyToDeal[dealNumber][_party1] = true;
       isPartyToDeal[dealNumber][_party2] = true;
-      unchecked{dealNumber++;} // increment for next newDealStamp, unlikely to overflow
+      unchecked{++dealNumber;} // increment for next newDealStamp, unlikely to overflow
       return(dealNumber - 1); // DealStamper should record the dealNumber for this function call for relevant parties; also emitted in the DealStamped event 
   }
   
