@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // FOR DEMONSTRATION ONLY, unaudited, not recommended to be used for any purpose, carries absolutely no warranty of any kind
 /// @dev ERC20 holder-gated access to hashed information
-// future features could include other token standards such as NFTs, threshold amounts, privacy solutions, staked tokens (to permit governance staker-gated access), accessing something other than a string (since mintgate addresses gated links)
+// future features could include other token standards such as NFTs, threshold amounts, privacy solutions, staked tokens (to permit governance staker-gated access), permit a function call instead of just view
 
 pragma solidity ^0.8.6;
 
@@ -38,8 +38,9 @@ contract AccessByERC20 {
     }
 
     /// @notice check msg.sender's token balance and return hash if > 0 
+    /// may introduce view threshold amount such as if (ierc20.balanceOf(msg.sender) <= _thresholdAmount), or permit a function call
     function accessHash() external view returns(string memory) {
-        if (ierc20.balanceOf(msg.sender) <= 0) revert NotTokenHolder();
+        if (ierc20.balanceOf(msg.sender) == 0) revert NotTokenHolder();
         return(infoHash);
     } 
 }
