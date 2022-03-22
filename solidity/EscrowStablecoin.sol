@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.6;
+pragma solidity >=0.8.6;
 
 /// unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
 /// @title Stablecoin Escrow
@@ -29,8 +29,8 @@ contract EscrowStablecoin {
   string description;
   mapping(address => bool) public parties; //map whether an address is a party to the transaction for restricted() modifier 
   
-  event DealExpired(bool isExpired);
-  event DealClosed(bool isClosed, uint256 effectiveTime); //event provides exact blockstamp Unix ime of closing 
+  event DealExpired();
+  event DealClosed(uint256 effectiveTime); //event provides exact blockstamp Unix ime of closing 
 
   error Expired();
   error NotBuyer();
@@ -82,13 +82,13 @@ contract EscrowStablecoin {
   }
   
   /// @notice escrowAddress returns deposit to buyer
-  function returnDeposit() internal returns(bool, uint256) {
+  function _returnDeposit() internal returns(bool, uint256) {
       ierc20.transfer(buyer, deposit);
       return (true, ierc20.balanceOf(escrowAddress));
   }
   
   /// @notice escrowAddress sends deposit to seller
-  function paySeller() internal returns(bool, uint256) {
+  function _paySeller() internal returns(bool, uint256) {
       ierc20.transfer(seller, deposit);
       return (true, ierc20.balanceOf(escrowAddress));
   } 
@@ -97,8 +97,8 @@ contract EscrowStablecoin {
   function checkIfExpired() external returns(bool){
         if (expirationTime <= block.timestamp) {
             isExpired = true;
-            returnDeposit(); 
-            emit DealExpired(true);
+            _returnDeposit(); 
+            emit DealExpired();
         } else {
             isExpired = false;
         }
@@ -125,16 +125,15 @@ contract EscrowStablecoin {
     
   /// @notice checks if both buyer and seller are ready to close and expiration has not been met; if so, escrowAddress closes deal and pays seller; if not, deposit returned to buyer
   /// @dev if properly closes, emits event with effective time of closing
-  function closeDeal() public returns(bool isClosed){
+  function closeDeal() public {
       if (!sellerApproved || !buyerApproved) revert NotReadyToClose();
       if (expirationTime <= block.timestamp) {
             isExpired = true;
-            returnDeposit();
-            emit DealExpired(true);
+            _returnDeposit();
+            emit DealExpired();
         } else {
-            paySeller();
-            emit DealClosed(true, block.timestamp); // effective time of closing is block.timestamp upon payment to seller
+            _paySeller();
+            emit DealClosed(block.timestamp); // effective time of closing is block.timestamp upon payment to seller
         }
-        return(true);
   }
 }
