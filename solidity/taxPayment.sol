@@ -23,22 +23,22 @@ contract TaxPayment {
     event TaxPaid(address indexed taxpayer, uint256 indexed taxPaymentNumber, uint256 timeOfPayment, uint256 taxPaymentAmount, address tokenContract);
     
     /// @param _IRSaddress IRS's designated address to receive taxes
-    /// @param _taxRate whole number percentage tax rate expressed as a nonzero uint < 100. 1 = 1%, 5 = 5%, etc. 
+    /// @param _taxRate percentage tax rate expressed as a nonzero uint < 1000 to allow for one decimal place. 50 = 5%, 5 = 0.5%, etc. 
     constructor(address _IRSaddress, uint256 _taxRate) payable {
-        if (_taxRate == 0 || _taxRate >= 100) revert InvalidRate();
+        if (_taxRate == 0 || _taxRate >= 1000) revert InvalidRate();
         IRS = payable(_IRSaddress); 
         taxRate = _taxRate;
     }
     
     /// @notice msg.sender must first separately approve address(this) for _tokenAddress for at least _income amount
-    /// @param _income received income amount by msg.sender in the applicable token corresponding to _tokenAddressin appropriate decimal amount
+    /// @param _income received income amount by msg.sender in the applicable token corresponding to _tokenAddress
     /// @param _tokenAddress contract address of ERC20 token received
     /// @return taxes paid, tax payment number for this msg.sender
     function payTax(uint256 _income, address _tokenAddress) public returns(uint256, uint256) {
-        //below saves 50000 in contract size compared to uint256 _taxes = (_income*taxRate) / 100;
+        //needs testing, but more gas-efficient than: uint256 _taxes = (_income*taxRate) / 1000;
         uint256 _taxes;
         uint256 _rate = taxRate;
-        uint256 _denom = 100;
+        uint256 _denom = 1000; // corresponds to taxRate denomination
         assembly { 
             _taxes := div(mul(_income, _rate), _denom)
         }
