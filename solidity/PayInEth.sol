@@ -5,7 +5,7 @@
 ***** this code is not audited, and users, developers, or adapters of these files should proceed with caution and use at their own risk.
 ****/
 
-pragma solidity ^0.8.0;
+pragma solidity >=0.8.0;
 
 /// @title Pay In ETH
 /// @dev uses Sushiswap router to swap incoming ETH for USDC tokens, then sends to receiver address (initially, the deployer)
