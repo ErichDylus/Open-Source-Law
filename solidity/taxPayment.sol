@@ -43,9 +43,9 @@ contract TaxPayment {
             _taxes := div(mul(_income, _rate), _denom)
         }
         IERC20(_tokenAddress).transferFrom(msg.sender, IRS, _taxes);
-	    unchecked { ++taxPaymentNumber[msg.sender]; } // will not overflow on human timelines
-	    taxPaymentNumberAmount[_taxes][msg.sender] = taxPaymentNumber[msg.sender];
-	    emit TaxPaid(msg.sender, taxPaymentNumber[msg.sender], block.timestamp, _taxes, _tokenAddress);
+	unchecked { ++taxPaymentNumber[msg.sender]; } // will not overflow on human timelines
+	taxPaymentNumberAmount[_taxes][msg.sender] = taxPaymentNumber[msg.sender];
+	emit TaxPaid(msg.sender, taxPaymentNumber[msg.sender], block.timestamp, _taxes, _tokenAddress);
         return(_taxes, taxPaymentNumber[msg.sender]);
     }
 }
