@@ -5,7 +5,7 @@
 ***** this code is not audited, and users, developers, or adapters of these files should proceed with caution and use at their own risk.
 ****/
 
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.4;
 
 import "https://github.com/ErichDylus/Open-Source-Law/blob/main/solidity/PayInEth.sol";
 import "https://github.com/dapphub/ds-test/blob/master/src/test.sol";
@@ -27,7 +27,8 @@ contract PayInETH_test is PayInETH, DSTest {
     }
 
     function checkNewReceiver(address _addr) public {
-        address(paytest).delegatecall(abi.encodeWithSignature("changeReceiver(address)", _addr));
+        (bool success, ) = address(paytest).delegatecall(abi.encodeWithSignature("changeReceiver(address)", _addr));
+        require(success, "call failed");
         return assertEq(receiver, _addr, "receiver not changed");
     }
     
