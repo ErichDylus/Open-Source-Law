@@ -4,7 +4,7 @@
 ***** or any smart contracts or other software deployed from these files, in accordance with the disclosures and licenses found here: https://github.com/V4R14/firm_utils/blob/main/LICENSE
 ***** this code is not audited, and users, developers, or adapters of these files should proceed with caution and use at their own risk.
 *****
-***** TODO: testing needed, revert if no unirouter path
+***** TODO: testing needed
 ****/
 
 pragma solidity >=0.8.10;
@@ -15,6 +15,7 @@ pragma solidity >=0.8.10;
 
 interface IUniswapV2Router02 {
     function swapExactTokensForTokens(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline) external payable returns (uint256[] memory amounts);
+    function getAmountsOut(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts);
 }
 
 interface IERC20 { 
@@ -28,9 +29,8 @@ contract TokenConverter {
     address constant UNI_ROUTER_ADDR = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D; // Uniswap v2 router contract address
     address receiver; 
     address receiver_token;
-    mapping(address => address) private payorToken;
 
-    IUniswapV2Router02 public uniRouter;
+    IUniswapV2Router02 uniRouter;
 
     error CallerNotCurrentReceiver();
     error TokenAmountNotSentToThisAddress();
@@ -41,6 +41,16 @@ contract TokenConverter {
         receiver_token = _token;
     }
 
+    /// @param _amount the amount of tokens to be paid by payor
+    /// @param _payorToken the token contract address of payor's token
+    /// @return the amounts out for the applicable swap from _payorToken to receiver_token
+    /// @notice convenience function to ensure liquid swap available before sending tokens to this contract
+    function checkAmountsOut(uint256 _amount, address _payorToken) external view returns (uint256[] memory) {
+        address[] memory path = new address[](2);
+        path = _getPath(_payorToken);
+        return uniRouter.getAmountsOut(_amount, path);
+    }
+    
     /// @notice swaps payor token to receiver_token via Uniswap router, which is then sent to receiver
     /// @dev currently coded such that payor must first transfer _amount of _token to this contract address
     /// @param _token the token contract address of payor's tokens
