@@ -1,13 +1,13 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity >=0.8.10;
 
 /// unaudited and for demonstration only, subject to all disclosures, licenses, and caveats of the open-source-law repo
 /// @title Escrow ETH
 /// @notice a simple smart escrow contract, with ETH as payment, expiration denominated in seconds, and option for dispute resolution with LexLocker
 /// @dev intended to be deployed by buyer (as funds are placed in escrow upon deployment, and returned to deployer if expired)
 /// consider hardcoding reference or pointer to LexDAO resolver terms of use https://github.com/lexDAO/Arbitration/blob/master/rules/ToU.md
-/// included in LexDAO's LexCorpus at: https://github.com/lexDAO/LexCorpus/blob/master/contracts/lexdao/lexlocker/extensions/EscrowETH.sol*/
+/// included in LexDAO's LexCorpus at: https://github.com/lexDAO/LexCorpus/blob/master/contracts/lexdao/lexlocker/extensions/EscrowETH.sol
 
 interface LexLocker {
     function requestLockerResolution(address counterparty, address resolver, address token, uint256 sum, string calldata details, bool swiftResolver) external payable returns (uint256);
@@ -41,8 +41,8 @@ contract EscrowEth {
   
   event EscrowInPlace(address indexed buyer, uint256 deposit);
   event DealDisputed(address indexed sender, bool isDisputed);
-  event DealExpired(bool isExpired);
-  event DealClosed(bool isClosed);
+  event DealExpired();
+  event DealClosed();
 
   error BuyerAddress();
   error DepositNeeded();
@@ -59,7 +59,7 @@ contract EscrowEth {
   /// @param _deposit deposit amount in wei
   /// @param _seller payment address of recipient seller
   /// @param _secsUntilExpiration seconds until expiry of escrow, for simplicity in calculation of Unix time w/ block.timestamp
-  constructor(string memory _description, uint256 _deposit, address payable _seller, uint256 _secsUntilExpiration) payable {
+  constructor(string memory _description, address payable _seller, uint256 _deposit, uint256 _secsUntilExpiration) payable {
       if (msg.value < deposit) revert DepositNeeded();
       if (_seller == msg.sender) revert BuyerAddress();
       buyer = payable(msg.sender);
@@ -99,7 +99,7 @@ contract EscrowEth {
         if (expirationTime <= block.timestamp) {
             isExpired = true;
             buyer.transfer(escrowAddress.balance);
-            emit DealExpired(isExpired);
+            emit DealExpired();
         } else {
             isExpired = false;
         }
@@ -111,14 +111,14 @@ contract EscrowEth {
       require(!isClosed && !isExpired, "Too late for early termination");
       if (msg.sender == seller) {
             LexLocker(lexlocker).requestLockerResolution(buyer, lexDAO, _token, deposit, _details, _singleArbiter);
-            (bool _sent, bytes memory _data) = lexlocker.call{value: escrowAddress.balance}("");
+            (bool _sent,) = lexlocker.call{value: escrowAddress.balance}("");
             require(_sent, "Failed");
             isDisputed = true;
             emit DealDisputed(seller, isDisputed);
             return("Seller has initiated LexLocker dispute resolution.");
         } else if (msg.sender == buyer) {
             LexLocker(lexlocker).requestLockerResolution(seller, lexDAO, _token, deposit, _details, _singleArbiter);
-            (bool _sent, bytes memory _data) = lexlocker.call{value: escrowAddress.balance}("");
+            (bool _sent,) = lexlocker.call{value: escrowAddress.balance}("");
             require(_sent, "Failed");
             isDisputed = true;
             emit DealDisputed(buyer, isDisputed);
@@ -146,14 +146,14 @@ contract EscrowEth {
       if (!sellerApproved || !buyerApproved) revert NotApproved();
       if (expirationTime <= block.timestamp) {
             isExpired = true;
-            (bool _sent, bytes memory _data) = buyer.call{value: escrowAddress.balance}("");
+            (bool _sent,) = buyer.call{value: escrowAddress.balance}("");
             require(_sent, "Failed");
-            emit DealExpired(true);
+            emit DealExpired();
         } else {
             isClosed = true;
-            (bool _sent, bytes memory _data) = seller.call{value: escrowAddress.balance}("");
+            (bool _sent,) = seller.call{value: escrowAddress.balance}("");
             require(_sent, "Failed");
-            emit DealClosed(true);
+            emit DealClosed();
         }
         return(isClosed);
   }
