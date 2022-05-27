@@ -70,18 +70,30 @@ contract DealStamp {
   
     /// @param _dealNumber enter dealNumber to view corresponding stamped deal information
     /// @return the struct information for the inputted dealNumber
-    function viewDeal(uint256 _dealNumber) external view returns (uint256, uint256, string memory, address[] memory) {
+    function viewDeal(uint256 _dealNumber)
+        external
+        view
+        returns (
+            uint256,
+            uint256,
+            string memory,
+            address[] memory
+        )
+    {
         return (
-            deals[_dealNumber].dealNumber, 
-            deals[_dealNumber].effectiveTime, 
-            deals[_dealNumber].docsLocation, 
+            deals[_dealNumber].dealNumber,
+            deals[_dealNumber].effectiveTime,
+            deals[_dealNumber].docsLocation,
             deals[_dealNumber].parties
         );
     }
   
     /// @param _dealNumber deal number of deal for which the new party will be added
     /// @param _newParty address of the new party to be added to the deal corresponding to _dealNumber
-    function addPartyToDeal(uint256 _dealNumber, address _newParty) external returns (bool success) {
+    function addPartyToDeal(uint256 _dealNumber, address _newParty)
+        external
+        returns (bool success)
+    {
         if (!isPartyToDeal[_dealNumber][msg.sender]) revert NotPartyToDeal();
         isPartyToDeal[_dealNumber][_newParty] = true;
         deals[_dealNumber].parties.push(_newParty);
