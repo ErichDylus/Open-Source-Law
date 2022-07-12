@@ -18,22 +18,24 @@ import "https://github.com/kalidao/kali-contracts/blob/main/contracts/tokens/erc
 /** @notice QRNG-powered transferable NFT ticket minter with random ID number;
  ** random tokenID may be used as a lottery or special privilege mechanism for NFTicket holder */
 /// @dev uses API3/ANU QRNG, KaliDAO ERC721 implementation
-/// for more NFT QRNG uses, see this walkthrough: https://medium.com/@ashar2shahid/building-quantumon-part-1-smart-contract-integration-with-qrng-714cfecf336c
 
 contract NFTicket is ERC721, RrpRequesterV0 {
-    uint256 public immutable TICKET_CAP;
-    uint256 public immutable TICKET_PRICE;
+    address public immutable airnode;
+    address payable public immutable deployer;
+    address payable public immutable sponsorWallet;
+    bytes32 public immutable endpointId;
+    uint256 public immutable ticketCap;
+    uint256 public immutable ticketPrice;
 
-    address public airnode;
-    address payable sponsorWallet;
-    bytes32 public endpointId;
     uint256 public ticketCount;
 
-    mapping(bytes32 => address) requestIdToBuyer;
+    mapping(bytes32 => address) public requestIdToBuyer;
     mapping(bytes32 => bool) public expectingRequestWithIdToBeFulfilled;
+    mapping(uint256 => string) private _tokenURI;
 
     error SubmitTicketPrice();
     error TicketCapReached();
+    error TicketPaymentFailed();
     error TransferToSponsorWalletFailed();
 
     event ReceivedTicket(address indexed buyer, uint256 ticketID);
@@ -42,34 +44,41 @@ contract NFTicket is ERC721, RrpRequesterV0 {
         npx @api3/airnode-admin derive-sponsor-wallet-address --airnode-xpub 
         xpub6DXSDTZBd4aPVXnv6Q3SmnGUweFv6j24SK77W4qrSFuhGgi666awUiXakjXruUSCDQhhctVG7AQt67gMdaRAsDnDXv23bBRKsMWvRzo6kbf 
         --airnode-address 0x9d3C147cA16DB954873A498e0af5852AB39139f2 --sponsor-address address(this) */
-    /// @param _airnodeRrp: Airnode RRP contract address
+    /// @param _name: name of NFTicket
+    /// @param _symbol: symbol/ticker of NFTicket
     /// @param _airnode: ANU airnode contract address
-    /// @param _sponsorWallet: derived sponsor wallet address
+    /// @param _airnodeRrp: Airnode RRP contract address
+    /// @param _sponsorWallet: derived sponsor wallet address, see above
     /// @param _endpointId: endpointID for the QRNG, see https://docs.api3.org/qrng/providers.html
     /// @param _ticketPrice: price of a NFTicket in wei
     /// @param _ticketCap: maximum number of mintable NFTickets
     /// @notice derive sponsorWallet via https://docs.api3.org/airnode/v0.6/concepts/sponsor.html#derive-a-sponsor-wallet
-    /// @dev set parameters for airnodeRrp.makeFullRequest; https://docs.api3.org/qrng/chains.html
+    /// @dev set parameters for airnodeRrp.makeFullRequest; https://docs.api3.org/qrng/chains.html; and ticket price & cap
     constructor(
         string memory _name,
         string memory _symbol,
         address _airnode,
-        bytes32 _endpointId,
+        address _airnodeRrp,
         address payable _sponsorWallet,
+        bytes32 _endpointId,
         uint256 _ticketPrice,
         uint256 _ticketCap
     ) payable ERC721(_name, _symbol) RrpRequesterV0(_airnodeRrp) {
         airnode = _airnode;
+        deployer = payable(msg.sender);
         endpointId = _endpointId;
         sponsorWallet = _sponsorWallet;
-        TICKET_PRICE = _ticketPrice;
-        TICKET_CAP = _ticketCap;
+        ticketPrice = _ticketPrice;
+        ticketCap = _ticketCap;
     }
 
-    /// @notice submit TICKET_PRICE in msg.value to mint an NFTicket with random tokenID
+    /// @notice submit ticketPrice in msg.value to mint an NFTicket with random tokenID
     function buyTicket() external payable {
-        if (msg.value != TICKET_PRICE) revert SubmitTicketPrice();
-        if (ticketCount >= TICKET_CAP) revert TicketCapReached();
+        if (msg.value != ticketPrice) revert SubmitTicketPrice();
+        if (ticketCount >= ticketCap) revert TicketCapReached();
+
+        (bool sent, ) = deployer.call{value: msg.value}("");
+        if (!sent) revert TicketPaymentFailed();
 
         bytes32 requestId = airnodeRrp.makeFullRequest(
             airnode,
@@ -114,8 +123,18 @@ contract NFTicket is ERC721, RrpRequesterV0 {
 
     /// @notice allows an NFTicket holder to burn NFTicket
     /// @param tokenID: token ID of NFTicket to be burned
-    function burn(uint256 tokenId) public virtual {
-        if (msg.sender != ownerOf[tokenId]) revert NotOwner();
-        _burn(tokenId);
+    function burn(uint256 tokenID) public {
+        if (msg.sender != ownerOf[tokenID]) revert NotOwner();
+        _burn(tokenID);
+    }
+
+    function tokenURI(uint256 tokenID)
+        public
+        view
+        virtual
+        override
+        returns (string memory)
+    {
+        return _tokenURI[tokenID];
     }
 }
