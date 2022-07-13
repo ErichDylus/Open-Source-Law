@@ -17,12 +17,12 @@ import "https://github.com/kalidao/kali-contracts/blob/main/contracts/tokens/erc
 /// @title NFTicket
 /** @notice QRNG-powered transferable NFT ticket minter with random ID number;
  ** random tokenID may be used as a lottery or special privilege mechanism for NFTicket holder */
-/// @dev uses API3/ANU QRNG, KaliDAO ERC721 implementation
+/// @dev uses API3/ANU QRNG, KaliDAO ERC721 implementation. Consider a modulus for _ticketID/tokenID for UX.
 
 contract NFTicket is ERC721, RrpRequesterV0 {
     address public immutable airnode;
     address payable public immutable deployer;
-    address payable public immutable sponsorWallet;
+    address payable public sponsorWallet;
     bytes32 public immutable endpointId;
     uint256 public immutable ticketCap;
     uint256 public immutable ticketPrice;
@@ -33,6 +33,7 @@ contract NFTicket is ERC721, RrpRequesterV0 {
     mapping(bytes32 => bool) public expectingRequestWithIdToBeFulfilled;
     mapping(uint256 => string) private _tokenURI;
 
+    error OnlyDeployer();
     error SubmitTicketPrice();
     error TicketCapReached();
     error TicketPaymentFailed();
@@ -40,26 +41,19 @@ contract NFTicket is ERC721, RrpRequesterV0 {
 
     event ReceivedTicket(address indexed buyer, uint256 ticketID);
 
-    /** SPONSOR WALLET MUST BE DERIVED FROM ADDRESS(THIS) AFTER DEPLOYMENT 
-        npx @api3/airnode-admin derive-sponsor-wallet-address --airnode-xpub 
-        xpub6DXSDTZBd4aPVXnv6Q3SmnGUweFv6j24SK77W4qrSFuhGgi666awUiXakjXruUSCDQhhctVG7AQt67gMdaRAsDnDXv23bBRKsMWvRzo6kbf 
-        --airnode-address 0x9d3C147cA16DB954873A498e0af5852AB39139f2 --sponsor-address address(this) */
     /// @param _name: name of NFTicket
     /// @param _symbol: symbol/ticker of NFTicket
-    /// @param _airnode: ANU airnode contract address
-    /// @param _airnodeRrp: Airnode RRP contract address
-    /// @param _sponsorWallet: derived sponsor wallet address, see above
+    /// @param _airnode: ANU airnode contract address, see https://docs.api3.org/qrng/providers.html 
+    /// @param _airnodeRrp: Airnode RRP contract address, see https://docs.api3.org/qrng/chains.html
     /// @param _endpointId: endpointID for the QRNG, see https://docs.api3.org/qrng/providers.html
     /// @param _ticketPrice: price of a NFTicket in wei
     /// @param _ticketCap: maximum number of mintable NFTickets
-    /// @notice derive sponsorWallet via https://docs.api3.org/airnode/v0.6/concepts/sponsor.html#derive-a-sponsor-wallet
-    /// @dev set parameters for airnodeRrp.makeFullRequest; https://docs.api3.org/qrng/chains.html; and ticket price & cap
+    /// @dev set parameters for airnodeRrp.makeFullRequest, ticket price & cap; must derive, designate and fund sponsorWallet after deployment
     constructor(
         string memory _name,
         string memory _symbol,
         address _airnode,
         address _airnodeRrp,
-        address payable _sponsorWallet,
         bytes32 _endpointId,
         uint256 _ticketPrice,
         uint256 _ticketCap
@@ -67,7 +61,6 @@ contract NFTicket is ERC721, RrpRequesterV0 {
         airnode = _airnode;
         deployer = payable(msg.sender);
         endpointId = _endpointId;
-        sponsorWallet = _sponsorWallet;
         ticketPrice = _ticketPrice;
         ticketCap = _ticketCap;
     }
@@ -114,8 +107,21 @@ contract NFTicket is ERC721, RrpRequesterV0 {
         emit ReceivedTicket(buyer, _ticketID);
     }
 
+    /// @notice for deployer to provide sponsorWallet address post-contract deployment,
+    /// @param _sponsorWallet: derived sponsor wallet address, see dev notes
+    /** @dev SPONSOR WALLET MUST BE DERIVED FROM ADDRESS(THIS) AFTER DEPLOYMENT
+     ** npx @api3/airnode-admin derive-sponsor-wallet-address --airnode-xpub
+     ** xpub6DXSDTZBd4aPVXnv6Q3SmnGUweFv6j24SK77W4qrSFuhGgi666awUiXakjXruUSCDQhhctVG7AQt67gMdaRAsDnDXv23bBRKsMWvRzo6kbf
+     ** --airnode-address 0x9d3C147cA16DB954873A498e0af5852AB39139f2 --sponsor-address address(this)
+     ** see: https://docs.api3.org/airnode/v0.6/concepts/sponsor.html#derive-a-sponsor-wallet  */
+    function designateSponsorWallet(address payable _sponsorWallet) external {
+        if (msg.sender != deployer) revert OnlyDeployer();
+        sponsorWallet = _sponsorWallet;
+    }
+
     /// @notice sends msg.value to sponsorWallet to ensure Airnode continues responses
-    function topUpSponsorWallet() external payable {
+    /// for convenience; can also just directly send ETH to the sponsorWallet address if known
+    function addGasToSponsorWallet() external payable {
         require(msg.value != 0, "msg.value == 0");
         (bool sent, ) = sponsorWallet.call{value: msg.value}("");
         if (!sent) revert TransferToSponsorWalletFailed();
