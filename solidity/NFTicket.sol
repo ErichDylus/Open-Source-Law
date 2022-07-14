@@ -17,7 +17,8 @@ import "https://github.com/kalidao/kali-contracts/blob/main/contracts/tokens/erc
 /// @title NFTicket
 /** @notice QRNG-powered transferable NFT ticket minter with random ID number;
  ** random tokenID may be used as a lottery or special privilege mechanism for NFTicket holder */
-/// @dev uses API3/ANU QRNG, KaliDAO ERC721 implementation. Consider a modulus for _ticketID/tokenID for UX.
+/** @dev uses API3/ANU QRNG, KaliDAO ERC721 implementation. Consider modulus for _ticketID/tokenID for UX.
+ ** steps: (1) deploy contract; (2) derive sponsorWallet address and provide to designateSponsorWallet(); (3) fund sponsorWallet */
 
 contract NFTicket is ERC721, RrpRequesterV0 {
     address public immutable airnode;
@@ -96,7 +97,7 @@ contract NFTicket is ERC721, RrpRequesterV0 {
             "Request ID not known"
         );
         expectingRequestWithIdToBeFulfilled[requestId] = false;
-        uint256 _ticketID = abi.decode(data, (uint256));
+        uint256 _ticketID = abi.decode(data, (uint256)) % 10000000000000000; //mod to smaller random number for UX
         address buyer = requestIdToBuyer[requestId];
         _mint(buyer, _ticketID);
 
@@ -109,10 +110,7 @@ contract NFTicket is ERC721, RrpRequesterV0 {
 
     /// @notice for deployer to provide sponsorWallet address post-contract deployment,
     /// @param _sponsorWallet: derived sponsor wallet address, see dev notes
-    /** @dev SPONSOR WALLET MUST BE DERIVED FROM ADDRESS(THIS) AFTER DEPLOYMENT
-     ** npx @api3/airnode-admin derive-sponsor-wallet-address --airnode-xpub
-     ** xpub6DXSDTZBd4aPVXnv6Q3SmnGUweFv6j24SK77W4qrSFuhGgi666awUiXakjXruUSCDQhhctVG7AQt67gMdaRAsDnDXv23bBRKsMWvRzo6kbf
-     ** --airnode-address 0x9d3C147cA16DB954873A498e0af5852AB39139f2 --sponsor-address address(this)
+    /** @dev SPONSOR WALLET MUST BE DERIVED FROM ADDRESS(THIS) AFTER DEPLOYMENT: npx @api3/airnode-admin derive-sponsor-wallet-address --airnode-xpub xpub6DXSDTZBd4aPVXnv6Q3SmnGUweFv6j24SK77W4qrSFuhGgi666awUiXakjXruUSCDQhhctVG7AQt67gMdaRAsDnDXv23bBRKsMWvRzo6kbf --airnode-address 0x9d3C147cA16DB954873A498e0af5852AB39139f2 --sponsor-address address(this)
      ** see: https://docs.api3.org/airnode/v0.6/concepts/sponsor.html#derive-a-sponsor-wallet  */
     function designateSponsorWallet(address payable _sponsorWallet) external {
         if (msg.sender != deployer) revert OnlyDeployer();
@@ -120,14 +118,14 @@ contract NFTicket is ERC721, RrpRequesterV0 {
     }
 
     /// @notice sends msg.value to sponsorWallet to ensure Airnode continues responses
-    /// for convenience; can also just directly send ETH to the sponsorWallet address if known
+    /// for convenience; can also just directly send ETH to the sponsorWallet address
     function addGasToSponsorWallet() external payable {
         require(msg.value != 0, "msg.value == 0");
         (bool sent, ) = sponsorWallet.call{value: msg.value}("");
         if (!sent) revert TransferToSponsorWalletFailed();
     }
 
-    /// @notice allows an NFTicket holder to burn NFTicket
+    /// @notice allows an NFTicket holder to burn/redeem NFTicket
     /// @param tokenID: token ID of NFTicket to be burned
     function burn(uint256 tokenID) public {
         if (msg.sender != ownerOf[tokenID]) revert NotOwner();
