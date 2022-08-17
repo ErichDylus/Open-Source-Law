@@ -4,14 +4,13 @@
  ***** or any smart contracts or other software deployed from these files, in accordance with the disclosures and licenses found here: https://github.com/V4R14/firm_utils/blob/main/LICENSE
  ***** this code is not audited, and users, developers, or adapters of these files should proceed with caution and use at their own risk.
  *****
- ***** TODO: testing needed
  ****/
 
-pragma solidity >=0.8.9;
+pragma solidity >=0.8.16;
 
 /// @title Token Converter
 /// @dev uses Uniswap router to swap incoming ERC20 tokens for receiver's chosen ERC20 tokens, then sends to receiver address (initially, the deployer)
-/// @notice permits payment for services in any token payor chooses (provided there is a Uniswap router path) and receiving tokens of choice by receiver
+/// @notice permits payment for services in any token payor chooses (provided there is a Uniswap router path, but does not check liquidity) and receiving tokens of choice by receiver
 
 interface IUniswapV2Router02 {
     function swapExactTokensForTokens(
@@ -55,25 +54,11 @@ contract TokenConverter {
         receiverToken = _token;
     }
 
-    /// @param _amount the amount of tokens to be paid by payor
-    /// @param _payorToken the token contract address of payor's token
-    /// @return amounts out for the applicable swap from _payorToken to receiverToken
-    /// @notice convenience function to ensure liquid swap available before sending tokens to this contract
-    function checkAmountsOut(uint256 _amount, address _payorToken)
-        external
-        view
-        returns (uint256[] memory)
-    {
-        address[] memory path = new address[](2);
-        path = _getPath(_payorToken);
-        return uniRouter.getAmountsOut(_amount, path);
-    }
-
     /// @notice swaps payor token to receiver_token via Uniswap router, which is then sent to receiver
     /// @dev currently coded such that payor must first transfer _amount of _token to this contract address
     /// @param _token the token contract address of payor's tokens
     /// @param _amount the amount of tokens being paid by payor
-    function completePayment(address _token, uint256 _amount) external payable {
+    function completePayment(address _token, uint256 _amount) external {
         if (IERC20(_token).balanceOf(address(this)) < _amount)
             revert TokenAmountNotSentToThisAddress();
         IERC20(_token).approve(UNI_ROUTER_ADDR, _amount); // allow the unirouter to swap _token held by this address
@@ -84,19 +69,6 @@ contract TokenConverter {
             receiver,
             block.timestamp
         );
-    }
-
-    /// @param _payorToken the token contract address of payor's tokens, inputted by completePayment()
-    /// @return the router path for the unirouter
-    function _getPath(address _payorToken)
-        internal
-        view
-        returns (address[] memory)
-    {
-        address[] memory path = new address[](2);
-        path[0] = _payorToken;
-        path[1] = receiverToken;
-        return path;
     }
 
     /// @notice allows current receiver address to change the receiver token contract address
@@ -112,11 +84,38 @@ contract TokenConverter {
     }
 
     /// @notice allows current receiver address to change the receiver address for payments
-    /// @param _newReceiver new address to receive GUSD tokens
+    /// @param _newReceiver new address to receive receiverTokens
     /// @return the receiver address
     function changeReceiver(address _newReceiver) external returns (address) {
         if (msg.sender != receiver) revert CallerNotCurrentReceiver();
         receiver = _newReceiver;
         return (receiver);
+    }
+
+    /// @param _amount the amount of tokens to be paid by payor
+    /// @param _payorToken the token contract address of payor's token
+    /// @return amounts out for the applicable swap from _payorToken to receiverToken
+    /// @notice convenience function to ensure liquid swap available before sending tokens to this contract
+    function checkAmountsOut(uint256 _amount, address _payorToken)
+        external
+        view
+        returns (uint256[] memory)
+    {
+        address[] memory path = new address[](2);
+        path = _getPath(_payorToken);
+        return uniRouter.getAmountsOut(_amount, path);
+    }
+
+    /// @param _payorToken the token contract address of payor's tokens, inputted by completePayment()
+    /// @return the router path for the unirouter
+    function _getPath(address _payorToken)
+        internal
+        view
+        returns (address[] memory)
+    {
+        address[] memory path = new address[](2);
+        path[0] = _payorToken;
+        path[1] = receiverToken;
+        return path;
     }
 }
