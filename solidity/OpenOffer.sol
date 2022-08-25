@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.16;
 
 /// @title Open Offer
 /// @notice revocable on-chain bilateral open offer, which anyone may countersign on-chain to accept
@@ -7,15 +7,15 @@ pragma solidity ^0.8.13;
  ** Only one acceptance permitted. Revocable (but not amendable or replaceable) by offeror. */
 
 contract OpenOffer {
-    address public offeror;
-    string public documentText;
-    bytes32 public documentHash;
+    address public immutable offeror;
+    bytes32 public immutable documentHash;
+
     bool public offerOpen;
     bool public signedAndOfferAccepted;
 
     error HashDoesNotMatch();
     error OfferClosed();
-    error OffereeIsSameAddress();
+    error OffereeCannotBeOfferor();
     error OnlyOfferor();
 
     event OfferAccepted(
@@ -34,22 +34,22 @@ contract OpenOffer {
         emit OfferOpened(documentHash, block.timestamp);
     }
 
-    /// @notice allows anyone except offeror to countersign and accept the open offer
+    /// @notice allows anyone except offeror to countersign and accept the open offer (recommended to first verify the offer via verifyOfferText())
     /// @dev simple function call, but could be modified to have signatory type name or other acknowledgment
     function acceptOffer() external {
         if (!offerOpen || signedAndOfferAccepted) revert OfferClosed();
-        if (offeror == msg.sender) revert OffereeIsSameAddress();
+        if (offeror == msg.sender) revert OffereeCannotBeOfferor();
         signedAndOfferAccepted = true;
         delete (offerOpen);
         emit OfferAccepted(documentHash, msg.sender, block.timestamp);
     }
 
-    /// @notice allows offeror to revoke offer
+    /// @notice allows offeror to revoke offer and self-destruct this contract
     function revokeOffer() external {
         if (msg.sender != offeror) revert OnlyOfferor();
-        delete (documentHash);
         delete (offerOpen);
         emit OfferRevoked(block.timestamp);
+        selfdestruct(payable(msg.sender));
     }
 
     /** @notice allows a prospective signatory to ensure their intended document text matches
