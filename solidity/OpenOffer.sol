@@ -56,7 +56,7 @@ contract OpenOffer {
      ** the text hashed in this contract before signing */
     /// @param _documentText string text of document intended to be signed
     /// @return true if the hashes match, otherwise the transaction will have reverted
-    function verifyOfferText(string memory _documentText)
+    function verifyOfferText(string calldata _documentText)
         external
         view
         returns (bool)
