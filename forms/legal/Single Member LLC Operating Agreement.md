@@ -42,7 +42,7 @@ NOW, THEREFORE, in consideration of the mutual covenants set forth herein and ot
 
     (c)	The Member intends that the Company, as a single member LLC, shall be taxed as [a sole proprietorship in accordance with the provisions of the Internal Revenue Code and the Statutes.   Any provisions herein that may cause the Company not to be taxed as a sole proprietorship shall be inoperative].
 
-9.	Bank Accounts and Blockchain Addresses. All funds of the Company shall be deposited in the Company’s name in (i) a bank account or accounts or (ii) blockchain wallet or externally owned account, as applicable and as chosen by the Member.  Withdrawals from any such accounts shall be made only in the regular course of business of the Company and shall be made upon such signature or signatures as the Member from time to time may designate.
+9.	Bank Accounts and Blockchain Addresses. All funds of the Company shall be deposited in the Company’s name in (i) a bank or other service provider account or accounts or (ii) blockchain wallet or externally owned account, as applicable and as chosen by the Member.  Withdrawals from any such accounts shall be made only in the regular course of business of the Company and shall be made upon such private key signature(s) or other applicable action by the Member as the Member from time to time may designate. [For avoidance of doubt, the blockchain address registered to Ethereum Name Service address [ENS ADDRESS].eth and controlling the ERC-721 nonfungible token corresponding thereto, including all cryptocurrencies, tokens, and other digital assets held by such address or solely controlled thereby (inclusive of all ChainIds), shall be deemed the exclusive property of the Company.]
 
 10.	Management of the Company. The business and affairs of the Company shall be conducted and managed by the Member in accordance with this Agreement and the laws of the State of [STATE OF ORGANIZATION]. [MEMBER], as sole member of the Company, has sole authority and power to act for or on behalf of the Company, to do any act that would be binding on the Company, or incur any expenditures on behalf of the Company. The Member shall not be liable for the debts, obligations or liabilities of the Company, including under a judgment, decree or order of a court. The Company is organized as a “member-managed” limited liability company.  The Member is designated as the initial managing member.
 
@@ -50,15 +50,15 @@ NOW, THEREFORE, in consideration of the mutual covenants set forth herein and ot
 
 12.	Admission of New Members. 
 
-    (a)	The Company may admit new Members (or transferees of any interests of existing Members) into the Company by the unanimous vote or consent of the Members. As a condition to the admission of a new Member, such Member shall execute and acknowledge such instruments, in form and substance satisfactory to the Company, as the Company may deem necessary or desirable to effectuate such admission and to confirm the agreement of such Member to be bound by all of the terms, covenants and conditions of this Agreement, as the same may have been amended.  Such new Member shall pay all reasonable expenses in connection with such admission, including without limitation, reasonable attorneys’ fees and the cost of the preparation, filing or publication of any amendment to this Agreement or the [Articles of Organization][Certificate of Formation], which the Company may deem necessary or desirable in connection with such admission.
+    (a)	The Company may admit new Members (or transferees of any interests of existing Members) into the Company by the unanimous vote or consent of the Members. As a condition to the admission of a new Member, such Member shall execute and acknowledge such instruments, in form and substance satisfactory to the Company, as the Company may deem necessary or desirable to effectuate such admission and to confirm the agreement of such Member to be bound by all of the terms, covenants and conditions of this Agreement, as the same may have been amended.  Such new Member shall pay all reasonable expenses in connection with such admission, including without limitation, reasonable attorneys’ fees and the cost of the preparation, filing or publication of any amendment to this Agreement or the [Articles of Organization/Certificate of Formation], which the Company may deem necessary or desirable in connection with such admission.
 
     (b)	No new Member shall be entitled to any retroactive allocation of income, losses, or expense deductions of the Company.  The Company may make pro rata allocations of income, losses or expense deductions to a new Member for that portion of the tax year in which the Member was admitted in accordance with Section 706(d) of the Internal Revenue Code and regulations thereunder.
 
-    (c)	In no event shall a new Member be admitted to the Company if such admission would be in violation of applicable Federal or State securities laws or would adversely affect the treatment of the Company as a partnership for income tax purposes.
+    (c)	In no event shall a new Member be admitted to the Company if such admission would be in violation of applicable Federal or State securities laws or would adversely affect the intended treatment of the Company for income tax purposes.
 
 13.	Dissolution and Liquidation
 
-    (a)	The Company shall dissolve and its affairs shall be wound up on the first to occur of: (i) at a time, or upon the occurrence of an event specified in the [Articles of Organization][Certificate of Formation] or this Agreement, or (ii) the determination by the Member that the Company shall be dissolved.
+    (a)	The Company shall dissolve and its affairs shall be wound up on the first to occur of: (i) at a time, or upon the occurrence of an event specified in the [Articles of Organization/Certificate of Formation] or this Agreement, or (ii) the determination by the Member that the Company shall be dissolved.
 
     (b)	Upon the death of the Member, the Company shall be dissolved. By separate written documentation, the Member shall designate and appoint the individual who will wind down the Company’s business and transfer or distribute the Member's Interests and Capital Account as designated by the Member or as may otherwise be required by law. 
 
@@ -80,7 +80,7 @@ NOW, THEREFORE, in consideration of the mutual covenants set forth herein and ot
 
     (a)	This Agreement and the rights and liabilities of the parties hereunder shall be governed by and determined in accordance with the laws of the State of [STATE OF ORGANIZATION]. If any provision of this Agreement shall be invalid or unenforceable, such invalidity or unenforceability shall not affect the other provisions of this Agreement, which shall remain in full force and effect.
 
-    (b)	The captions in this Agreement are for convenience only and are not to be considered in construing this Agreement.  All pronouns shall be deemed to be the masculine, feminine, neuter, singular or plural as the identity of the person or persons may require.  References to a person or persons shall include partnerships, corporations, limited liability companies, unincorporated associations, trusts, estates and other types of entities as applicable.
+    (b)	The captions in this Agreement are for convenience only and are not to be considered in construing this Agreement.  All pronouns shall be deemed to be the masculine, feminine, neuter, singular or plural as the identity of the person or persons may require.  References to a person or persons shall include partnerships, corporations, limited liability companies, unincorporated associations, foundations, cooperatives, trusts, estates and other types of entities as applicable.
 
     (c)	This Agreement sets forth the entire agreement of the parties hereto with respect to the subject matter hereof.  It is the intention of the Member that this Agreement shall be the sole agreement of the parties, and, except to the extent a provision of this Agreement provides for the incorporation of federal income tax rules or is expressly prohibited or ineffective under the Statutes, this Agreement shall govern even when inconsistent with, or different from, the provisions of any applicable law or rule.  To the extent any provision of this Agreement is prohibited or otherwise ineffective under the Statutes, such provision shall be considered to be ineffective to the smallest degree possible in order to make this Agreement effective under the Statutes.  
 
@@ -129,5 +129,4 @@ By: ____________________________
 
 By: ____________________________
 
-[MEMBER]
-
+[MEMBER], in their individual capacity
