@@ -40,8 +40,8 @@ interface IERC20 {
 contract TokenConverter {
     address constant UNI_ROUTER_ADDR =
         0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D; // Uniswap v2 router contract address
-    address receiver;
-    address receiverToken;
+    address public receiver;
+    address public receiverToken;
 
     IUniswapV2Router02 uniRouter;
 
@@ -57,14 +57,14 @@ contract TokenConverter {
     /// @notice swaps payor token to receiver_token via Uniswap router, which is then sent to receiver
     /// @dev currently coded such that payor must first transfer _amount of _token to this contract address
     /// @param _token the token contract address of payor's tokens
-    /// @param _amount the amount of tokens being paid by payor
+    /// @param _amount the amount of tokens being paid by payor (keep decimals in mind)
     function completePayment(address _token, uint256 _amount) external {
         if (IERC20(_token).balanceOf(address(this)) < _amount)
             revert TokenAmountNotSentToThisAddress();
         IERC20(_token).approve(UNI_ROUTER_ADDR, _amount); // allow the unirouter to swap _token held by this address
         uniRouter.swapExactTokensForTokens(
             _amount,
-            0,
+            1,
             _getPath(_token),
             receiver,
             block.timestamp
@@ -73,23 +73,18 @@ contract TokenConverter {
 
     /// @notice allows current receiver address to change the receiver token contract address
     /// @param _newReceiverToken new token address for receiver_token
-    /// @return the receiver token address
     function changeReceiverToken(address _newReceiverToken)
         external
-        returns (address)
     {
         if (msg.sender != receiver) revert CallerNotCurrentReceiver();
         receiverToken = _newReceiverToken;
-        return (receiverToken);
     }
 
     /// @notice allows current receiver address to change the receiver address for payments
     /// @param _newReceiver new address to receive receiverTokens
-    /// @return the receiver address
-    function changeReceiver(address _newReceiver) external returns (address) {
+    function changeReceiver(address _newReceiver) external {
         if (msg.sender != receiver) revert CallerNotCurrentReceiver();
         receiver = _newReceiver;
-        return (receiver);
     }
 
     /// @param _amount the amount of tokens to be paid by payor
@@ -107,7 +102,7 @@ contract TokenConverter {
     }
 
     /// @param _payorToken the token contract address of payor's tokens, inputted by completePayment()
-    /// @return the router path for the unirouter
+    /// @return the router path for the router
     function _getPath(address _payorToken)
         internal
         view
