@@ -1,5 +1,3 @@
-// in process and incomplete
-
 // provided without warranty or guarantees of any kind, [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/Disclosure.md) applies
 
 // contemplates all governance processes through the Designated Smart Contract, no pro-rata distributions to DAO Members (per DC UUNAA law), tokenized membership
@@ -64,7 +62,7 @@ Each DAO Member (as the "**Representing DAO Member**") hereby represents and war
 
 (h) “**Designated Client**” means the Official Go Ethereum client available at https://github.com/ethereum/go-ethereum. 
 
-(i) “**Designated Smart Contract**” means the smart contract located at contract address 0x[_________________] on the Designated Blockchain as of the date of this Charter’s adoption. 
+(i) “**Designated Smart Contract**” means the smart contract [at contract address 0x[_________________]][at the contract address registered as ENS Resolver for Ethereum Name Service address [ENS ADDRESS].eth and controlling the ERC-721 nonfungible token corresponding thereto] on the Designated Blockchain as of the date of this Charter’s adoption. 
 
 (j) “**Distributed DAO Property**” means any asset, right or property that was once DAO Property and has been distributed to a DAO Member, in accordance with the DC UUNAA.
 
@@ -104,6 +102,6 @@ Each DAO Member (as the "**Representing DAO Member**") hereby represents and war
 
 (e) *Governing Law.* All rights and obligations hereunder will be governed by the laws of the District of Columbia, without regard to the conflicts of law provisions thereof.
 
-(f) *Communication by Electronic Means.* Unless otherwise required by law or by agreement, any notice, vote, consent, petition, or other oral or written communication required or permitted can be delivered by electronic means, provided that, in the case where such communication expressly or impliedly requires the signature of the person submitting the communication, means are in place to reasonably assure the authenticity of the signature
+(f) *Communication by Electronic Means.* Unless otherwise required by law or by agreement, any notice, vote, consent, petition, or other oral or written communication required or permitted can be delivered by electronic means, provided that, in the case where such communication expressly or impliedly requires the signature of the person submitting the communication, means are in place to reasonably assure the authenticity of the signature.
 
 
