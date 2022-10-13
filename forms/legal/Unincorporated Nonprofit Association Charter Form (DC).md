@@ -7,14 +7,14 @@
 ###  I. Nature of Charter and Name of the DAO
 (a) This charter (this “Charter”) is the official legal charter of [DAO NAME] (the “**DAO**”). This Charter is intended to be a legal agreement & contract binding upon all DAO Members and the other DAO Participants, as they may join and exit the DAO from time to time, as each such term is defined herein, and is enforceable in accordance with its terms under the laws of the District of Columbia. Certain capitalized terms used in this Charter are defined in Section VI. 
 
-(b) If you have received any DAO Membership Token or are otherwise a member of [DAO NAME], you consent to & agree to become legally bound by this Charter as both a DAO Participant and more specifically a "DAO Member" as such term is defined in this Charter.    
+(b) If you have [received (actually or constructively)][contributed or staked] any DAO Membership Token [in the Designated Smart Contract] or are otherwise a member of [DAO NAME] in accord with Section III(a) of this Charter, you consent to & agree to become legally bound by this Charter as both a DAO Participant and more specifically a "DAO Member" as such term is defined in this Charter.    
 
 (c) [DAO NAME] is an unincorporated nonprofit association under the District of Columbia Uniform Unincorporated Nonprofit Association Act of 2010 (D.C. Stat. Title 29, Ch. 11) (the “**DC UUNAA**”).  [DAO NAME] is not intended to be, and shall not be deemed to be, a partnership. This Charter together with the Designated Smart Contract comprise the ‘governing principles’ of the DAO, as such term is defined in §29–1102 of the DC UUNAA.
 
 ###  II. Purposes and Structure of the DAO
 (a) The DAO is a "decentralized autonomous organization", or a collective of individuals, entities, associations and/or other persons or groups of persons, which defers certain aspects of the governance, structure, operations, and other capabilities to the consensus mechanisms, computations, and data storage and transactions of the Designated Smart Contract’s code and underlying permission-less blockchain.
 
-(b) The DAO Members shall utilize the Designated Smart Contract (as such term is defined in Section VI of this Charter) as the exclusive method of holding, allocating among the DAO Members, and spending or otherwise distributing, any Tokens that are DAO Property, of minting and issuing any DAO Membership Tokens, of holding and recording votes of the DAO Members, and setting or altering parameters to the Designated Smart Contract, as applicable. The DAO may also utilize the Designated Smart Contract to administer and facilitate certain other arrangements and transactions involving the DAO, the DAO Members and/or third Members.
+(b) The DAO Members shall utilize the Designated Smart Contract (as such term is defined in Section VI of this Charter) as the controlling and primary method of holding, allocating among the DAO Members, and spending or otherwise distributing, any Tokens that are DAO Property, of minting and issuing any DAO Membership Tokens, of holding and recording votes of the DAO Members, and setting or altering parameters to the Designated Smart Contract, as applicable. The DAO may also utilize the Designated Smart Contract to administer and facilitate certain other arrangements and transactions involving the DAO, the DAO Members and/or third Members.
 
 (c) The primary purposes of the DAO are to facilitate, support, promote, operate, represent and advance [DAO PURPOSES] (the “**Purposes**”).
  
@@ -54,7 +54,7 @@ Each DAO Member (as the "**Representing DAO Member**") hereby represents and war
 
 (d) “**DAO Member**” has the meaning assigned to it in Section III(a) of this Charter.
 
-(e) “**DAO Property** means any Token or other asset, right or property licensed to or on deposit with or owned, held, custodied, controlled or possessed by or on behalf of the DAO, including any Token on deposit with or held, controlled, possessed by or on deposit with the Designated Smart Contract.  
+(e) “**DAO Property**" means any Token or other asset, right or property licensed to or on deposit with or owned, held, custodied, controlled or possessed by or on behalf of the DAO, including any Token on deposit with or held, controlled, possessed by or on deposit with the Designated Smart Contract.  
 
 (f) “**Designated Blockchain**” means at any given time, the version of the digital blockchain ledger that at least a majority of nodes running the Designated Client on the Designated Blockchain Network recognize as canonical as of such time in accordance with the Consensus Rules.
 
