@@ -4,8 +4,8 @@ pragma solidity >=0.8.16;
 
 /// unaudited and subject to all disclosures, licenses, and caveats set forth at https://github.com/ErichDylus/Open-Source-Law/blob/main/solidity/README.md
 /// @title VoteCounter
-/// @notice Counts votes for a given address, with timestamp;
-/// intended as part of a governance contract which tallies ERC1155-gated votes for patronage calculations
+/// @notice Counts governance votes for a given address holding an ERC1155 governance token
+/// intended as part of a limited cooperative association which tallies ERC1155-gated votes for patronage calculations / membership activity status
 
 interface IERC1155 {
     function balanceOf(address account, uint256 id)
@@ -40,7 +40,10 @@ contract VoteCounter {
     /// @param _voterId: id for the voter's ERC1155 token
     /// @param _voter: address of the voter
     /** @dev intended to be called as part of a vote cast function, 
-    /// otherwise add a _voteTime method input of the unix time (block.timestamp) of the applicable vote */
+    *** otherwise add a _voteTime method input of the unix time (block.timestamp) of the applicable vote; 
+    *** also, may consider valuing the patronage (via bylaws) of a cast vote by some multiplier of the gas expenditure
+    *** for such vote txn obtained by web3.eth.getTransactionReceipt(hash [, callback]); this returns the receipt of a transaction, 
+    *** including gasUsed, by transaction hash */
     function newVote(
         uint256 _voteNumber,
         uint256 _voterId,
