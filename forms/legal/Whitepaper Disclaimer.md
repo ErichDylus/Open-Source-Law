@@ -1,0 +1,5 @@
+The writings herein are for informative, theoretical, and educational purposes only and do not constitute financial, legal, or other professional advice of any kind, nor do they commit any authors or any related entities or persons to undertake any described, related, or implied actions. 
+
+Any forward-looking statements herein are subject to risks, uncertainties, and assumptions which could prove to be inaccurate and, as a result, such statements could be materially incorrect and readers should not rely upon them.
+
+Neither the authors nor any of their affiliates, nor any of their respective directors, advisors, contractors, employees or representatives make any representations or warranties, express or implied, with respect to any of the material or information contained herein, nor do any of the foregoing assume or otherwise have any responsibility or any obligation or liability whatsoever to any reader, any affiliate of any reader, or any of a reader’s or a reader’s affiliates’ respective directors, advisors, contractors, employees or representatives resulting from the use of the information and material contained herein.
