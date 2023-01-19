@@ -1,142 +1,144 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity >=0.8.10;
+pragma solidity >=0.8.17;
 
 /// unaudited and for demonstration only, provided as-is without any guarantees or warranties
 /// @title Stablecoin Escrow
-/// @notice bilateral smart escrow contract, with an ERC20 stablecoin as payment, expiration denominated in seconds, deposit refunded if contract expires before closeDeal() called 
+/// @notice bilateral smart escrow contract, with an ERC20 stablecoin as payment, expiration denominated in seconds, deposit refunded if contract expires before closeDeal() called
 /// @dev intended to be deployed by buyer - may be altered for separation of deposit from purchase price, deposit non-refundability, different token standard, additional conditions, etc.
 
-interface IERC20 { 
+// SolDAO SafeTransferLib
+import {
+    SafeTransferLib
+} from "https://github.com/Sol-DAO/solbase/blob/main/src/utils/SafeTransferLib.sol";
+
+interface IERC20 {
     function balanceOf(address account) external view returns (uint256);
-    function transfer(address recipient, uint256 amount) external returns (bool);
-    function transferFrom(address from, address to, uint256 value) external returns (bool);
 }
 
 contract EscrowStablecoin {
-    
-    address escrowAddress;
-    address buyer;
-    address seller;
-    uint256 deposit;
-    uint256 expirationTime;
-    bool sellerApproved;
-    bool buyerApproved;
-    bool isExpired;
-    IERC20 public ierc20;
-    string description;
-    mapping(address => bool) public parties; //map whether an address is a party to the transaction for restricted() modifier 
-  
+    using SafeTransferLib for address;
+
+    address public immutable buyer;
+    address public seller;
+    address public immutable stablecoin;
+
+    uint256 public price;
+    uint256 public expirationTime;
+
+    bool public sellerApproved;
+    bool public buyerApproved;
+    bool public isExpired;
+
+    string public description;
+
     event DealExpired();
-    event DealClosed(uint256 effectiveTime); //event provides exact blockstamp Unix time of closing 
+    event DealClosed(uint256 effectiveTime); //event provides exact blockstamp Unix time of closing
+    event DepositReturned();
 
     error Expired();
     error NotBuyer();
+    error NotParty();
     error NotReadyToClose();
+    error NotSeller();
     error BuyerAddrSameAsSellerAddr();
-  
-    modifier restricted() { 
-        require(parties[msg.sender], "Not a Party");
-        _;
-    }
-  
-    /// @notice deployer (buyer) initiates escrow with description, deposit amount of tokens, address of stablecoin, seconds until expiry, and designate recipient seller
-    /// @param _description should be a brief identifier of the deal in question - perhaps as to parties/underlying asset/documentation reference/hash 
-    /// @param _deposit is the purchase price number of tokens which will be deposited in the smart escrow contract
-    /// @param _seller is the seller's address, recipient of the purchase price if the deal closes
-    /// @param _stablecoin is the token contract address of the stablecoin to be sent as deposit
-    /// @param _secsUntilExpiration is the number of seconds until the deal expires
+
+    /// @notice deployer (buyer) initiates escrow with description, price in tokens, address of stablecoin, seconds until expiry, and designate recipient seller
+    /// @param _description: brief identifier of the deal in question - perhaps as to parties/underlying asset/documentation reference/hash
+    /// @param _price: purchase price number of tokens which will be deposited in the smart escrow contract
+    /// @param _seller: the seller's address, recipient of the purchase price if the deal closes
+    /// @param _stablecoin: token contract address of the stablecoin to be used in this transaction
+    /// @param _secsUntilExpiration: number of seconds until the deal expires
     constructor(
-        string memory _description, 
-        uint256 _deposit, 
-        address _seller, 
-        address _stablecoin, 
+        string memory _description,
+        uint256 _price,
+        address _seller,
+        address _stablecoin,
         uint256 _secsUntilExpiration
     ) payable {
-        if (_seller == msg.sender) revert BuyerAddrSameAsSellerAddr();
         buyer = msg.sender;
-        deposit = _deposit;
-        escrowAddress = address(this);
-        ierc20 = IERC20(_stablecoin);
+        price = _price;
+        stablecoin = _stablecoin;
         description = _description;
         seller = _seller;
-        parties[msg.sender] = true;
-        parties[_seller] = true;
-        parties[escrowAddress] = true;
         expirationTime = block.timestamp + _secsUntilExpiration;
     }
-  
-    /// @notice for parties to designate/confirm seller's recipient address
-    /// @param _seller is the new recipient address of seller
-    function designateSeller(address _seller) external restricted {
+
+    /// @notice for the current seller to designate a new recipient address
+    /// @param _seller: new recipient address of seller
+    function updateSeller(address _seller) external {
+        if (msg.sender != seller) revert NotSeller();
         if (_seller == buyer) revert BuyerAddrSameAsSellerAddr();
         if (isExpired) revert Expired();
-        parties[_seller] = true;
         seller = _seller;
     }
-  
-    /** @notice buyer deposits in escrowAddress *** after separately ERC20-approving escrowAddress *** 
-    *** OR separately directly transfers the deposit to escrowAddress **/
-    function depositInEscrow() external returns(bool, uint256) {
+
+    /** @notice buyer deposits in address(this) *** after separately ERC20-approving address(this) for price***
+     *** OR separately directly transfers the deposit to address(this) **/
+    function depositInEscrow() external returns (bool, uint256) {
         if (msg.sender != buyer) revert NotBuyer();
-        ierc20.transferFrom(buyer, escrowAddress, deposit);
-        return (true, ierc20.balanceOf(escrowAddress));
-    }
-  
-    /// @notice escrowAddress returns deposit to buyer
-    function _returnDeposit() internal returns(bool, uint256) {
-        ierc20.transfer(buyer, deposit);
-        return (true, ierc20.balanceOf(escrowAddress));
-    }
-  
-    /// @notice escrowAddress sends deposit to seller
-    function _paySeller() internal returns(bool, uint256) {
-        ierc20.transfer(seller, deposit);
-        return (true, ierc20.balanceOf(escrowAddress));
-    } 
-  
-    /// @notice check if expired, and if expired, return balance to buyer 
-    function checkIfExpired() external returns(bool) {
-        if (expirationTime <= block.timestamp) {
-            isExpired = true;
-            _returnDeposit(); 
-            emit DealExpired();
-        } else {
-            isExpired = false;
-        }
-        return(isExpired);
-    }
-    
-    /// @notice convenience function to check if deposit is in escrowAddress
-    function checkEscrow() external view returns(uint256) {
-        return ierc20.balanceOf(escrowAddress);
+        stablecoin.safeTransferFrom(buyer, address(this), price);
+        return (true, IERC20(stablecoin).balanceOf(address(this)));
     }
 
-    /// @notice seller and buyer each call this when ready to close
-    function readyToClose() external restricted returns(string memory) {
-        if (msg.sender == seller) {
-            sellerApproved = true;
-            return("Seller is ready to close.");
-        } else if (msg.sender == buyer) {
-            buyerApproved = true;
-            return("Buyer is ready to close.");
-        } else {
-            return("Msg.sender neither buyer nor seller.");
-        }
-    }
-    
-    /** @notice checks if both buyer and seller are ready to close and expiration has not been met; 
-    *** if so, escrowAddress closes deal and pays seller; if not, deposit returned to buyer **/
-    /// @dev if properly closes, emits event with effective time of closing
-    function closeDeal() external {
-        if (!sellerApproved || !buyerApproved) revert NotReadyToClose();
+    /// @notice check if expired, and if expired, return balance to buyer
+    function checkIfExpired() external returns (bool) {
         if (expirationTime <= block.timestamp) {
             isExpired = true;
             _returnDeposit();
             emit DealExpired();
         } else {
-            _paySeller();
-            emit DealClosed(block.timestamp); // effective time of closing is block.timestamp upon payment to seller
+            isExpired = false;
         }
+        return (isExpired);
+    }
+
+    /// @notice convenience function to check if price is in address(this)
+    function checkEscrow() external view returns (uint256) {
+        return IERC20(stablecoin).balanceOf(address(this));
+    }
+
+    /// @notice seller and buyer each call this when ready to close; returns approval status of each party
+    function readyToClose() external returns (bool, bool) {
+        if (msg.sender == seller) sellerApproved = true;
+        else if (msg.sender == buyer) buyerApproved = true;
+
+        return (sellerApproved, buyerApproved);
+    }
+
+    /** @notice callable by any external address: checks if both buyer and seller are ready to close and expiration has not been met;
+     *** if so, this contract closes deal and pays seller; if not, price deposit returned to buyer **/
+    /// @dev if properly closes, pays seller and emits event with effective time of closing
+    function closeDeal() external {
+        if (!sellerApproved || !buyerApproved) revert NotReadyToClose();
+
+        // delete approvals to prevent re-entrance
+        delete sellerApproved;
+        delete buyerApproved;
+
+        if (expirationTime < block.timestamp) {
+            isExpired = true;
+
+            _returnDeposit();
+
+            emit DealExpired();
+        } else {
+            _paySeller();
+
+            // effective time of closing is block.timestamp upon payment to seller
+            emit DealClosed(block.timestamp);
+        }
+    }
+
+    /// @notice returns price deposit to buyer
+    function _returnDeposit() internal {
+        stablecoin.safeTransfer(buyer, price);
+
+        emit DepositReturned();
+    }
+
+    /// @notice sends deposited purchase price to seller
+    function _paySeller() internal {
+        stablecoin.safeTransfer(seller, price);
     }
 }
