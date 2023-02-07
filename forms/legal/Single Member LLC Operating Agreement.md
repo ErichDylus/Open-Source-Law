@@ -1,6 +1,6 @@
-// simple operating agreement for a single member, member-managed LLC
+// _simple operating agreement for a single member, member-managed LLC_
 
-// provided without warranty of any kind, do not use without consulting an attorney in the applicable state of organization, all open-source-law repo disclosures apply
+// _provided as-is without warranty of any kind; do not use without consulting an attorney; all disclosures and disclaimers including [as set out in this repo's readme and license](https://github.com/ErichDylus/Open-Source-Law/blob/main/README.md) and the [cited disclosures and disclaimers](https://github.com/ErichDylus/Open-Source-Law/blob/main/Disclosure.md) apply_
 
 
 LIMITED LIABILITY COMPANY OPERATING AGREEMENT
@@ -42,9 +42,9 @@ NOW, THEREFORE, in consideration of the mutual covenants set forth herein and ot
 
     (c)	The Member intends that the Company, as a single member LLC, shall be taxed as [a sole proprietorship in accordance with the provisions of the Internal Revenue Code and the Statutes.   Any provisions herein that may cause the Company not to be taxed as a sole proprietorship shall be inoperative].
 
-9.	Bank Accounts and Blockchain Addresses. All funds of the Company shall be deposited in the Company’s name in (i) a bank or other service provider account or accounts or (ii) blockchain wallet or externally owned account, as applicable and as chosen by the Member.  Withdrawals from any such accounts shall be made only in the regular course of business of the Company and shall be made upon such private key signature(s) or other applicable action by the Member as the Member from time to time may designate. [For avoidance of doubt, the blockchain address registered to Ethereum Name Service address [ENS ADDRESS].eth and controlling the ERC-721 nonfungible token corresponding thereto, including all cryptocurrencies, tokens, and other digital assets held by such address or solely controlled thereby (inclusive of all ChainIds), shall be deemed the exclusive property of the Company.]
+9.	Bank Accounts and Blockchain Addresses. All funds of the Company shall be deposited in the Company’s name in (i) a bank or other service provider account or accounts or (ii) blockchain address or addresses (including but not limited to Company-controlled externally owned accounts or contract addresses), as applicable and as chosen by the Member.  Withdrawals from any such accounts shall be made only in the regular course of business of the Company and shall be made upon such private key signature(s) or other applicable action by the Member as the Member from time to time may designate. [For avoidance of doubt, the blockchain address registered to Ethereum Name Service address [ENS ADDRESS].eth and controlling the ERC-721 nonfungible token corresponding thereto, including all cryptocurrencies, tokens, and other digital assets held by such address or solely controlled thereby (inclusive of all ChainIds), shall be deemed the exclusive property of the Company.]
 
-10.	Management of the Company. The business and affairs of the Company shall be conducted and managed by the Member in accordance with this Agreement and the laws of the State of [STATE OF ORGANIZATION]. [MEMBER], as sole member of the Company, has sole authority and power to act for or on behalf of the Company, to do any act that would be binding on the Company, or incur any expenditures on behalf of the Company. The Member shall not be liable for the debts, obligations or liabilities of the Company, including under a judgment, decree or order of a court. The Company is organized as a “member-managed” limited liability company.  The Member is designated as the initial managing member.
+10.	Management of the Company. The business and affairs of the Company shall be conducted and managed by the Member in accordance with this Agreement and the laws of the State of [STATE OF ORGANIZATION]. The Member, as sole member of the Company, has sole authority and power to act for or on behalf of the Company, to do any act that would be binding on the Company, or incur any expenditures on behalf of the Company. The Member shall not be liable for the debts, obligations or liabilities of the Company, including under a judgment, decree or order of a court. The Company is organized as a “member-managed” limited liability company.  The Member is designated as the initial managing member.
 
 11.	Ownership of Company Property. The Company’s assets shall be deemed owned by the Company as an entity, and the Member shall have no ownership interest in such assets or any portion thereof.  Title to any or all such Company assets may be held in the name of the Company, or one or more nominees or trustees, as the Member may determine. Except as limited by the Statutes, the Member may engage in other business ventures of any nature, including, without limitation by specification, the ownership of another business similar to that operated by the Company. The Company shall not have any right or interest in any such independent ventures nor to the income and profits derived therefrom.
 
@@ -56,13 +56,13 @@ NOW, THEREFORE, in consideration of the mutual covenants set forth herein and ot
 
     (c)	In no event shall a new Member be admitted to the Company if such admission would be in violation of applicable Federal or State securities laws or would adversely affect the intended treatment of the Company for income tax purposes.
 
-13.	Dissolution and Liquidation
+13.	Termination, Dissolution, and Liquidation
 
     (a)	The Company shall dissolve and its affairs shall be wound up on the first to occur of: (i) at a time, or upon the occurrence of an event specified in the [Articles of Organization/Certificate of Formation] or this Agreement, or (ii) the determination by the Member that the Company shall be dissolved.
 
-    (b)	Upon the death of the Member, the Company shall be dissolved. By separate written documentation, the Member shall designate and appoint the individual who will wind down the Company’s business and transfer or distribute the Member's Interests and Capital Account as designated by the Member or as may otherwise be required by law. 
+    (b)	Upon the death of the Member, the Company shall be dissolved. By separate written documentation, the Member may designate and appoint the individual who will wind down the Company’s business and transfer or distribute the Member's Interests and Capital Account as designated by the Member or as may otherwise be required by law. 
 
-    (c)	Upon the disability of a Member, the Member may continue to act as Manager hereunder or appoint a person to so serve until the Member's Interests and Capital Account of the Member have been transferred or distributed.
+    (c)	Upon the disability of a Member, the Member may continue to act as Manager hereunder or appoint a person to so serve until the Member's Interests and Capital Account of the Member have been transferred or distributed and this Agreement shall be terminated.
 
 14.	Indemnification
 
