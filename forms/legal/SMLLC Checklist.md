@@ -24,6 +24,7 @@ _First step is always to consult a *lawyer in your jurisdiction* and an *account
 - [ ] Keep a private Confirmation of Accounts document with your LLC's blockchain address(es) and other accounts
 - [ ] Consider using bookkeeping software to keep track of income and expenses, and calculate estimated federal quarterly taxes. 
     - options such as Quickbooks will provide aggregated forms for annual tax filings
+- [ ] Apply for an [EIN](https://www.irs.gov/businesses/small-businesses-self-employed/apply-for-an-employer-identification-number-ein-online)
 - [ ] Consider an [EFTPS](https://www.eftps.gov/eftps/) account for paying quarterly estimated federal tax payments online from your LLC's bank account
 - [ ] `State-specific` each state has its own system for paying quarterly estimated state taxes.
     - these estimated amount payments can often be scheduled in advance for a taxable year and auto-withdrawn from your LLC's bank account (make a note of these payment dates)
