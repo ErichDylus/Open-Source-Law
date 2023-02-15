@@ -1,4 +1,4 @@
-[Invoicing Entity / Individual / DAO]
+[Invoicing Entity / Individual]
 
 INVOICE NO. _______
 
@@ -6,11 +6,12 @@ Date:
 
 
 Bill to:
-[DAO Name / Company / Individual]
+[Entity / Individual]
+
 [Attn]
-[Physical Address]
-[Email] 
-[Blockchain Address / ENS]
+
+[Email address / Communications handle] 
+
 
 <table>
   <tr>
@@ -18,7 +19,7 @@ Bill to:
    </td>
    <td>Reference
    </td>
-   <td>[Grant Amount][Flat Fee][Hours * Hourly Rate]
+   <td>[Grant Amount || Flat Fee || Hours * Hourly Rate]
    </td>
    <td>Total
    </td>
@@ -49,14 +50,16 @@ Total Due: $_______________
 
 Payment methods accepted:
 
--	RAI, USDC, DAI or other mutually agreed stablecoin or (including as to calculation) token transfer to [Recipient ENS] ([Recipient Blockchain Address])
+-	[  ] token with corresponding symbol "[  ]" and [      ] mainnet contract address [              ] or other mutually agreed (including as to calculation) token transfer to [Recipient ENS || Recipient Blockchain Address]. Contact for addresses on other chains, or to pay to an address without prior token transaction history.
 
--	ACH/Wire/bank transfer 
+-	Contact for centralized service provider payment service options (Circle, Zelle, Venmo, Bitpay, etc.).
   
-       o	Account Title: ______________
+- ACH/Wire/bank transfer 
   
-       o	Routing Number: ______________
+  - Account Title: ______________
   
-       o	Account Number: ______________
+  -	Routing Number: ______________
   
-       o	SWIFT Code (foreign wire transfers): ______________
+  -	Account Number: ______________
+  
+  -	SWIFT Code (foreign wire transfers): ______________
