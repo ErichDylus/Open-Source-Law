@@ -126,7 +126,6 @@ contract EscrowStablecoin {
 
     error BuyerAddrSameAsSellerAddr();
     error Expired();
-    error NotBuyer();
     error NotReadyToClose();
     error NotSeller();
     error PriceAlreadyInEscrow();
@@ -157,39 +156,28 @@ contract EscrowStablecoin {
     function updateSeller(address _seller) external {
         if (msg.sender != seller) revert NotSeller();
         if (_seller == buyer) revert BuyerAddrSameAsSellerAddr();
-        if (isExpired) revert Expired();
-
-        seller = _seller;
-
-        emit SellerUpdated(_seller);
+        if (!checkIfExpired()) {
+            seller = _seller;
+            emit SellerUpdated(_seller);
+        }
     }
 
-    /** @notice buyer call this function to deposit 'price' in address(this) *** after separately ERC20-approving address(this) for price***
-     *** OR anyone (for example a different buyer address) can directly transfer 'price' to address(this) **/
+    /** @notice uses 'safeTransferFrom' to deposit 'price' in address(this) from 'buyer' *** after buyer separately ERC20-approved address(this) for at least 'price'***
+     * OR anyone (for example a different buyer address) can directly transfer 'price' to address(this) without using this function,
+     * without affecting the functionality of the rest of the contract **/
     function depositInEscrow() external {
-        if (msg.sender != buyer) revert NotBuyer();
+        if (expirationTime <= block.timestamp) revert Expired();
+        // prevent multiple transfers of 'price' from buyer, as this method is callable by any address
         if (checkEscrow() >= price) revert PriceAlreadyInEscrow();
 
         stablecoin.safeTransferFrom(buyer, address(this), price);
     }
 
-    /// @notice check if expired, and if expired, return balance to buyer
-    function checkIfExpired() external returns (bool) {
-        if (expirationTime <= block.timestamp) {
-            isExpired = true;
-            _returnDeposit();
-
-            emit DealExpired();
-        }
-        return (isExpired);
-    }
-
     /// @notice seller and buyer each call this when ready to close; returns approval status of each party
-    function readyToClose() external returns (bool, bool) {
+    /// @dev no need for a 'checkEscrow()' call because a reasonable seller will only pass 'true' if escrow is in place
+    function readyToClose() external {
         if (msg.sender == seller) sellerApproved = true;
         else if (msg.sender == buyer) buyerApproved = true;
-
-        return (sellerApproved, buyerApproved);
     }
 
     /** @notice callable by any external address: checks if both buyer and seller are ready to close and expiration has not been met;
@@ -202,12 +190,7 @@ contract EscrowStablecoin {
         delete sellerApproved;
         delete buyerApproved;
 
-        if (expirationTime < block.timestamp) {
-            isExpired = true;
-            _returnDeposit();
-
-            emit DealExpired();
-        } else {
+        if (!checkIfExpired()) {
             stablecoin.safeTransfer(seller, price);
 
             // effective time of closing is block.timestamp upon payment to seller
@@ -215,15 +198,19 @@ contract EscrowStablecoin {
         }
     }
 
+    /// @notice check if expired, and if expired, return balance to buyer
+    function checkIfExpired() public returns (bool) {
+        if (expirationTime <= block.timestamp) {
+            isExpired = true;
+            stablecoin.safeTransfer(buyer, price);
+            emit DepositReturned();
+            emit DealExpired();
+        }
+        return (isExpired);
+    }
+
     /// @notice checks address(this)'s balance to see if 'price' is in escrow
     function checkEscrow() public view returns (uint256) {
         return IERC20(stablecoin).balanceOf(address(this));
-    }
-
-    /// @notice returns price deposit to buyer
-    function _returnDeposit() internal {
-        stablecoin.safeTransfer(buyer, price);
-
-        emit DepositReturned();
     }
 }
