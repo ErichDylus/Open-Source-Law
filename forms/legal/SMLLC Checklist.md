@@ -9,7 +9,7 @@ _First step is always to consult a *lawyer in your jurisdiction* and an *account
 - [ ] `State-specific` check whether any professional licensing is required for your commercial operation 
 - [ ] `Local-specific` check whether any licenses or permits are needed for your LLC's business
 - [ ] `State-specific` file the necessary formation documents, or consider using a corporate service company for formation of the entity, registered agent, and state filings (including payment of annual fees and handling annual reports). 
-    - popular choices include LegalZoom, Zenbusiness, etc.
+    - popular choices include doola, Zenbusiness, LegalZoom, etc.
     - such services may also assist in any "doing business as" (DBA) name filings, annual property filings, etc.
 - [ ] `State-specific` ask your lawyer whether the registered agent's address may be used as the LLC's address
     - some states require the primary address where your business is conducted (which for many SMLLCs might be a home address)
@@ -29,7 +29,7 @@ _First step is always to consult a *lawyer in your jurisdiction* and an *account
 - [ ] `State-specific` each state has its own system for paying quarterly estimated state taxes.
     - these estimated amount payments can often be scheduled in advance for a taxable year and auto-withdrawn from your LLC's bank account (make a note of these payment dates)
 - [ ] Consult a CPA for annual tax filings/payments and any other tax or accounting concerns
-    - for example, whether your SMLLC should be taxed as a pass-through (most common) or a corporation (and if so, handling IRS form 8832 and other necessary payment flows and administrative tasks)
+    - for example, whether your SMLLC should be taxed as a pass-through (most common) or a corporation (and if so, handling IRS form 8832 and other necessary payment flows and administrative tasks), or what retirement account/plan may best suit your situation
 - [ ] Consult a lawyer for:
     - contracts your LLC may enter into, including any form agreements you may want your clients to sign (your lawyer should be involved any time a contract is signed)
     - any litigation activity (obviously)
