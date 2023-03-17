@@ -8,28 +8,30 @@ import {DSTest} from "ds-test/test.sol";
 import {OpenOffer} from "src/OpenOffer.sol";
 
 /// @title OpenOfferTest
-contract OpenOfferTest is DSTest {
-    OpenOffer public testInstance;
+contract TestOpenOffer is DSTest {
+    OpenOffer public instance;
 
-    string input;
+    address public instanceAddr;
+    string input = "input";
 
-    constructor(string memory _input) {
-        testInstance = new OpenOffer(_input);
-        input = _input;
+    function setUp() external {
+        instance = new OpenOffer("input");
+        instanceAddr = address(instance);
     }
 
-    function setUp() external {}
-
-    function testOfferOpen() public {
-        return assertTrue(testInstance.offerOpen());
+    function testOfferOpen() external {
+        return assertTrue(instance.offerOpen());
     }
 
-    function testVerifyOfferText() public {
-        return assertTrue(testInstance.verifyOfferText(input));
+    function testVerifyOfferText() external {
+        return assertTrue(instance.verifyOfferText(input));
     }
 
-    function testAcceptOffer() public {
-        testInstance.acceptOffer();
-        return assertTrue(testInstance.signedAndOfferAccepted());
+    function testAcceptOffer() external {
+        assertTrue(instance.offerOpen());
+        (bool success, ) = instanceAddr.delegatecall(
+            abi.encodeWithSignature("acceptOffer()")
+        );
+        return assertEq(success, instance.signedAndOfferAccepted());
     }
 }
