@@ -1,22 +1,21 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.12;
 
-/// @notice import DSTest
-import {DSTest} from "ds-test/test.sol";
+/// @notice import Test
+import "forge-std/test.sol";
 
 /// @dev import OpenOffer.sol
-import {OpenOffer} from "src/OpenOffer.sol";
+import "src/OpenOffer.sol";
 
 /// @title OpenOfferTest
-contract TestOpenOffer is DSTest {
+contract TestOpenOffer is Test {
     OpenOffer public instance;
 
-    address public instanceAddr;
-    string input = "input";
+    // 'setUp()' does not accept params
+    string input = "input text";
 
-    function setUp() external {
-        instance = new OpenOffer("input");
-        instanceAddr = address(instance);
+    function setUp() public {
+        instance = new OpenOffer(input);
     }
 
     function testOfferOpen() external {
@@ -27,11 +26,12 @@ contract TestOpenOffer is DSTest {
         return assertTrue(instance.verifyOfferText(input));
     }
 
-    function testAcceptOffer() external {
-        assertTrue(instance.offerOpen());
-        (bool success, ) = instanceAddr.delegatecall(
-            abi.encodeWithSignature("acceptOffer()")
-        );
-        return assertEq(success, instance.signedAndOfferAccepted());
+    /// @param _offeree: address accepting the open offer
+    function testAcceptOffer(address _offeree) external {
+        assertTrue(instance.offerOpen(), "offer not open");
+        // offeree calls 'acceptOffer()'
+        vm.prank(_offeree);
+        instance.acceptOffer();
+        assertTrue(instance.signedAndOfferAccepted(), "offer not accepted");
     }
 }
