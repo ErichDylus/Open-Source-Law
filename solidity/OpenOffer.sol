@@ -30,7 +30,7 @@ contract OpenOffer {
     constructor(string memory _documentText) {
         offeror = msg.sender;
         offerOpen = true;
-        documentHash = keccak256(abi.encode(_documentText));
+        documentHash = keccak256(bytes(_documentText));
         emit OfferOpened(documentHash, block.timestamp);
     }
 
@@ -44,24 +44,21 @@ contract OpenOffer {
         emit OfferAccepted(documentHash, msg.sender, block.timestamp);
     }
 
-    /// @notice allows offeror to revoke offer and self-destruct this contract
+    /// @notice allows offeror to revoke offer
     function revokeOffer() external {
         if (msg.sender != offeror) revert OnlyOfferor();
         delete (offerOpen);
         emit OfferRevoked(block.timestamp);
-        selfdestruct(payable(msg.sender));
     }
 
     /** @notice allows a prospective signatory to ensure their intended document text matches
      ** the text hashed in this contract before signing */
     /// @param _documentText string text of document intended to be signed
     /// @return true if the hashes match, otherwise the transaction will have reverted
-    function verifyOfferText(string calldata _documentText)
-        external
-        view
-        returns (bool)
-    {
-        if (keccak256(abi.encode(_documentText)) != documentHash)
+    function verifyOfferText(
+        string calldata _documentText
+    ) external view returns (bool) {
+        if (keccak256(bytes(_documentText)) != documentHash)
             revert HashDoesNotMatch();
         return true;
     }
