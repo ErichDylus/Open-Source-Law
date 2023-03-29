@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: UNLICENSED
-// incomplete
 pragma solidity >=0.8.12;
 
 import "forge-std/Test.sol";
@@ -27,6 +26,7 @@ contract EscrowETHTest is Test {
             seller
         );
         deployTime = block.timestamp;
+        vm.deal(address(this), price);
     }
 
     function testConstructor() public {
@@ -38,15 +38,16 @@ contract EscrowETHTest is Test {
     }
 
     function testUpdateSeller(address payable _addr) public {
-        if (
-            msg.sender != seller ||
-            msg.sender == address(this) ||
-            escrowTest.checkIfExpired()
-        ) vm.expectRevert();
-        escrowTest.updateSeller(_addr);
+        if (escrowTest.checkIfExpired()) vm.expectRevert();
 
-        vm.prank(seller);
+        vm.prank(escrowTest.seller());
         escrowTest.updateSeller(_addr);
         assertEq(escrowTest.seller(), _addr, "seller address did not update");
+    }
+
+    function testDepositInEscrow() public payable {
+        if (msg.value != price || escrowTest.expirationTime() > block.timestamp)
+            vm.expectRevert();
+        escrowTest.depositInEscrow();
     }
 }
