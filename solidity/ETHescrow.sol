@@ -7,8 +7,8 @@ pragma solidity >=0.8.12;
 /// @notice bilateral smart escrow contract, with ETH as payment, expiration denominated in seconds, deposit refunded if contract expires before closeDeal() called
 /// @dev intended to be deployed by buyer - may be altered for separation of deposit from purchase price, deposit non-refundability, additional conditions, etc.
 
-/// @notice Solbase SafeTransferLib's 'SafeTransferETH()'. Pasted for convenience and transparency
-/// @author Solbase (https://github.com/Sol-DAO/solbase/blob/main/src/utils/SafeTransferLib.sol)
+/// @notice Solbase / Solady's SafeTransferLib (identical in both repos) 'SafeTransferETH()'. Pasted for convenience, transparency, and size minimization.
+/// @author Solbase / Solady (https://github.com/Sol-DAO/solbase/blob/main/src/utils/SafeTransferLib.sol / https://github.com/Vectorized/solady/blob/main/src/utils/SafeTransferLib.sol)
 library SafeTransferLib {
     /// @dev The ETH transfer has failed.
     error ETHTransferFailed();
