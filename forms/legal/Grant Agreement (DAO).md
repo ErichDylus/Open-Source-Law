@@ -1,6 +1,6 @@
-// simple agreement contemplating DAO treasury grants (by DAO legal wrapper) for independent contractor services, adaptable for individuals or entities
+// simple agreement contemplating grants for independent contractor services by decentrally-governed grantors, adaptable for individuals or entities
 
-// effective date should correspond to commencement of applicable DAO grant cycle
+// effective date should correspond to commencement of applicable grant cycle
 
 // provided without warranty of any kind, do not use without consulting an attorney, all open-source-law repo disclosures apply
 
@@ -24,7 +24,7 @@ c.	For avoidance of doubt, this Agreement may be terminated in accordance with t
 
 3.	**Compensation**. 
 
-a.	[DAO NAME] or its written designee will pay Party A [an equivalent amount to USD$[______] by [STABLECOIN]][the compensation set forth in the applicable [NAME] DAO resolution applicable hereto] or other mutually agreed payment method and calculation[ within the first calendar week of each applicable month during the Term, or as otherwise mutually agreed in writing]. 
+a.	[DAO NAME] or its written designee will pay Party A [USD$______][_______ tokens (contract address 0x____ on Designated Blockchain)][the compensation set forth in the applicable [DAO NAME] resolution [applicable hereto]/[set forth at [____]]] or other mutually agreed payment method and calculation[ within the first calendar week of each applicable month during the Term, or as otherwise mutually agreed in writing]. 
 
 b.	[DAO NAME] will reimburse Party A for all reasonable and necessary expenses incurred by Party A directly attributable to the Services, subject to [DAO NAME]’s express prior written approval of such expenses. 
 
@@ -70,7 +70,7 @@ b.  Each Party agrees to defend, indemnify and hold harmless the other Party aga
 
 c.  [ENTITY] hereby acknowledges and agrees that Party A has made no express warranties concerning the Services.  It is solely [ENTITY]’s responsibility to determine whether the Services will suit [DAO NAME]’s needs or goals. THE SERVICES ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND.  [ENTITY], TO THE FULLEST EXTENT PERMITTED BY LAW, HEREBY DISCLAIMS AND [ENTITY] HEREBY WAIVES ALL WARRANTIES BY PARTY A, INCLUDING, BUT NOT LIMITED TO, ALL IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND WARRANTIES OF NON-INFRINGEMENT OF THIRD PARTY RIGHTS IN CONNECTION WITH THE SERVICES. PARTY A DOES NOT WARRANT, AND [ENTITY] HEREBY WAIVES ANY WARRANTY, THAT THE SERVICES WILL YIELD ANY PARTICULAR RESULTS OR SUCCESSFUL OUTCOMES.  PARTY A DOES NOT MAKE ANY WARRANTY AND [ENTITY] HEREBY WAIVES ANY AND ALL WARRANTIES AS TO THE RESULTS OBTAINED FROM THE SERVICES.
  
-d.  LIMITATION OF LIABILITY: PARTY A SHALL NOT BE LIABLE FOR ANY LOST PROFITS OR CONSEQUENTIAL, EXEMPLARY, INCIDENTAL OR PUNITIVE DAMAGES (INCLUDING, WITHOUT LIMITATION, IN CONNECTION WITH THE SERVICES PROVIDED HEREUNDER, REGARDLESS OF THE FORM OF ACTION, WHETHER IN CONTRACT OR IN TORT, INCLUDING NEGLIGENCE, AND REGARDLESS OF WHETHER SUCH DAMAGES ARE REASONABLY FORESEEABLE.
+d.  LIMITATION OF LIABILITY: NEITHER PARTY SHALL BE LIABLE FOR ANY LOST PROFITS OR CONSEQUENTIAL, EXEMPLARY, INCIDENTAL OR PUNITIVE DAMAGES (INCLUDING, WITHOUT LIMITATION, IN CONNECTION WITH THE SERVICES PROVIDED HEREUNDER, REGARDLESS OF THE FORM OF ACTION, WHETHER IN CONTRACT OR IN TORT, INCLUDING NEGLIGENCE, AND REGARDLESS OF WHETHER SUCH DAMAGES ARE REASONABLY FORESEEABLE.
 
 8.	**Assignment**. Neither Party will voluntarily, or by operation of law, assign or otherwise transfer its obligations under this Agreement without the prior written consent of the other Party. 
 
