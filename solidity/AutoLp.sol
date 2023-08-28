@@ -1,10 +1,7 @@
 //SPDX-License-Identifier: MIT
 
-/*****
- *****
- ***** CAUTION: this code and deployment are provided strictly as-is
- ***** with no guarantee, representation nor warranty (express or implied) of any kind as to safety or any attribute;
- ***** any users, callers, or senders of value of any kind, or any party related in any way to the foregoing assume all risks of using this code and deployment
+/**
+ ** CAUTION: this code is provided for demonstration purposes only and strictly as-is with no guarantees, representations nor warranties (express or implied) of any kind
  */
 
 pragma solidity ^0.8.17;
@@ -76,10 +73,9 @@ interface IUniswapV2Pair {
 }
 
 /// @title AutoLP
-/** @notice any ETH sent to address(this) is used to LP in UniswapV2; each LP is then queued chronologically.
- *** LP position is redeemable to this contract by any caller, which is swapped to the constructor-supplied tokens via UniswapV2 and sent to the null address
+/** @notice this ownerless immutable contract automatically uses any ETH sent to address(this) to LP the selected token's pair with ETH in UniswapV2; each LP is then queued chronologically.
+ *** LP position is redeemable to this contract by any caller, which is swapped to the constructor-supplied tokens via UniswapV2 and burned via the null address
  *** for illustrative purposes, though a native burn function in the applicable token contract would be a preferable practice
- *** no aspect of this contract is functionally controllable nor reclaimable by any external address(es) or centralised party,
  ****/
 /// @dev be advised there is inherent slippage risk for large amounts, with some protection via '_getTokenMinAmountOut'
 contract AutoLP {
@@ -102,6 +98,7 @@ contract AutoLP {
     IERC20 internal immutable iLpToken;
 
     address internal immutable tokenAddr;
+
     uint256 public lpAddIndex;
     uint256 public lpRedeemIndex;
 
@@ -155,7 +152,7 @@ contract AutoLP {
             // swap half of ETH for tokens
             router.swapExactETHForTokens{value: _ethSwapAmount}(
                 _getTokenMinAmountOut(_ethSwapAmount),
-                _getPathForETHtoToken(),
+                _getPath(),
                 address(this),
                 block.timestamp
             );
@@ -203,8 +200,8 @@ contract AutoLP {
         }
     }
 
-    /// @notice LPs ETH and tokens to Uniswapv2's 'tokenAddr'/ETH pair
-    /// @dev LP has 10% buffer. Liquidity is queued chronologically.
+    /// @notice LPs ETH and tokens to UniswapV2's 'tokenAddr'/ETH pair
+    /// @dev LP has 10% slippage buffer. Liquidity is queued chronologically.
     function _lpTokenEth() internal {
         uint256 _tokenBal = iToken.balanceOf(address(this));
         if (_tokenBal == 0) revert NoTokens();
@@ -247,13 +244,14 @@ contract AutoLP {
             block.timestamp
         );
 
-        // removed liquidity is 50/50 ETH and tokens; swap all newly received ETH for tokens, then burn all of the tokens
+        // removed liquidity is 50/50 ETH and tokens; swap all newly received ETH for tokens
         router.swapExactETHForTokens{value: address(this).balance}(
             _getTokenMinAmountOut(address(this).balance),
-            _getPathForETHtoToken(),
+            _getPath(),
             address(this),
             block.timestamp
         );
+        // burn tokens
         iToken.transfer(address(0), iToken.balanceOf(address(this)));
     }
 
@@ -270,12 +268,11 @@ contract AutoLP {
         ) = IUniswapV2Pair(address(iLpToken)).getReserves();
 
         // compare current block timestamp within the range of uint32 to last pair update; must be > 0 in order to prevent sandwiching
-        if (block.timestamp - uint256(_timestamp) == 0)
-            revert PairUpdateDelay();
+        if (block.timestamp - _timestamp == 0) revert PairUpdateDelay();
 
         // minimum amount of tokens out is 90% of the quoted price
         // the '_amountIn' is wei, so we want 'quote()' to return amount denominated in tokens
-        // check whether WETH is 'token0' or 'token1' in order to return the proper quote
+        // check whether WETH is 'token0' or 'token1' for the relevant pair in order to return the proper quote
         if (iLpToken.token0() == WETH_TOKEN_ADDR)
             return
                 (router.quote(
@@ -293,7 +290,7 @@ contract AutoLP {
     }
 
     /// @return path: the router path for ETH/'tokenAddr' swap
-    function _getPathForETHtoToken() internal view returns (address[] memory) {
+    function _getPath() internal view returns (address[] memory) {
         address[] memory path = new address[](2);
         path[0] = WETH_TOKEN_ADDR;
         path[1] = tokenAddr;
