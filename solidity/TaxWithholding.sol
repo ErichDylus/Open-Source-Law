@@ -4,7 +4,21 @@ pragma solidity 0.8.18;
 
 /// FOR DEMONSTRATION ONLY, unaudited, not recommended to be used for any purpose and provided with no warranty whatsoever, see https://github.com/ErichDylus/Open-Source-Law/blob/main/LICENSE
 
-/// @notice Solbase / Solady's SafeTransferLib 'SafeTransferFrom()'.  Extracted from library and pasted for convenience, transparency, and size minimization.
+interface IERC20Permit {
+    function decimals() external view returns (uint256);
+
+    function permit(
+        address owner,
+        address spender,
+        uint256 value,
+        uint256 deadline,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external;
+}
+
+// @notice Solbase / Solady's SafeTransferLib 'SafeTransferFrom()'.  Extracted from library and pasted for convenience, transparency, and size minimization.
 /// @author Solbase / Solady (https://github.com/Sol-DAO/solbase/blob/main/src/utils/SafeTransferLib.sol / https://github.com/Vectorized/solady/blob/main/src/utils/SafeTransferLib.sol)
 /// @dev implemented as abstract contract rather than library for size/gas reasons
 abstract contract SafeTransferLib {
@@ -56,20 +70,6 @@ abstract contract SafeTransferLib {
     }
 }
 
-interface IERC20Permit {
-    function decimals() external view returns (uint256);
-
-    function permit(
-        address owner,
-        address spender,
-        uint256 value,
-        uint256 deadline,
-        uint8 v,
-        bytes32 r,
-        bytes32 s
-    ) external;
-}
-
 /// @notice non-custodial tax withholding contract for ERC20 tokens to separate withheld estimated tax, etc.; contingent on factors such as jurisdiction and status of each msg.sender, but initially whole-number flat rate for demonstration
 /// @dev address(this) never receives tokens, but is programmatically enabled to safeTransferFrom the msg.sender to the designated 'taxAddress' (which can in practice be a separated wallet for account or a tax authority's recipient wallet)
 contract TaxWithholding is SafeTransferLib {
@@ -97,20 +97,20 @@ contract TaxWithholding is SafeTransferLib {
     /// @param _taxAddress designated recipient address to receive withheld amount
     /// @param _taxRate using 18 decimals for calculations, percentage tax rate as a nonzero uint < 1e18 (which corresponds to 100%). Ex., 1e16 == 1%, 1e17 == 10%, etc.
     constructor(address _taxAddress, uint256 _taxRate) payable {
-        if (_taxRate == 0 || _taxRate >= DECIMALS) revert InvalidRate();
+        if (_taxRate == 0 || _taxRate >= 10 ** DECIMALS) revert InvalidRate();
         taxAddress = _taxAddress;
         taxRate = _taxRate;
     }
 
     /// @dev msg.sender must first separately approve address(this) for _tokenAddress for at least _taxes amount so it may initiate the safeTransferFrom to the 'taxAddress'
-    /// @param _income gross amount by msg.sender in the applicable token corresponding to _tokenAddress
+    /// @param _amount gross amount by msg.sender in the applicable token corresponding to _tokenAddress
     /// @param _tokenAddress contract address of ERC20 token received
     /// @return taxes paid, tax withholding number for this msg.sender
     function payTax(
-        uint256 _income,
+        uint256 _amount,
         address _tokenAddress
     ) external returns (uint256, uint256) {
-        uint256 _taxes = (_income * taxRate) / DECIMALS;
+        uint256 _taxes = (_amount * taxRate) / 10 ** DECIMALS;
         // adjust for decimal amount other than 18
         uint256 _decimals = IERC20Permit(_tokenAddress).decimals();
         // if more than 18 decimals, divide the total amount by the excess decimal places; subtraction will not underflow due to condition check
@@ -144,7 +144,7 @@ contract TaxWithholding is SafeTransferLib {
     }
 
     /// @notice tax withholding via EIP712 permit for compliant tokens
-    /// @param _income gross amount by msg.sender in the applicable token corresponding to _tokenAddress
+    /// @param _amount gross amount by msg.sender in the applicable token corresponding to _tokenAddress
     /// @param _deadline: deadline for permit approval usage
     /// @param _tokenAddress contract address of ERC20 token received
     /// @param _v: ECDSA sig param
@@ -152,14 +152,14 @@ contract TaxWithholding is SafeTransferLib {
     /// @param _s: ECDSA sig param
     /// @return taxes paid, tax withholding number for this msg.sender
     function payTaxViaPermit(
-        uint256 _income,
+        uint256 _amount,
         uint256 _deadline,
         address _tokenAddress,
         uint8 _v,
         bytes32 _r,
         bytes32 _s
     ) external returns (uint256, uint256) {
-        uint256 _taxes = (_income * taxRate) / DECIMALS;
+        uint256 _taxes = (_amount * taxRate) / DECIMALS;
         // adjust for decimal amount other than 18
         uint256 _decimals = IERC20Permit(_tokenAddress).decimals();
         // if more than 18 decimals, divide the total amount by the excess decimal places; subtraction will not underflow due to condition check
