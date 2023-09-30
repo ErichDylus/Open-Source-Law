@@ -1,16 +1,18 @@
 ## Open Source Legal Agreement Forms
 
-Read [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/Disclosure.md) and note that all forms, templates, code or other materials provided or linked herein carry [no warranty whatsoever](https://github.com/ErichDylus/Open-Source-Law/blob/main/LICENSE) and should not be used without consulting an attorney or other applicable professional. Circumstances, facts, and jurisdictions differ, and these forms are not meant to be used in their current form without adjustment according to such facts, circumstances, and jurisdictions. PRs, issues, forks, and discussion are all welcomed. 
+Read [this disclosure](https://github.com/ErichDylus/Open-Source-Law/blob/main/Disclosure.md) and note that all forms, templates, code or other materials provided or linked herein carry [no warranty whatsoever](https://github.com/ErichDylus/Open-Source-Law/blob/main/LICENSE) and should not be used without consulting an attorney or other applicable professional. Circumstances, facts, and jurisdictions differ, and these forms are not meant to be used in their current form without adjustment according to such facts, circumstances, and jurisdictions. 
+
+No duty is assumed nor is any guarantee provided of keeping these forms up to date as law, regulations, and market standards change. PRs, issues, forks, and discussion are all welcomed. 
 
 ### Templates
 
 [Legal agreement and organizational document forms](https://github.com/ErichDylus/Open-Source-Law/tree/main/forms/legal) - Including formation documents, DAO-independent contractor grant agreement, NDA, etc.
 
-[Ricardian LLC Master Operating Agreement](https://github.com/lexDAO/Ricardian/blob/main/contracts/MasterOperatingAgreement.txt) - LexDAO's Ricardian master LLC operating agreement form (for use in initiating a series, especially for DAO wrappers), which can be deployed and represented on-chain by an [ERC-721 standard NFT](https://github.com/lexDAO/Ricardian/blob/main/contracts/RicardianLLC.sol)
-
 [Rarible's NFT Licenses](https://github.com/rariblecom/nft-license) - by Gabriel Shapiro & Stuart Smolen
 
 [One-Page SAFT](https://github.com/BranDAOn/OP-SAFT) - one page simple agreement for future tokens which sets out the consideration amount and token allotment, the token delivery triggers, and the lock-up, by [BranDAOn](https://github.com/BranDAOn)
+
+[Ricardian LLC Master Operating Agreement](https://github.com/lexDAO/Ricardian/blob/main/contracts/MasterOperatingAgreement.txt) - LexDAO's Ricardian master LLC operating agreement form (for use in initiating a series), deployed and represented on-chain by an [ERC-721 standard NFT](https://github.com/lexDAO/Ricardian/blob/main/contracts/RicardianLLC.sol)
 
 ### Template libraries
 
