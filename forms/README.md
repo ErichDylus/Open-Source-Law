@@ -12,6 +12,8 @@ No duty is assumed nor is any guarantee provided of keeping these forms up to da
 
 [One-Page SAFT](https://github.com/BranDAOn/OP-SAFT) - one page simple agreement for future tokens which sets out the consideration amount and token allotment, the token delivery triggers, and the lock-up, by [BranDAOn](https://github.com/BranDAOn)
 
+[Form Token Warrant](https://docs.google.com/document/d/1fkdvQsvblne4zXTPQOO3GDYOh-uJ497S_JclsP8PHv4/edit) by [OC Advisory](https://www.ocadvisory.co/) and [Magna](https://www.magna.so/)
+
 [Ricardian LLC Master Operating Agreement](https://github.com/lexDAO/Ricardian/blob/main/contracts/MasterOperatingAgreement.txt) - LexDAO's Ricardian master LLC operating agreement form (for use in initiating a series), deployed and represented on-chain by an [ERC-721 standard NFT](https://github.com/lexDAO/Ricardian/blob/main/contracts/RicardianLLC.sol)
 
 ### Template libraries
